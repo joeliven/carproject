@@ -1,0 +1,33 @@
+# labels:
+# 0=O (open --> can safely ignore lidar indicating to turn)
+# 1=C (closed --> must turn if lidar indicates possible)
+# 2=U (unknown/mess --> so probably better to turn if lidar indicates its possible)
+
+lap_id:gdc_3s_ccw_1
+0-5:    O
+6:      BAD
+7-19:   O
+20-57:  U
+58-85:  C
+86-251: O
+252-276:    U
+277-303:    C
+304-472:    O
+473-488:    U
+end_lap
+
+lap_id:gdc_3s_cw_1
+0-281:  O
+282-296:    U
+297:    BAD
+298-333:    C
+334-343:    U
+344-347:    C
+348-494:    O
+495:    BAD
+496-508:    U
+509-534:    C
+end_lap
+
+
+EOF

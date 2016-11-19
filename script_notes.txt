@@ -1,0 +1,2 @@
+python preprocess.py --raw-dir data/raw/gdc_3s_ccw_1 --save-dir data/preprocessed/gdc_3s --lim -1 --chunk-size 3000 --train-ratio 1.0 --val-ratio 0 --test-ratio 0
+python preprocess.py --raw-dir data/raw/gdc_3s_cw_1 --save-dir data/preprocessed/gdc_3s --lim -1 --chunk-size 3000 --train-ratio 1.0 --val-ratio 0 --test-ratio 0
