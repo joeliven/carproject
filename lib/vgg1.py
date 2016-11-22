@@ -23,6 +23,7 @@ import pdb
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
 from collections import defaultdict
 from lib.data_set import DataSet
@@ -793,6 +794,41 @@ class VGG1(object):
             self.load_weights_encoder(weights=weights, sess=sess)
         print('...weights loaded successfully...')
 
+def prep_cmdln_parser():
+    usage = "usage: %prog [options]"
+    cmdln = argparse.ArgumentParser(usage)
+    cmdln.add_argument("--batch-size", action="store", dest="BATCH_SIZE_INT", default=32, type=int,
+                                help="batch-size to use during training [default: %default].")
+    cmdln.add_argument("--nb-channels", action="store", dest="NB_CHANNELS_INT", default=3, type=int,
+                                help="number of channels in the training data images [default: %default].")
+    cmdln.add_argument("--dim-img", action="store", dest="DIM_IMG_INT", default=224, type=int,
+                                help="dimensionality of the training data [default: %default].")
+    cmdln.add_argument("--train-lim", action="store", dest="TRAIN_LIM", default=1000, type=int,
+                                help="amount of training data to use [default: %default].")
+    cmdln.add_argument("--val-lim", action="store", dest="VAL_LIM", default=20, type=int,
+                                help="amount of validation data to use [default: %default].")
+    cmdln.add_argument("--save-summaries-every", action="store", dest="SAVE_SUMMARIES_EVERY", default=100, type=int,
+                                help="save summary data for displaying in tensorboard every how many batches [default: %default].")
+    cmdln.add_argument("--display-every", action="store", dest="DISPLAY_EVERY", default=1, type=int,
+                                help="print (and optionally display) predicted results from final batch of training "
+                                     "every how many epochs (at end of epoch only) [default: %default].")
+    cmdln.add_argument("--display", action="store_true", dest="DISPLAY", default=False,
+                                help="display images when printing predicted results from subset of data at end of epoch [default: %default].")
+    cmdln.add_argument("--nb-to-display", action="store", dest="NB_TO_DISPLAY", type=int, default=5,
+                                help="how many images to display predicted results from at end of epoch [default: %default].")
+    cmdln.add_argument("--nb-epochs", action="store", dest="NB_EPOCHS", type=int, default=100,
+                                help="how many epochs to train the model for [default: %default].")
+    cmdln.add_argument("--save-best-only", action="store", dest="SAVE_BEST_ONLY", type=int, default='save_all',
+                                help="save all models at checkpoints or only save if the model has a new best "
+                                     "training_acc or val_acc (specify which) [default: %default].")
+    cmdln.add_argument("--load-path", action="store", dest="LOAD_PATH", type=int, default='',
+                                help="path from which to load the pretrained weights for the model [default: %default].")
+
+    cmdln.add_argument("--save-path", action="store", dest="SAVE_PATH", type=int, default='',
+                                help="path at which to save the model checkpoints during training [default: %default].")
+    return  cmdln
+
+
 if __name__ == '__main__':
     label_map = {
         'O': [1, 0, 0],
@@ -809,29 +845,33 @@ if __name__ == '__main__':
     INITIAL_LEARNING_RATE = 0.1  # Initial learning rate.
     ENCODER = 'encoder'
 
-    BATCH_SIZE_INT = 32
-    # BATCH_SIZE_INT = 1
-    NB_CHANNELS_INT = 3
-    DIM_IMG_INT = 224
-    TRAIN_LIM = 1000
-    # TRAIN_LIM = 1
-    VAL_LIM = 20
-    # VAL_LIM = 1
-    SAVE_SUMMARIES_EVERY = 100
-    DISPLAY_EVERY = 1
-    DISPLAY = False
-    NB_TO_DISPLAY = 5
-    NB_EPOCHS = 100
-    SAVE_BEST_ONLY = 'save_all' # 'save_best_train' or 'save_best_val'
+    # BATCH_SIZE_INT = 32
+    # # BATCH_SIZE_INT = 1
+    # NB_CHANNELS_INT = 3
+    #
+    # DIM_IMG_INT = 224
+    # TRAIN_LIM = 1000
+    # # TRAIN_LIM = 1
+    # VAL_LIM = 20
+    # # VAL_LIM = 1
+    # SAVE_SUMMARIES_EVERY = 100
+    # DISPLAY_EVERY = 1
+    # DISPLAY = False
+    # NB_TO_DISPLAY = 5
+    # NB_EPOCHS = 100
+    # SAVE_BEST_ONLY = 'save_all'  # 'save_best_train' or 'save_best_val'
+    # # LOAD_PATH = 'models/vgg/vgg16_weights_pretrained.npz'
+    # LOAD_PATH = '/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz'
+    # # SAVE_PATH = 'models/vgg'
+    # SAVE_PATH = '/scratch/cluster/joeliven/carproject/models/vgg'
 
-    vgg = VGG1(batch_size=BATCH_SIZE_INT,
-                    nb_channels=NB_CHANNELS_INT,
-                    dim_img=DIM_IMG_INT)
+    cmdln = prep_cmdln_parser()
+    args = cmdln.parse_args()
 
-    # LOAD_PATH = 'models/vgg/vgg16_weights_pretrained.npz'
-    LOAD_PATH = '/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz'
-    # SAVE_PATH = 'models/vgg'
-    SAVE_PATH = '/scratch/cluster/joeliven/carproject/models/vgg'
+    vgg = VGG1(batch_size=args.BATCH_SIZE_INT,
+                    nb_channels=args.NB_CHANNELS_INT,
+                    dim_img=args.DIM_IMG_INT)
+
 
     # X_file = 'data/preprocessed/gdc_3s/X_train.npy'
     X_file = '/scratch/cluster/joeliven/carproject/data/preprocessed/gdc_3s/X_train.npy'
@@ -845,16 +885,16 @@ if __name__ == '__main__':
     print(X.shape)
     if X.shape[-1] != 3:
         X = np.transpose(X, axes=(0, 2, 3, 1))
-    X_train = X[0:TRAIN_LIM]
-    y_train = y[0:TRAIN_LIM]
+    X_train = X[0:args.TRAIN_LIM]
+    y_train = y[0:args.TRAIN_LIM]
     # X_train = X_train[18].reshape((-1,224,224,3))
     print('X_train.shape')
     print(X_train.shape)
     print('y_train.shape')
     print(y_train.shape)
 
-    X_val = X[TRAIN_LIM: TRAIN_LIM + VAL_LIM]
-    y_val = y[TRAIN_LIM: TRAIN_LIM + VAL_LIM]
+    X_val = X[args.TRAIN_LIM: args.TRAIN_LIM + args.VAL_LIM]
+    y_val = y[args.TRAIN_LIM: args.TRAIN_LIM + args.VAL_LIM]
 
     print('X_train.shape')
     print(X_train.shape)
@@ -865,8 +905,8 @@ if __name__ == '__main__':
     print('y_val.shape')
     print(y_val.shape)
 
-    data_train_ = DataSet(X=X_train, y=y_train, batch_size=BATCH_SIZE_INT)
-    data_val_ = DataSet(X=X_val, y=y_val, batch_size=BATCH_SIZE_INT)
+    data_train_ = DataSet(X=X_train, y=y_train, batch_size=args.BATCH_SIZE_INT)
+    data_val_ = DataSet(X=X_val, y=y_val, batch_size=args.BATCH_SIZE_INT)
 
     TRAIN = True
     # TRAIN = False
@@ -874,17 +914,17 @@ if __name__ == '__main__':
     if TRAIN:
         history, best_train_acc, best_val_acc = \
             vgg.train(data_train=data_train_, data_val=data_val_,
-                  batch_size=BATCH_SIZE_INT,
-                  save_path=SAVE_PATH,
-                  weights=LOAD_PATH,
-                  save_summaries_every=SAVE_SUMMARIES_EVERY,
-                  display_every=DISPLAY_EVERY,
-                  display=DISPLAY,
-                  nb_to_display=NB_TO_DISPLAY,
-                  nb_epochs=NB_EPOCHS,
-                  save_best_only=SAVE_BEST_ONLY)
+                  batch_size=args.BATCH_SIZE_INT,
+                  save_path=args.SAVE_PATH,
+                  weights=args.LOAD_PATH,
+                  save_summaries_every=args.SAVE_SUMMARIES_EVERY,
+                  display_every=args.args.DISPLAY_EVERY,
+                  display=args.DISPLAY,
+                  nb_to_display=args.NB_TO_DISPLAY,
+                  nb_epochs=args.NB_EPOCHS,
+                  save_best_only=args.SAVE_BEST_ONLY)
 
     else:
         vgg.predict(X=X[0:5],
-                    batch_size=BATCH_SIZE_INT,
-                    load_path=SAVE_PATH)
+                    batch_size=args.BATCH_SIZE_INT,
+                    load_path=args.SAVE_PATH)
