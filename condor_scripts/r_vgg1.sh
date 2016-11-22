@@ -55,7 +55,7 @@ time "$P" "$PROGRAM" \
 --train-lim "$TRAIN_LIM" \
 --val-limm "$VAL_LIM" \
 --save-summaries-every "$SAVE_SUMMARIES_EVERY" \
---display-every "%DISPLAY_EVERY" \
+--display-every "$DISPLAY_EVERY" \
 --display "$DISPLAY" \
 --nb-to-display "$NB_TO_DISPLAY" \
 --nb-epochs "$NB_EPOCHS" \
