@@ -1,9 +1,11 @@
 import sys, os
+
 proj_roots = [
     '/Users/joeliven/repos/carproject',
     '/scratch/cluster/joeliven/carproject',
     '/u/joeliven/repos/carproject',
     ]
+
 for proj_root in proj_roots:
     if proj_root not in sys.path:
         if os.path.exists(proj_root):
@@ -73,12 +75,20 @@ def process_labels(raw_dir):
     y_train = np.vstack(y_train)
     return y_train
 
-if __name__ == "__main__":
-    raw_dir = 'data/labels'
+def main():
+
+    if len(sys.argv) < 3:
+      print ("label_utils.py: <raw_directory> <save_directory>")
+      sys.exit()
+
+    raw_dir = sys.argv[1] #'data/labels'
+    save_dir = sys.argv[2] #'data/labels'
     y_all = process_labels(raw_dir)
+
     print(y_all.shape)
     print(y_all)
     print('y_all')
+
     # y_train, y_val, y_test = split_data(y_all)
     # print(y_train.shape)
     # print('y_train')
@@ -87,7 +97,7 @@ if __name__ == "__main__":
     # print(y_test.shape)
     # print('y_test')
 
-    save_dir = 'data/preprocessed/gdc_3s'
+    #save_dir = 'data/preprocessed/gdc_3s'
     save_name = 'y'
     save_data(y_all, save_dir, '%s_train' % save_name, save_format='npy')
 
@@ -103,3 +113,6 @@ if __name__ == "__main__":
     # save_dir = 'data/preprocessed/gdc_3s'
     # save_name = 'X'
     # save_data(X_train, save_dir, '%s_train' % save_name, save_format='npy')
+
+if __name__ == "__main__":
+  main()
