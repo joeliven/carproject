@@ -1,6 +1,6 @@
 universe=vanilla
 Initialdir=/u/joeliven/repos/carproject
-Executable=/u/joeliven/repos/carproject/condor_scripts/r_vgg1 .sh
+Executable=/u/joeliven/repos/carproject/condor_scripts/r_vgg1.sh
 +Group="GRAD"
 +Project="INSTRUCTIONAL"
 +ProjectDescription="Research"
