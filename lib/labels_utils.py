@@ -49,7 +49,7 @@ label_map = {
     'C': [0,1,0],
     'U': [0,0,1],
 }
-
+idx2label = ['O','C','U']
 
 # def process_labels(raw_dir, save_dir, proc_shape, target_H, train_ratio, val_ratio, test_ratio):
 def process_labels(raw_dir):
