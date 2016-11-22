@@ -28,6 +28,9 @@ class DataSet(object):
         assert self.nb_samples == self.y.shape[0]
         self._end_of_epoch = False
 
+    def reset(self):
+        self.bookmark = 0
+
     def end_of_epoch(self):
         return self._end_of_epoch
 

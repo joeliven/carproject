@@ -624,13 +624,16 @@ class VGG1(object):
                 if save_best_only == 'save_best_train':
                     if new_best_train:
                         checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
+                        print('new_best_train_acc: %f \tsaving checkpoint to file: %s' % (train_acc_best, str(checkpoint_file)))
                         saver.save(sess, checkpoint_file, global_step=epoch_num)
                 elif save_best_only == 'save_best_val' and data_val is not None:
                     if new_best_val:
                         checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
+                        print('new_best_val_acc: %f \tsaving checkpoint to file: %s' % (val_acc_best, str(checkpoint_file)))
                         saver.save(sess, checkpoint_file, global_step=epoch_num)
                 else:
                     checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
+                    print('train_acc: %f \t val_acc: %f \tsaving checkpoint to file: %s' % (train_acc, val_acc, str(checkpoint_file)))
                     saver.save(sess, checkpoint_file, global_step=epoch_num)
             # END ALL EPOCHS
         return history, train_acc_best, val_acc_best
@@ -688,7 +691,7 @@ class VGG1(object):
             print(type(pred_vals))
             print(pred_vals.shape)
             print(pred_vals)
-            input('...pred_vals...(during prediction)...')
+            print('...pred_vals...(during prediction)...')
 
             for samp_num in range(X.shape[0]):
                 img = X[samp_num]
@@ -704,7 +707,7 @@ class VGG1(object):
                 ax[0].text(0, 0, txt, color='b', fontsize=15, fontweight='bold')
                 plt.show()
 
-    def evaluate(self, sess, eval_correct, inputs_pl, targets_pl, data_set, batch_size_int, lim=-1):
+    def evaluate(self, sess, eval_correct, inputs_pl, targets_pl, data_set, batch_size_int, lim=-1, reset=True):
         """Runs one evaluation against the full epoch (or first 'lim' samples) of data.
 
         Args:
@@ -731,6 +734,8 @@ class VGG1(object):
         precision = true_count / nb_samples
         print('  nb_samples: %d  Num correct: %d  Precision @ 1: %0.04f' %
               (nb_samples, true_count, precision))
+        if reset:
+            data_set.reset()
         return precision
 
     def load_weights_encoder(self, weights, sess):
@@ -804,18 +809,17 @@ if __name__ == '__main__':
     INITIAL_LEARNING_RATE = 0.1  # Initial learning rate.
     ENCODER = 'encoder'
 
-    BATCH_SIZE_INT = 5
+    BATCH_SIZE_INT = 32
     # BATCH_SIZE_INT = 1
     NB_CHANNELS_INT = 3
     DIM_IMG_INT = 224
-    # DIM_FC1_INT = 256
-    TRAIN_LIM = 20
+    TRAIN_LIM = 1000
     # TRAIN_LIM = 1
-    VAL_LIM = 10
+    VAL_LIM = 20
     # VAL_LIM = 1
-    SAVE_SUMMARIES_EVERY = 500
+    SAVE_SUMMARIES_EVERY = 100
     DISPLAY_EVERY = 1
-    DISPLAY = True
+    DISPLAY = False
     NB_TO_DISPLAY = 5
     NB_EPOCHS = 100
     SAVE_BEST_ONLY = 'save_all' # 'save_best_train' or 'save_best_val'
@@ -824,11 +828,15 @@ if __name__ == '__main__':
                     nb_channels=NB_CHANNELS_INT,
                     dim_img=DIM_IMG_INT)
 
-    LOAD_PATH = 'models/vgg/vgg16_weights_pretrained.npz'
-    SAVE_PATH = 'models/vgg'
+    # LOAD_PATH = 'models/vgg/vgg16_weights_pretrained.npz'
+    LOAD_PATH = '/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz'
+    # SAVE_PATH = 'models/vgg'
+    SAVE_PATH = '/scratch/cluster/joeliven/carproject/models/vgg'
 
-    X_file = 'data/preprocessed/gdc_3s/X_train.npy'
-    y_file = 'data/preprocessed/gdc_3s/y_train.npy'
+    # X_file = 'data/preprocessed/gdc_3s/X_train.npy'
+    X_file = '/scratch/cluster/joeliven/carproject/data/preprocessed/gdc_3s/X_train.npy'
+    # y_file = 'data/preprocessed/gdc_3s/y_train.npy'
+    y_file = '/scratch/cluster/joeliven/carproject/data/preprocessed/gdc_3s/y_train.npy'
 
     X = np.load(X_file)
     y = np.load(y_file)
