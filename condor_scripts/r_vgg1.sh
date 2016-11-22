@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 P="python"
-PROGRAM="vgg1.py"
+PROGRAM="lib/vgg1.py"
 
 ######### START CONSTANTS #########
 BATCH_SIZE_INT = 32
