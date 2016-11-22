@@ -456,12 +456,9 @@ class VGG1(object):
         if data_val is None:
             print('Warning: no val data has been supplied.')
         batch_size_int = kwargs.get('batch_size', None)
-        save_summaries_every = kwargs.get('save_summaries_every', 500)
-        display_every = kwargs.get('display_every', 1)
-        display = kwargs.get('display', False)
-        nb_to_display = kwargs.get('nb_to_display', 5)
+        epoch_size = kwargs.get('epoch_size', None)  # TODO
         nb_epochs = kwargs.get('nb_epochs', 100)
-        save_best_only = kwargs.get('save_best_only', 'save_all')
+        max_iters = kwargs.get('max_iters', 5000)  # TODO
         lr = kwargs.get('lr', 0.001)
         l2 = kwargs.get('l2', 0.0001)
         SAVE_PATH = kwargs.get('save_path', None)
@@ -525,115 +522,74 @@ class VGG1(object):
             if weights is not None and sess is not None:
                 self.load_weights(weights, sess, load_encoder=load_encoder)
 
-            # Start the training loop: train for nb_epochs, where each epoch iterates over the entire training set once.
-            history = [] # list for saving train_acc and val_acc upon evaluation after each epoch ends
-            train_acc_best = 0.
-            val_acc_best = 0.
-            batch_tot = 0
-            # START ALL EPOCHS
-            for epoch_num in range(nb_epochs):
-                # START ONE EPOCH
-                print('starting epoch %d / %d' % (epoch_num+1, nb_epochs))
-                nb_batches_per_epoch = (data_train.nb_samples // batch_size_int) + 1
-                batch_num = 0
-                end_of_epoch = False
-                while not end_of_epoch:
-                    # iterate over all the training data once, batch by batch:
-                    batch_start_time = time.time()
-                    batch_num += 1
-                    batch_tot += 1
-                    # Fill a feed dictionary with the actual set of images and labels
-                    # for this particular training step.
-                    next_batch = data_train.fill_feed_dict(inputs_pl, targets_pl, batch_size_int)
+            steps_per_epoch = data_train.nb_samples // batch_size_int
+            # TODO: make the training loop a nested for loop that loops over all training data (in inner for loop) nb_epochs number of times (outter for loop)
+            # Start the training loop.
+            for step in range(max_iters):
+                start_time = time.time()
 
-                    # Run one step of the model.  The return values are the activations
-                    # from the `train_op` (which is discarded) and the `loss` Op.  To
-                    # inspect the values of your Ops or variables, you may include them
-                    # in the list passed to sess.run() and the value tensors will be
-                    # returned in the tuple from the call.
-                    _, loss_value, pred_vals = sess.run([train_op, loss, preds],
-                                             feed_dict=next_batch)
-                    batch_duration = time.time() - batch_start_time
+                # Fill a feed dictionary with the actual set of images and labels
+                # for this particular training step.
+                feed_dict = data_train.fill_feed_dict(inputs_pl, targets_pl, batch_size_int)
 
-                    assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
+                # Run one step of the model.  The return values are the activations
+                # from the `train_op` (which is discarded) and the `loss` Op.  To
+                # inspect the values of your Ops or variables, you may include them
+                # in the list passed to sess.run() and the value tensors will be
+                # returned in the tuple from the call.
+                _, loss_value, pred_vals = sess.run([train_op, loss, preds],
+                                         feed_dict=feed_dict)
+                duration = time.time() - start_time
 
+                assert not np.isnan(loss_value), 'Model diverged with loss = NaN'
+
+                # Print status to stdout.
+                print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
+
+                # Write the summaries and print an overview fairly often.
+                # if step > 0 and step % 5 == 0: # 100
+                if step % 50 == 0: # 100
                     # Print status to stdout.
-                    print('\tbatch_num %d / %d : loss = %.2f (%.3f sec)' % (batch_num, nb_batches_per_epoch, loss_value, batch_duration))
+                    # print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
+                    # Update the events file.
+                    print('pred_vals.shape')
+                    print(type(pred_vals))
+                    print(pred_vals.shape)
+                    print(pred_vals)
+                    cur_batch = data_train.get_cur_batch()
+                    for samp_num in range(cur_batch['X'].shape[0]):
+                        img = cur_batch['X'][samp_num]
+                        class_true_idx = np.argmax(cur_batch['y'][samp_num])
+                        class_true = idx2label[class_true_idx]
+                        scores = pred_vals[samp_num]
+                        probs = self.softmax(scores)
+                        class_pred_idx = np.argmax(probs)
+                        class_pred = idx2label[class_pred_idx]
+                        fig, ax = plt.subplots(figsize=(10, 10), nrows=1, ncols=1)
+                        ax.imshow(deprocess_image(img))
+                        txt = 'predicted class dist: %s\n' \
+                              'predicted class: \t%s\n' \
+                              'true class: \t\t%s' % (str(probs), class_pred, class_true)
+                        ax.text(0, 0, txt, color='r', fontsize=15, fontweight='bold')
+                        plt.show()
 
-                    # Write the summaries and print an overview fairly often.
-                    # if step > 0 and step % 5 == 0: # 100
-                    if batch_num % save_summaries_every == 0: # 100
-                        # Print status to stdout.
-                        # Update the events file.
-                        summary_str = sess.run(summary, feed_dict=next_batch)
-                        if SAVE_PATH is not None:
-                            summary_writer.add_summary(summary_str, global_step=batch_tot)
-                            summary_writer.flush()
-                    end_of_epoch = data_train.end_of_epoch()
-                    if end_of_epoch and epoch_num % display_every == 0:
-                        print('pred_vals')
-                        pred_vals = pred_vals[0:nb_to_display]
-                        print(pred_vals.shape)
-                        print(pred_vals)
-                        cur_batch = data_train.get_cur_batch()
-                        if cur_batch['X'].shape[0] < nb_to_display:
-                            nb_to_display = cur_batch['X'].shape[0]
-                        for samp_num in range(nb_to_display):
-                            img = cur_batch['X'][samp_num]
-                            class_true_idx = np.argmax(cur_batch['y'][samp_num])
-                            class_true = idx2label[class_true_idx]
-                            scores = pred_vals[samp_num]
-                            probs = self.softmax(scores)
-                            class_pred_idx = np.argmax(probs)
-                            class_pred = idx2label[class_pred_idx]
-                            txt = '\tpredicted class dist: %s\n' \
-                                  '\tpredicted class: \t%s\n' \
-                                  '\ttrue class: \t\t%s' % (str(probs), class_pred, class_true)
-                            print(txt)
-                            if display == True:
-                                fig, ax = plt.subplots(figsize=(10, 10), nrows=1, ncols=1)
-                                ax.imshow(deprocess_image(img))
-                                ax.text(0, 0, txt, color='r', fontsize=15, fontweight='bold')
-                                plt.show()
-                    # END ONE EPOCH
+                    summary_str = sess.run(summary, feed_dict=feed_dict)
+                    if SAVE_PATH is not None:
+                        summary_writer.add_summary(summary_str, step)
+                        summary_writer.flush()
 
-                # After epoch:
-                #   (1) evaluate the model
-                #   (2) save a checkpoint (possibly only if the val accuracy has improved)
-
-                # (1a) Evaluate against the training set.
-                print('Training Data Eval:')
-                new_best_train = False
-                train_acc = self.evaluate(sess, eval_correct, inputs_pl, targets_pl, data_train, batch_size_int, lim=100)
-                if train_acc > train_acc_best:
-                    train_acc_best = train_acc
-                    new_best_train = True
-                # (1b) Evaluate against the validation set if val data was provided.
-                if data_val is not None:
-                    print('Validation Data Eval:')
-                    val_acc = self.evaluate(sess, eval_correct, inputs_pl, targets_pl, data_val, batch_size_int, lim=100)
-                    new_best_val = False
-                    if val_acc > val_acc_best:
-                        val_acc_best = val_acc
-                        new_best_val = True
-                    history.append({'train_acc':train_acc, 'val_acc':val_acc})
-                else:
-                    history.append({'train_acc':train_acc})
-
-                # (2) save checkpoint file
-                if save_best_only == 'save_best_train':
-                    if new_best_train:
-                        checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
-                        saver.save(sess, checkpoint_file, global_step=epoch_num)
-                elif save_best_only == 'save_best_val' and data_val is not None:
-                    if new_best_val:
-                        checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
-                        saver.save(sess, checkpoint_file, global_step=epoch_num)
-                else:
+                # Save a checkpoint and evaluate the model periodically.
+                if (step + 1) % 10 == 0 or (step + 1) == max_iters: # 1000
                     checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
-                    saver.save(sess, checkpoint_file, global_step=epoch_num)
-            # END ALL EPOCHS
-        return history, train_acc_best, val_acc_best
+                    saver.save(sess, checkpoint_file, global_step=step)
+
+                    # Evaluate against the training set.
+                    print('Training Data Eval:')
+                    self.evaluate(sess, eval_correct, inputs_pl, targets_pl, data_train, batch_size_int, lim=100)
+
+                    # Evaluate against the validation set.
+                    print('Validation Data Eval:')
+                    self.evaluate(sess, eval_correct, inputs_pl, targets_pl, data_val, batch_size_int, lim=100)
 
     def predict(self, **kwargs):
         """Use a trained model for prediction."""
@@ -731,7 +687,6 @@ class VGG1(object):
         precision = true_count / nb_samples
         print('  nb_samples: %d  Num correct: %d  Precision @ 1: %0.04f' %
               (nb_samples, true_count, precision))
-        return precision
 
     def load_weights_encoder(self, weights, sess):
         keys_map = {
@@ -813,12 +768,6 @@ if __name__ == '__main__':
     # TRAIN_LIM = 1
     VAL_LIM = 10
     # VAL_LIM = 1
-    SAVE_SUMMARIES_EVERY = 500
-    DISPLAY_EVERY = 1
-    DISPLAY = True
-    NB_TO_DISPLAY = 5
-    NB_EPOCHS = 100
-    SAVE_BEST_ONLY = 'save_all' # 'save_best_train' or 'save_best_val'
 
     vgg = VGG1(batch_size=BATCH_SIZE_INT,
                     nb_channels=NB_CHANNELS_INT,
@@ -864,18 +813,10 @@ if __name__ == '__main__':
     # TRAIN = False
 
     if TRAIN:
-        history, best_train_acc, best_val_acc = \
-            vgg.train(data_train=data_train_, data_val=data_val_,
-                  batch_size=BATCH_SIZE_INT,
-                  save_path=SAVE_PATH,
-                  weights=LOAD_PATH,
-                  save_summaries_every=SAVE_SUMMARIES_EVERY,
-                  display_every=DISPLAY_EVERY,
-                  display=DISPLAY,
-                  nb_to_display=NB_TO_DISPLAY,
-                  nb_epochs=NB_EPOCHS,
-                  save_best_only=SAVE_BEST_ONLY)
-
+        vgg.train(data_train=data_train_, data_val=data_val_,
+                   batch_size=BATCH_SIZE_INT,
+                   save_path=SAVE_PATH,
+                   weights=LOAD_PATH)
     else:
         vgg.predict(X=X[0:5],
                     batch_size=BATCH_SIZE_INT,

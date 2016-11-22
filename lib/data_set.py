@@ -26,6 +26,10 @@ class DataSet(object):
 
         self.nb_samples = self.X.shape[0]
         assert self.nb_samples == self.y.shape[0]
+        self._end_of_epoch = False
+
+    def end_of_epoch(self):
+        return self._end_of_epoch
 
     def next_batch(self, batch_size=None):
         if batch_size is None:
@@ -36,6 +40,7 @@ class DataSet(object):
         X_batch = None
         y_batch = None
         if self.bookmark + batch_size > self.nb_samples:
+            self._end_of_epoch = True
             if not self.infinite:
                 raise StopIteration('No more data left in the DataSet and infinite is False.')
             else:
@@ -52,6 +57,7 @@ class DataSet(object):
                 assert y_batch.shape[0] == batch_size
                 self.bookmark_train = dif
         else:
+            self._end_of_epoch = False
             X_batch = self.X[self.bookmark : self.bookmark + batch_size]
             y_batch = self.y[self.bookmark : self.bookmark + batch_size]
             self.bookmark += batch_size
