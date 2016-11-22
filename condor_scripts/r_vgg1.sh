@@ -3,21 +3,21 @@ P="python"
 PROGRAM="lib/vgg1.py"
 
 ######### START CONSTANTS #########
-BATCH_SIZE_INT = 32
-NB_CHANNELS_INT = 3
-DIM_IMG_INT = 224
-TRAIN_LIM = 1000
-VAL_LIM = 20
-SAVE_SUMMARIES_EVERY = 100
-DISPLAY_EVERY = 1
-DISPLAY = False
-NB_TO_DISPLAY = 5
-NB_EPOCHS = 100
-SAVE_BEST_ONLY = 'save_all'  # 'save_best_train' or 'save_best_val'
-# LOAD_PATH = 'models/vgg/vgg16_weights_pretrained.npz'
-LOAD_PATH = '/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz'
-# SAVE_PATH = 'models/vgg'
-SAVE_PATH = '/scratch/cluster/joeliven/carproject/models/vgg'
+BATCH_SIZE_INT="32"
+NB_CHANNELS_INT="3"
+DIM_IMG_INT="224"
+TRAIN_LIM="1000"
+VAL_LIM="20"
+SAVE_SUMMARIES_EVERY="100"
+DISPLAY_EVERY="1"
+DISPLAY="False"
+NB_TO_DISPLAY="5"
+NB_EPOCHS="100"
+SAVE_BEST_ONLY="save_all" # 'save_best_train' or 'save_best_val'
+# LOAD_PATH="models/vgg/vgg16_weights_pretrained.npz"
+LOAD_PATH="/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz"
+# SAVE_PATH="models/vgg"
+SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg"
 ######### END CONSTANTS #########
 
 ######### START VARIABLES #########
