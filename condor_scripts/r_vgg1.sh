@@ -56,9 +56,9 @@ time "$P" "$PROGRAM" \
 --val-lim "$VAL_LIM" \
 --save-summaries-every "$SAVE_SUMMARIES_EVERY" \
 --display-every "$DISPLAY_EVERY" \
---display "$DISPLAY" \
 --nb-to-display "$NB_TO_DISPLAY" \
 --nb-epochs "$NB_EPOCHS" \
 --save-best-only "$SAVE_BEST_ONLY" \
 --load-path "$LOAD_PATH" \
---save-path "$SAVE_PATH"
+--save-path "$SAVE_PATH" \
+--display
