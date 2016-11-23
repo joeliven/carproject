@@ -53,7 +53,7 @@ time "$P" "$PROGRAM" \
 --nb-channels "$NB_CHANNELS_INT" \
 --dim-img "$DIM_IMG_INT" \
 --train-lim "$TRAIN_LIM" \
---val-limm "$VAL_LIM" \
+--val-lim "$VAL_LIM" \
 --save-summaries-every "$SAVE_SUMMARIES_EVERY" \
 --display-every "$DISPLAY_EVERY" \
 --display "$DISPLAY" \
