@@ -35,7 +35,7 @@ P = 'params'
 
 class VGG1(object):
     def __init__(self, **kwargs):
-        self.name = 'dsae_st_1_testB'
+        self.name = 'vgg1_a'
         # unpack args:
         self.batch_size_int = kwargs.get('batch_size',32)
         self.dim_img_int = kwargs.get('dim_img', 224)
