@@ -60,5 +60,5 @@ time "$P" "$PROGRAM" \
 --nb-epochs "$NB_EPOCHS" \
 --save-best-only "$SAVE_BEST_ONLY" \
 --load-path "$LOAD_PATH" \
---save-path "$SAVE_PATH" \
---display
+--save-path "$SAVE_PATH"
+#--display
