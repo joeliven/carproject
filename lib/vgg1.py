@@ -818,13 +818,13 @@ def prep_cmdln_parser():
                                 help="how many images to display predicted results from at end of epoch [default: %default].")
     cmdln.add_argument("--nb-epochs", action="store", dest="NB_EPOCHS", type=int, default=100,
                                 help="how many epochs to train the model for [default: %default].")
-    cmdln.add_argument("--save-best-only", action="store", dest="SAVE_BEST_ONLY", type=int, default='save_all',
+    cmdln.add_argument("--save-best-only", action="store", dest="SAVE_BEST_ONLY", default='save_all',
                                 help="save all models at checkpoints or only save if the model has a new best "
                                      "training_acc or val_acc (specify which) [default: %default].")
-    cmdln.add_argument("--load-path", action="store", dest="LOAD_PATH", type=int, default='',
+    cmdln.add_argument("--load-path", action="store", dest="LOAD_PATH", default='',
                                 help="path from which to load the pretrained weights for the model [default: %default].")
 
-    cmdln.add_argument("--save-path", action="store", dest="SAVE_PATH", type=int, default='',
+    cmdln.add_argument("--save-path", action="store", dest="SAVE_PATH", default='',
                                 help="path at which to save the model checkpoints during training [default: %default].")
     return  cmdln
 
