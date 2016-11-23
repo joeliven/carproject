@@ -918,7 +918,7 @@ if __name__ == '__main__':
                   save_path=args.SAVE_PATH,
                   weights=args.LOAD_PATH,
                   save_summaries_every=args.SAVE_SUMMARIES_EVERY,
-                  display_every=args.args.DISPLAY_EVERY,
+                  display_every=args.DISPLAY_EVERY,
                   display=args.DISPLAY,
                   nb_to_display=args.NB_TO_DISPLAY,
                   nb_epochs=args.NB_EPOCHS,
