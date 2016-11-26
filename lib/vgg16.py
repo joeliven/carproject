@@ -345,15 +345,15 @@ class VGG16(object):
         layer_name = '%s-fc3' % (ENCODER)
         with tf.name_scope(layer_name) as scope:
             self.encoder[layer_name][I] = prev_layer[O]
-            fc3w = tf.Variable(tf.truncated_normal([4096, 3],
+            fc3w = tf.Variable(tf.truncated_normal([4096, self.nb_classes],
                                                          dtype=tf.float32,
                                                          stddev=1e-1), name='weights', trainable=True)
-            fc3b = tf.Variable(tf.constant(0.0, shape=[3], dtype=tf.float32),
+            fc3b = tf.Variable(tf.constant(0.0, shape=[self.nb_classes], dtype=tf.float32),
                                  name='biases', trainable=True)
             fc3l = tf.nn.bias_add(tf.matmul(self.encoder[layer_name][I], fc3w), fc3b, name=scope)
             self.encoder[layer_name][O] = fc3l # no ReLU since this is the final (unormalized) prediction layer
             self.encoder[layer_name][P] = {'w': fc3w, 'b': fc3b}
-        # tf.shape should be: (None,3)
+        # tf.shape should be: (None,self.nb_classes) --> (None,2) by default
 
         return self.encoder[layer_name][O] # --> self.encoder['encoder-fc3']['output']
 
