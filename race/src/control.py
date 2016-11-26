@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
+from std_msgs.msg import Bool
 from race.msg import drive_param
 from race.msg import pid_input
 
@@ -12,7 +13,20 @@ vel_input = 25.0
 
 pub = rospy.Publisher('drive_parameters', drive_param, queue_size=1)
 
-def control(data):
+class Controller(object):
+    '''
+    Controller class.
+    '''
+    def __init__(self):
+      self.classifier_decision = False
+      rospy.Subscriber("error", pid_input, self.control)
+      rospy.Subscriber("classifier_decision", Bool, updateClassifierDecision)
+      rospy.spin()
+
+    def updateClassifierDecision(self,data):
+      self.classifier_decision = data
+
+    def control(self,data):
 	global prev_error
 	global vel_input
 	global kp
@@ -30,6 +44,8 @@ def control(data):
 
 	## END
 
+        # do extra processing with the classifier decision
+
 	msg = drive_param();
 	if(data.pid_vel == 0):
 		msg.velocity = -8
@@ -39,13 +55,15 @@ def control(data):
 	pub.publish(msg)
 
 if __name__ == '__main__':
-	global kp
-	global kd
-	global vel_input
-	print("Listening to error for PID")
-	kp = input("Enter Kp Value: ")
-	kd = input("Enter Kd Value: ")
-	vel_input = input("Enter Velocity: ")
-	rospy.init_node('pid_controller', anonymous=True)
-	rospy.Subscriber("error", pid_input, control)
-	rospy.spin()
+    global kp
+    global kd
+    global vel_input
+    print("Listening to error for PID")
+    kp = input("Enter Kp Value: ")
+    kd = input("Enter Kd Value: ")
+    vel_input = input("Enter Velocity: ")
+    rospy.init_node('pid_controller', anonymous=True)
+    try:
+      Controller()
+    except rospy.ROSInterruptException:
+      pass
