@@ -1,0 +1,32 @@
+(ml34)wireless-10-147-188-168:carproject joeliven$ python lib/data_augmentation.py data/preprocessed/all/X.npy data/preprocessed/all/y.npy data/preprocessed/all
+X_path
+data/preprocessed/all/X.npy
+y_path
+data/preprocessed/all/y.npy
+save_dir
+data/preprocessed/all
+X_orig.shape
+(3603, 224, 224, 3)
+y_orig.shape
+(3603, 3)
+X.shape
+(3557, 224, 224, 3)
+y.shape
+(3557, 2)
+S_T_ct
+[1773 1784]
+X_train.shape
+(3023, 224, 224, 3)
+y_train.shape
+(3023, 2)
+X_val.shape
+(356, 224, 224, 3)
+y_val.shape
+(356, 2)
+X_test.shape
+(178, 224, 224, 3)
+y_test.shape
+(178, 2)
+now saving files...
+done saving files.
+(ml34)wireless-10-147-188-168:carproject joeliven$

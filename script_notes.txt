@@ -1,2 +1,9 @@
 python preprocess.py --raw-dir data/raw/gdc_3s_ccw_1 --save-dir data/preprocessed/gdc_3s --lim -1 --chunk-size 3000 --train-ratio 1.0 --val-ratio 0 --test-ratio 0
 python preprocess.py --raw-dir data/raw/gdc_3s_cw_1 --save-dir data/preprocessed/gdc_3s --lim -1 --chunk-size 3000 --train-ratio 1.0 --val-ratio 0 --test-ratio 0
+
+python preprocess.py --raw-dir data/raw/all --save-dir data/preprocessed/all --lim -1 --chunk-size 5000 --train-ratio 1.0 --val-ratio 0 --test-ratio 0
+python lib/label_utils.py <raw_directory> <save_directory>
+python lib/label_utils.py data/labels data/preprocessed/all
+
+python lib/data_augmentation.py <X_path> <y_path> <save_dir>
+python lib/data_augmentation.py data/preprocessed/all/X.npy data/preprocessed/all/y.npy data/preprocessed/all

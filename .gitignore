@@ -7,6 +7,9 @@ temp/
 jbin/
 *logs*/
 .DS_Store
+.log
+.aux
+.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
