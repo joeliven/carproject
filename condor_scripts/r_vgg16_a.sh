@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 P="python"
-PROGRAM="lib/vgg1.py"
+PROGRAM="lib/vgg16.py"
 
 ######### START CONSTANTS #########
 BATCH_SIZE_INT="128"
@@ -77,6 +77,3 @@ time "$P" "$PROGRAM" \
 --y-val "$Y_VAL" \
 --y-test "$Y_TEST" \
 --train
-
-#--train-lim "$TRAIN_LIM" \
-# --display
