@@ -5,8 +5,8 @@ Executable=/u/joeliven/repos/carproject/condor_scripts/r_vgg16_a.sh
 +Project="INSTRUCTIONAL"
 +ProjectDescription="Research"
 +GPUJob=true
-requirements=(TARGET.GPUSlot)
-#requirements=(TARGET.GPUSlot && CUDAGlobalMemoryMb >= 6144)
+#requirements=(TARGET.GPUSlot)
+requirements=(TARGET.GPUSlot && CUDAGlobalMemoryMb >= 6144)
 #requirements=(TARGET.GPUSlot && TitanBlack == True)
 #requirements=InMastodon #for non-GPU jobs
 request_GPUs = 1
