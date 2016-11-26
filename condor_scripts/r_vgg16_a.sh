@@ -61,8 +61,8 @@ time "$P" "$PROGRAM" \
 --batch-size "$BATCH_SIZE_INT" \
 --nb-channels "$NB_CHANNELS_INT" \
 --dim-img "$DIM_IMG_INT" \
---train-lim "$TRAIN_LIM" \
 --val-lim "$VAL_LIM" \
+--test-lim "$TEST_LIM" \
 --save-summaries-every "$SAVE_SUMMARIES_EVERY" \
 --display-every "$DISPLAY_EVERY" \
 --nb-to-display "$NB_TO_DISPLAY" \
@@ -77,4 +77,6 @@ time "$P" "$PROGRAM" \
 --y-val "$Y_VAL" \
 --y-test "$Y_TEST" \
 --train
+
+#--train-lim "$TRAIN_LIM" \
 # --display
