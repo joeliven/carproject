@@ -41,7 +41,7 @@ class VGG16(object):
         self.dim_img_int = kwargs.get('dim_img', 224)
         self.nb_channels_int = kwargs.get('nb_channels', 3)
         # self.dim_fc1_int = kwargs.get('dim_fc1', 256)
-        self.nb_classes = kwargs.get('nb_classes', 3) # number of target classes we are predicting
+        self.nb_classes = kwargs.get('nb_classes', 2) # number of target classes we are predicting
         self.encoder = defaultdict(dict) # each key maps to a dict with keys: inputs, outputs, params
 
     def softmax(self, x):
