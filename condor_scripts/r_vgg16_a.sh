@@ -3,21 +3,30 @@ P="python"
 PROGRAM="lib/vgg1.py"
 
 ######### START CONSTANTS #########
-BATCH_SIZE_INT="32"
+BATCH_SIZE_INT="128"
 NB_CHANNELS_INT="3"
 DIM_IMG_INT="224"
-TRAIN_LIM="1000"
-VAL_LIM="20"
-SAVE_SUMMARIES_EVERY="100"
+TRAIN_LIM="-1"
+VAL_LIM="256"
+TEST_LIM="128"
+SAVE_SUMMARIES_EVERY="10"
 DISPLAY_EVERY="1"
 DISPLAY="False"
 NB_TO_DISPLAY="5"
 NB_EPOCHS="100"
 SAVE_BEST_ONLY="save_all" # 'save_best_train' or 'save_best_val'
 # LOAD_PATH="models/vgg/vgg16_weights_pretrained.npz"
-LOAD_PATH="/scratch/cluster/joeliven/carproject/models/vgg/vgg16_weights_pretrained.npz"
+LOAD_PATH="/scratch/cluster/joeliven/carproject/models/vgg16/vgg16_weights_pretrained.npz"
 # SAVE_PATH="models/vgg"
-SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg"
+SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16"
+X_TRAIN="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_train.npy"
+X_VAL="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_val.npy"
+X_TEST="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_test.npy"
+Y_TRAIN="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_train.npy"
+Y_VAL="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_val.npy"
+Y_TEST="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_test.npy"
+
+
 ######### END CONSTANTS #########
 
 ######### START VARIABLES #########
@@ -60,5 +69,12 @@ time "$P" "$PROGRAM" \
 --nb-epochs "$NB_EPOCHS" \
 --save-best-only "$SAVE_BEST_ONLY" \
 --load-path "$LOAD_PATH" \
---save-path "$SAVE_PATH"
-#--display
+--save-path "$SAVE_PATH" \
+--X-train "$X_TRAIN" \
+--X-val "$X_VAL" \
+--X-test "$X_TEST" \
+--y-train "$Y_TRAIN" \
+--y-val "$Y_VAL" \
+--y-test "$Y_TEST" \
+--train
+# --display
