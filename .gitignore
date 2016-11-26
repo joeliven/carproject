@@ -99,3 +99,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Latex
+*.aux
+*.synctex.gz
+*.log
+*.pdf
