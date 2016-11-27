@@ -512,7 +512,7 @@ class VGG16(object):
             else:
                 print('WARNING: SAVE_PATH is not specified...cannot save model file')
 
-            if RESTORE_PATH is not None:
+            if RESTORE_PATH not in {None, ''}:
                 # checkpoint_dir = os.path.dirname(RESTORE_PATH)
                 # checkpoint_name = os.path.basename(RESTORE_PATH)
                 # if checkpoint_name not in {'', None}:
@@ -531,7 +531,7 @@ class VGG16(object):
                 sess.run(init)
 
             # load pretrained weights if desired:
-            if WEIGHTS_PATH is not None and sess is not None:
+            if WEIGHTS_PATH not in {None, ''} and sess is not None:
                 self.load_weights(WEIGHTS_PATH, sess, load_encoder=load_encoder)
 
             # Start the training loop: train for nb_epochs, where each epoch iterates over the entire training set once.
