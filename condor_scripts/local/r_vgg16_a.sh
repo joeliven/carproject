@@ -17,15 +17,16 @@ NB_EPOCHS="150"
 SAVE_BEST_ONLY="save_all" # 'save_best_train' or 'save_best_val'
 # LOAD_PATH="models/vgg/vgg16_weights_pretrained.npz"
 #WEIGHTS_PATH="/scratch/cluster/joeliven/carproject/models/vgg16a/vgg16_weights_pretrained.npz"
-RESTORE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16a/vgg16_a_checkpoint-99"
+RESTORE_PATH="models/vgg16a/vgg16_a_checkpoint-99"
+#RESTORE_PATH="models/vgg16a/"
 # SAVE_PATH="models/vgg"
-SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16a"
-X_TRAIN="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_train.npy"
-X_VAL="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_val.npy"
-X_TEST="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_test.npy"
-Y_TRAIN="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_train.npy"
-Y_VAL="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_val.npy"
-Y_TEST="/scratch/cluster/joeliven/carproject/data/preprocessed/all/y_test.npy"
+SAVE_PATH="models/vgg16a"
+X_TRAIN="data/preprocessed/all/X_train.npy"
+X_VAL="data/preprocessed/all/X_val.npy"
+X_TEST="data/preprocessed/all/X_test.npy"
+Y_TRAIN="data/preprocessed/all/y_train.npy"
+Y_VAL="data/preprocessed/all/y_val.npy"
+Y_TEST="data/preprocessed/all/y_test.npy"
 
 
 ######### END CONSTANTS #########
@@ -76,5 +77,5 @@ time "$P" "$PROGRAM" \
 --X-test "$X_TEST" \
 --y-train "$Y_TRAIN" \
 --y-val "$Y_VAL" \
---y-test "$Y_TEST" \
---train
+--y-test "$Y_TEST"
+#--train

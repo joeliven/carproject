@@ -456,7 +456,7 @@ class VGG16(object):
         data_val = kwargs.get('data_val', None)
         if data_val is None:
             print('Warning: no val data has been supplied.')
-        batch_size_int = kwargs.get('batch_size', None)
+        batch_size_int = self.batch_size_int
         save_summaries_every = kwargs.get('save_summaries_every', 500)
         display_every = kwargs.get('display_every', 1)
         display = kwargs.get('display', False)
@@ -474,11 +474,7 @@ class VGG16(object):
 
         # ensure batch_size is set appropriately:
         if batch_size_int is None:
-            if self.batch_size_int is None:
-                raise ValueError(
-                    'batch_size must be specified either in model instantiation or passed into this training method,'
-                    'but batch_size cannnot be None in both cases.')
-            batch_size_int = self.batch_size_int
+            raise ValueError('batch_size must be specified in model instantiation.')
 
         # Tell TensorFlow that the model will be built into the default Graph.
         with tf.Graph().as_default():
@@ -517,14 +513,16 @@ class VGG16(object):
                 print('WARNING: SAVE_PATH is not specified...cannot save model file')
 
             if RESTORE_PATH is not None:
-                checkpoint_dir = os.path.dirname(RESTORE_PATH)
-                checkpoint_name = os.path.basename(RESTORE_PATH)
-                if checkpoint_name not in {'', None}:
-                    checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
-                else:
-                    checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
-                saver.restore(sess, checkpoint_path)
-                print('model restored from checkpoint file: %s' % str(checkpoint_path))
+                # checkpoint_dir = os.path.dirname(RESTORE_PATH)
+                # checkpoint_name = os.path.basename(RESTORE_PATH)
+                # if checkpoint_name not in {'', None}:
+                #     checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
+                # else:
+                #     checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
+                # saver.restore(sess, checkpoint_path)
+                # print('model restored from checkpoint file: %s' % str(checkpoint_path))
+                saver.restore(sess, RESTORE_PATH)
+                print('model restored from checkpoint file: %s' % str(RESTORE_PATH))
             else:
                 print('No RESTORE_PATH specified, so initializing the model with random weights for training...')
                 # Add the variable initializer Op.
@@ -654,7 +652,6 @@ class VGG16(object):
         """Use a trained model for prediction."""
         # unpack args:
         X = kwargs.get('X', None)
-        batch_size_int = kwargs.get('batch_size', None)
         RESTORE_PATH = kwargs.get('restore_path', None)
         if RESTORE_PATH is None:
             input('Error: no RESTORE_PATH has been specified. Randomly initialized model should not be used for prediciton.'
@@ -676,14 +673,22 @@ class VGG16(object):
 
             # Instantiate a SummaryWriter to output summaries and the Graph.
             if RESTORE_PATH is not None:
-                checkpoint_dir = os.path.dirname(RESTORE_PATH)
-                checkpoint_name = os.path.basename(RESTORE_PATH)
-                if checkpoint_name not in {'', None}:
-                    checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
-                else:
-                    checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
-                saver.restore(sess, checkpoint_path)
-                print('model restored from checkpoint file: %s' % str(checkpoint_path))
+                # checkpoint_dir = os.path.dirname(RESTORE_PATH)
+                # checkpoint_name = os.path.basename(RESTORE_PATH)
+                # if checkpoint_name not in {'', None}:
+                #     print('checkpoint_dir')
+                #     print(checkpoint_dir)
+                #     print('checkpoint_name')
+                #     print(checkpoint_name)
+                #     checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
+                # else:
+                #     checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
+                #     print('checkpoint_path')
+                #     print(checkpoint_path)
+                # saver.restore(sess, checkpoint_path)
+                # print('model restored from checkpoint file: %s' % str(checkpoint_path))
+                saver.restore(sess, RESTORE_PATH)
+                print('model restored from checkpoint file: %s' % str(RESTORE_PATH))
             else:
                 print('No RESTORE_PATH specified, so initializing the model with random weights')
                 # Add the variable initializer Op.
@@ -697,12 +702,14 @@ class VGG16(object):
             # Fill a feed dictionary with the actual set of images and labels
             # for this particular training step.
             feed_dict = {inputs_pl: X}
+            nb_samples = X.shape[0]
 
-            pred_vals = sess.run([preds], feed_dict=feed_dict)
+            pred_vals = sess.run([preds], feed_dict=feed_dict)[0] # [0] since sess.run([preds]) returns a list of len 1 in this case
+
             duration = time.time() - start_time
 
             # Print status to stdout.
-            print('Prediction took: %f for batch_size of: %d  --> %f per example' % (duration, self.batch_size_int, (duration / self.batch_size_int)))
+            print('Prediction took: %f for %d samples  --> %f per sample' % (duration, nb_samples, (duration / nb_samples)))
 
             print('pred_vals.shape')
             print(type(pred_vals))
@@ -716,12 +723,11 @@ class VGG16(object):
                 probs = self.softmax(scores)
                 class_pred_idx = np.argmax(probs)
                 class_pred = idx2label[class_pred_idx]
-                fig, ax = plt.subplots(figsize=(10, 10), nrows=1, ncols=2)
-                ax[0].imshow(deprocess_image(img))
+                plt.imshow(deprocess_image(img))
                 txt = 'predicted class dist: %s\n' \
                       'predicted class: %s\n' \
                       % (str(probs), class_pred)
-                ax[0].text(0, 0, txt, color='b', fontsize=15, fontweight='bold')
+                plt.text(0, 0, txt, color='b', fontsize=15, fontweight='bold')
                 plt.show()
 
     def evaluate(self, sess, eval_correct, inputs_pl, targets_pl, data_set, batch_size_int, lim=-1, reset=True):
@@ -927,7 +933,6 @@ if __name__ == '__main__':
     if args.TRAIN:
         history, best_train_acc, best_val_acc = \
             vgg.train(data_train=data_train_, data_val=data_val_,
-                  batch_size=args.BATCH_SIZE_INT,
                   save_path=args.SAVE_PATH,
                   weights_path=args.WEIGHTS_PATH,
                   restore_path=args.RESTORE_PATH,
@@ -939,6 +944,5 @@ if __name__ == '__main__':
                   save_best_only=args.SAVE_BEST_ONLY)
 
     else:
-        vgg.predict(X=X_test,
-                    batch_size=1,
+        vgg.predict(X=X_test[0:5],
                     restore_path=args.RESTORE_PATH)
