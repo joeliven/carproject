@@ -10,6 +10,8 @@ kd = 0.09
 servo_offset = 18.5
 prev_error = 0.0 
 vel_input = 25.0
+turn_threshold = 20.0
+angle_threshold = 100.0
 
 pub = rospy.Publisher('drive_parameters', drive_param, queue_size=1)
 
@@ -18,13 +20,13 @@ class Controller(object):
     Controller class.
     '''
     def __init__(self):
-      self.classifier_decision = False
+      self.shouldTurn = False
       rospy.Subscriber("error", pid_input, self.control)
       rospy.Subscriber("classifier_decision", Bool, self.updateClassifierDecision)
       rospy.spin()
 
     def updateClassifierDecision(self,data):
-      self.classifier_decision = data
+      self.shouldTurn = data
 
     def control(self,data):
 	global prev_error
@@ -45,6 +47,8 @@ class Controller(object):
 	## END
 
         # do extra processing with the classifier decision
+        if not self.shouldTurn:
+          angle = min(turn_threshold,angle)
 
 	msg = drive_param();
 	if(data.pid_vel == 0):
@@ -59,9 +63,9 @@ if __name__ == '__main__':
     global kd
     global vel_input
     print("Listening to error for PID")
-    kp = 14.0 #input("Enter Kp Value: ")
+    kp = 400.0 #input("Enter Kp Value: ")
     kd = 0.09 #input("Enter Kd Value: ")
-    vel_input = input("Enter Velocity: ")
+    vel_input = 10.0 #input("Enter Velocity: ")
     rospy.init_node('pid_controller', anonymous=True)
     try:
       Controller()
