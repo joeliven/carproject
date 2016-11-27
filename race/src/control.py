@@ -20,7 +20,7 @@ class Controller(object):
     def __init__(self):
       self.classifier_decision = False
       rospy.Subscriber("error", pid_input, self.control)
-      rospy.Subscriber("classifier_decision", Bool, updateClassifierDecision)
+      rospy.Subscriber("classifier_decision", Bool, self.updateClassifierDecision)
       rospy.spin()
 
     def updateClassifierDecision(self,data):
@@ -59,8 +59,8 @@ if __name__ == '__main__':
     global kd
     global vel_input
     print("Listening to error for PID")
-    kp = input("Enter Kp Value: ")
-    kd = input("Enter Kd Value: ")
+    kp = 14.0 #input("Enter Kp Value: ")
+    kd = 0.09 #input("Enter Kd Value: ")
     vel_input = input("Enter Velocity: ")
     rospy.init_node('pid_controller', anonymous=True)
     try:
