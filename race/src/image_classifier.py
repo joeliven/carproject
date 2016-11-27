@@ -20,22 +20,23 @@ class Classifier(object):
 
   def classify(self,data):
         
-        image = self.convertImg(data)
+      image = self.convertImg(data)
 
-        # Run classifier
-        shouldTurn = False
+      # Run classifier
+      shouldTurn = False
 
-	pub.publish(shouldTurn)
+      pub.publish(shouldTurn)
 
   def convertImg(self,data):
-    try:
-      cv_image = self.bridge.imgmsg_to_cv2(data, self.encoding)
-    except CvBridgeError as e:
-      print(e)
+      try:
+        cv_image = self.bridge.imgmsg_to_cv2(data, self.encoding)
+      except CvBridgeError as e:
+        print(e)
 
-    (rows,cols,channels) = cv_image.shape
-    return np.asarray(cv_image)
+      (rows,cols,channels) = cv_image.shape
+     return np.asarray(cv_image)
 
 if __name__ == '__main__':
-	print("Classifying turn decision")
-	rospy.init_node('image_classifier', anonymous=True)
+    print("Classifying turn decision")
+    rospy.init_node('image_classifier', anonymous=True)
+
