@@ -1,5 +1,5 @@
 ########################################################################################
-# Davi Frossard, 2016                                                                  #
+# Adapted from Davi Frossard, 2016                                                                  #
 # VGG16 implementation in TensorFlow                                                   #
 # Details:                                                                             #
 # http://www.cs.toronto.edu/~frossard/post/vgg16/                                      #
@@ -719,6 +719,10 @@ class VGG16(object):
 
             for samp_num in range(X.shape[0]):
                 img = X[samp_num]
+                # print('X.shape')
+                # print(X.shape)
+                # print(X[0,0,0:5])
+                # input('check....')
                 scores = pred_vals[samp_num]
                 probs = self.softmax(scores)
                 class_pred_idx = np.argmax(probs)
