@@ -468,7 +468,8 @@ class VGG16(object):
         SAVE_PATH = kwargs.get('save_path', None)
         if SAVE_PATH is None:
             print('Warning: no SAVE_PATH has been specified.')
-        weights = kwargs.get('weights', None)
+        WEIGHTS_PATH = kwargs.get('weights_path', None)
+        RESTORE_PATH = kwargs.get('restore_path', None)
         load_encoder = kwargs.get('load_encoder', True)
 
         # ensure batch_size is set appropriately:
@@ -503,11 +504,8 @@ class VGG16(object):
             # Build the summary Tensor based on the TF collection of Summaries.
             summary = tf.merge_all_summaries()
 
-            # Add the variable initializer Op.
-            init = tf.initialize_all_variables()
-
             # Create a saver for writing training checkpoints.
-            saver = tf.train.Saver()
+            saver = tf.train.Saver(max_to_keep=20)
 
             # Create a session for running Ops on the Graph.
             sess = tf.Session()
@@ -518,13 +516,25 @@ class VGG16(object):
             else:
                 print('WARNING: SAVE_PATH is not specified...cannot save model file')
 
-            # And then after everything is built:
-            # Run the Op to initialize the variables.
-            sess.run(init)
+            if RESTORE_PATH is not None:
+                checkpoint_dir = os.path.dirname(RESTORE_PATH)
+                checkpoint_name = os.path.basename(RESTORE_PATH)
+                if checkpoint_name not in {'', None}:
+                    checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
+                else:
+                    checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
+                saver.restore(sess, checkpoint_path)
+                print('model restored from checkpoint file: %s' % str(checkpoint_path))
+            else:
+                print('No RESTORE_PATH specified, so initializing the model with random weights for training...')
+                # Add the variable initializer Op.
+                init = tf.initialize_all_variables()
+                # Run the Op to initialize the variables.
+                sess.run(init)
 
             # load pretrained weights if desired:
-            if weights is not None and sess is not None:
-                self.load_weights(weights, sess, load_encoder=load_encoder)
+            if WEIGHTS_PATH is not None and sess is not None:
+                self.load_weights(WEIGHTS_PATH, sess, load_encoder=load_encoder)
 
             # Start the training loop: train for nb_epochs, where each epoch iterates over the entire training set once.
             history = [] # list for saving train_acc and val_acc upon evaluation after each epoch ends
@@ -636,7 +646,7 @@ class VGG16(object):
                 else:
                     checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
                     print('train_acc: %f \t val_acc: %f \tsaving checkpoint to file: %s' % (train_acc, val_acc, str(checkpoint_file)))
-                    saver.save(sess, checkpoint_file, global_step=epoch_num)
+                    saver.save(sess, checkpoint_file, global_step=epoch_num+100)
             # END ALL EPOCHS
         return history, train_acc_best, val_acc_best
 
@@ -645,9 +655,9 @@ class VGG16(object):
         # unpack args:
         X = kwargs.get('X', None)
         batch_size_int = kwargs.get('batch_size', None)
-        LOAD_PATH = kwargs.get('load_path', None)
-        if LOAD_PATH is None:
-            input('Error: no LOAD_PATH has been specified. Randomly initialized model should not be used for prediciton.'
+        RESTORE_PATH = kwargs.get('restore_path', None)
+        if RESTORE_PATH is None:
+            input('Error: no RESTORE_PATH has been specified. Randomly initialized model should not be used for prediciton.'
                   '\nPress enter to continue anyways:')
 
         # Tell TensorFlow that the model will be built into the default Graph.
@@ -665,12 +675,17 @@ class VGG16(object):
             sess = tf.Session()
 
             # Instantiate a SummaryWriter to output summaries and the Graph.
-            if LOAD_PATH is not None:
-                checkpoint_path = tf.train.latest_checkpoint(LOAD_PATH)
+            if RESTORE_PATH is not None:
+                checkpoint_dir = os.path.dirname(RESTORE_PATH)
+                checkpoint_name = os.path.basename(RESTORE_PATH)
+                if checkpoint_name not in {'', None}:
+                    checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
+                else:
+                    checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
                 saver.restore(sess, checkpoint_path)
                 print('model restored from checkpoint file: %s' % str(checkpoint_path))
             else:
-                print('No LOAD_PATH specified, so initializing the model with random weights')
+                print('No RESTORE_PATH specified, so initializing the model with random weights')
                 # Add the variable initializer Op.
                 init = tf.initialize_all_variables()
                 # Run the Op to initialize the variables.
@@ -789,8 +804,8 @@ class VGG16(object):
             else:
                 raise ValueError('unrecognized key in pretrained weights file: %s' % str(k))
 
-    def load_weights(self, weight_file, sess, load_encoder=True):
-        weights = np.load(weight_file)
+    def load_weights(self, weight_path, sess, load_encoder=True):
+        weights = np.load(weight_path)
         if load_encoder:
             self.load_weights_encoder(weights=weights, sess=sess)
         print('...weights loaded successfully...')
@@ -824,8 +839,10 @@ def prep_cmdln_parser():
     cmdln.add_argument("--save-best-only", action="store", dest="SAVE_BEST_ONLY", default='save_all',
                                 help="save all models at checkpoints or only save if the model has a new best "
                                      "training_acc or val_acc (specify which) [default: %default].")
-    cmdln.add_argument("--load-path", action="store", dest="LOAD_PATH", default='',
+    cmdln.add_argument("--weights-path", action="store", dest="WEIGHTS_PATH", default='',
                                 help="path from which to load the pretrained weights for the model [default: %default].")
+    cmdln.add_argument("--restore-path", action="store", dest="RESTORE_PATH", default='',
+                                help="path from which to restore a previously trained model [default: %default].")
     cmdln.add_argument("--save-path", action="store", dest="SAVE_PATH", default='',
                                 help="path at which to save the model checkpoints during training [default: %default].")
 
@@ -912,7 +929,8 @@ if __name__ == '__main__':
             vgg.train(data_train=data_train_, data_val=data_val_,
                   batch_size=args.BATCH_SIZE_INT,
                   save_path=args.SAVE_PATH,
-                  weights=args.LOAD_PATH,
+                  weights_path=args.WEIGHTS_PATH,
+                  restore_path=args.RESTORE_PATH,
                   save_summaries_every=args.SAVE_SUMMARIES_EVERY,
                   display_every=args.DISPLAY_EVERY,
                   display=args.DISPLAY,
@@ -923,4 +941,4 @@ if __name__ == '__main__':
     else:
         vgg.predict(X=X_test,
                     batch_size=1,
-                    load_path=args.SAVE_PATH)
+                    restore_path=args.RESTORE_PATH)

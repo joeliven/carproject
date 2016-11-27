@@ -13,7 +13,7 @@ request_GPUs = 1
 get_env=True
 Notification=complete
 Notify_user=joeliven@gmail.com
-Log=/scratch/cluster/joeliven/carproject/logs/vgg16_a.log.$(Cluster)
-Output=/scratch/cluster/joeliven/carproject/logs/vgg16_a.out.$(Cluster)
-Error=/scratch/cluster/joeliven/carproject/logs/vgg16_a.err.$(Cluster)
+Log=/scratch/cluster/joeliven/carproject/logs/vgg16_a.cont.log.$(Cluster)
+Output=/scratch/cluster/joeliven/carproject/logs/vgg16_a.cont.out.$(Cluster)
+Error=/scratch/cluster/joeliven/carproject/logs/vgg16_a.cont.err.$(Cluster)
 Queue 1

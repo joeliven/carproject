@@ -13,12 +13,13 @@ SAVE_SUMMARIES_EVERY="10"
 DISPLAY_EVERY="1"
 DISPLAY="False"
 NB_TO_DISPLAY="5"
-NB_EPOCHS="100"
+NB_EPOCHS="150"
 SAVE_BEST_ONLY="save_all" # 'save_best_train' or 'save_best_val'
 # LOAD_PATH="models/vgg/vgg16_weights_pretrained.npz"
-LOAD_PATH="/scratch/cluster/joeliven/carproject/models/vgg16/vgg16_weights_pretrained.npz"
+#WEIGHTS_PATH="/scratch/cluster/joeliven/carproject/models/vgg16/vgg16_weights_pretrained.npz"
+RESTORE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16a/vgg16_a_checkpoint-99"
 # SAVE_PATH="models/vgg"
-SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16"
+SAVE_PATH="/scratch/cluster/joeliven/carproject/models/vgg16a"
 X_TRAIN="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_train.npy"
 X_VAL="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_val.npy"
 X_TEST="/scratch/cluster/joeliven/carproject/data/preprocessed/all/X_test.npy"
@@ -68,7 +69,7 @@ time "$P" "$PROGRAM" \
 --nb-to-display "$NB_TO_DISPLAY" \
 --nb-epochs "$NB_EPOCHS" \
 --save-best-only "$SAVE_BEST_ONLY" \
---load-path "$LOAD_PATH" \
+--restore-path "$RESTORE_PATH" \
 --save-path "$SAVE_PATH" \
 --X-train "$X_TRAIN" \
 --X-val "$X_VAL" \
