@@ -5,7 +5,7 @@ PROGRAM="lib27/classifier.py"
 ######### START CONSTANTS #########
 RESTORE_PATH="models/vgg16a/vgg16_a_checkpoint-99"
 META_PATH="models/vgg16a/vgg16_a_checkpoint-99.meta"
-IMAGE_PATH="data/raw/all/000000.jpg"
+IMAGE_PATH="data/preprocessed/all/X_test.npy"
 ######### END CONSTANTS #########
 
 ######### START VARIABLES #########

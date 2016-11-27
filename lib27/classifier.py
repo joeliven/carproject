@@ -2,7 +2,7 @@ import sys
 import time
 import tensorflow as tf
 import numpy as np
-from skimage.io import imread
+# from skimage.io import imread
 idx2label = ['S', 'T']
 
 class Classifier(object):
@@ -16,31 +16,22 @@ class Classifier(object):
         saver.restore(self.sess, self.RESTORE_PATH)
         self.preds = tf.get_default_graph().get_operation_by_name("encoder-fc3").outputs[0]
         self.inputs_pl = tf.get_default_graph().get_operation_by_name("Placeholder").outputs[0]
-        print(self.preds)
-        print(self.inputs_pl)
-        input('preds')
 
-
-
-    def _preprocess(self, X):
-        """preprocess a single incoming image"""
-        # TODO: convert my python3.4 code from lib/image_utils.py-->preprocess_image() into python2.7 compatible code
-        return X
+    # def _preprocess(self, X):
+    #     """preprocess a single incoming image"""
+    #     # TODO: convert my python3.4 code from lib/image_utils.py-->preprocess_image() into python2.7 compatible code
+    #     return X
 
     def predict(self, X, verbose=False):
         """make a prediction on a single incoming image"""
         start_time = time.time()
-        # ops = tf.get_default_graph().get_operations()
-        # print(len(ops))
-        # input('len ops')
-        # for op in ops:
-        #     print(op.name)
-        # inputs_pl = tf.placeholder(tf.float32, [None, self.dim_img_int, self.dim_img_int, self.nb_channels_int])
-        X_preprocessed = self._preprocess(X)
-        feed_dict = {self.inputs_pl: X_preprocessed}
+        X = np.asarray([X])
+        feed_dict = {self.inputs_pl: X}
         scores = self.sess.run([self.preds], feed_dict=feed_dict)[0]  # [0] since sess.run([preds]) returns a list of len 1 in this case
+        scores = scores[0] # since we are only classifying one image at a time
         duration = time.time() - start_time
         if verbose:
+            print('scores: %s' % str(scores))
             pred_idx = np.argmax(scores)
             pred_class = idx2label[pred_idx]
             print('prediction: %s (duration: %.3f)' % (pred_class,duration))
@@ -65,8 +56,13 @@ if __name__ == '__main__':
     verbose = False
     if len(sys.argv) == 5:
         verbose = True
+        print('verbose is True')
+    else:
+        print('verbose is False')
 
-    img = imread(image_path)
+    img = np.load(image_path)[22]
+    print('img.shape')
+    print(img.shape)
 
     model = Classifier(meta_path=meta_path, weights_path=weights_path)
     model.predict(img, verbose=verbose)
