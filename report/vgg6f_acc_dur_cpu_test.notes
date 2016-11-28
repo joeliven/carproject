@@ -1,0 +1,591 @@
+model: vgg6f
+arch: cpu
+data set: heldout test set of 178 images
+
+(carproject27)wireless-10-147-188-168:carproject joeliven$ bash condor_scripts/local/r_classifier.sh
+pwd:
+/Users/joeliven/repos/carproject
+PATH:
+/Users/joeliven/anaconda3/envs/carproject27/bin:/Users/joeliven/.node/bin:/Users/joeliven/wayblazer/nlp_extraction:/Users/joeliven/repos/object-tracking:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Applications/Postgres.app/Contents/Versions/latest/bin
+PYTHONPATH:
+
+LD_LIBRARY_PATH:
+
+CPATH:
+
+LIBRARY_PATH:
+
+CUDNN_PATH:
+
+wireless-10-147-188-168.public.utexas.edu
+condor_scripts/local/r_classifier.sh: line 46: nvidia-smi: command not found
+condor_scripts/local/r_classifier.sh: line 47: nvcc: command not found
+meta_path
+models/vgg6f/vgg6f_a_checkpoint-25.meta
+weights_path
+models/vgg6f/vgg6f_a_checkpoint-25
+image_path
+data/preprocessed/all/X_test.npy
+verbose is True
+Tensor("Placeholder:0", shape=TensorShape([Dimension(None), Dimension(224), Dimension(224), Dimension(3)]), dtype=float32)
+tf.shape(inputs_pl)
+Tensor("encoder-conv1_1/Shape:0", shape=TensorShape([Dimension(4)]), dtype=int32)
+inputs_pl.get_shape().as_list()
+[None, 224, 224, 3]
+can't determine number of CPU cores: assuming 4
+I tensorflow/core/common_runtime/local_device.cc:25] Local device intra op parallelism threads: 4
+can't determine number of CPU cores: assuming 4
+I tensorflow/core/common_runtime/local_session.cc:45] Local session inter op parallelism threads: 4
+imgs.shape
+(178, 224, 224, 3)
+labels.shape
+(178, 2)
+scores: [-0.36869633 -5.1235323 ]
+prediction: S (duration: 0.195)
+0: correct
+scores: [-0.90221941 -7.5796361 ]
+prediction: S (duration: 0.146)
+1: correct
+scores: [ 0.33240163  2.63503361]
+prediction: T (duration: 0.144)
+2: wrong
+scores: [ 0.01583898  1.87181985]
+prediction: T (duration: 0.139)
+3: correct
+scores: [-0.07331312 -2.53287268]
+prediction: S (duration: 0.147)
+4: correct
+scores: [ 0.39147198 -0.58715737]
+prediction: S (duration: 0.146)
+5: correct
+scores: [-2.01014256  5.24507904]
+prediction: T (duration: 0.141)
+6: correct
+scores: [-0.289482   -6.56918001]
+prediction: S (duration: 0.144)
+7: correct
+scores: [-0.13786328  6.89011526]
+prediction: T (duration: 0.140)
+8: correct
+scores: [ 0.09143268 -6.37262011]
+prediction: S (duration: 0.140)
+9: correct
+scores: [ -2.84412694  14.94604778]
+prediction: T (duration: 0.140)
+10: correct
+scores: [-1.60171318  5.40204477]
+prediction: T (duration: 0.139)
+11: correct
+scores: [-1.05915511  5.80648184]
+prediction: T (duration: 0.140)
+12: correct
+scores: [ 0.57330787  5.91223192]
+prediction: T (duration: 0.140)
+13: correct
+scores: [-0.92445576  5.12192154]
+prediction: T (duration: 0.144)
+14: correct
+scores: [ 0.73730433 -1.96650898]
+prediction: S (duration: 0.141)
+15: correct
+scores: [-0.2073611  -1.94005597]
+prediction: S (duration: 0.139)
+16: correct
+scores: [ 1.42916     2.37880039]
+prediction: T (duration: 0.141)
+17: wrong
+scores: [-0.84822452  7.56853199]
+prediction: T (duration: 0.139)
+18: correct
+scores: [ 0.16446626  2.40737724]
+prediction: T (duration: 0.140)
+19: correct
+scores: [-1.66398323  2.03261614]
+prediction: T (duration: 0.139)
+20: correct
+scores: [ 0.24171555 -4.20835781]
+prediction: S (duration: 0.144)
+21: correct
+scores: [-0.5599066   2.76260853]
+prediction: T (duration: 0.145)
+22: correct
+scores: [-0.47892654 -7.25546789]
+prediction: S (duration: 0.142)
+23: correct
+scores: [ 0.17661059  1.69742954]
+prediction: T (duration: 0.142)
+24: wrong
+scores: [-0.75246322  4.19033957]
+prediction: T (duration: 0.142)
+25: correct
+scores: [-0.13569963 -6.50762415]
+prediction: S (duration: 0.141)
+26: correct
+scores: [-1.32765949  3.03467846]
+prediction: T (duration: 0.141)
+27: correct
+scores: [-0.7347852   3.17294073]
+prediction: T (duration: 0.143)
+28: correct
+scores: [-1.21406162  0.38644111]
+prediction: T (duration: 0.140)
+29: correct
+scores: [-0.30856645 -3.29531908]
+prediction: S (duration: 0.142)
+30: correct
+scores: [-1.06026733  6.13346195]
+prediction: T (duration: 0.139)
+31: correct
+scores: [ 0.10747921 -0.89651692]
+prediction: S (duration: 0.140)
+32: correct
+scores: [ 0.049914 -4.557127]
+prediction: S (duration: 0.142)
+33: correct
+scores: [-0.32531583  0.96746004]
+prediction: T (duration: 0.144)
+34: wrong
+scores: [ 0.35456693 -3.93242979]
+prediction: S (duration: 0.141)
+35: correct
+scores: [-2.49528384  7.8582058 ]
+prediction: T (duration: 0.143)
+36: correct
+scores: [ 0.0912317   1.63155115]
+prediction: T (duration: 0.143)
+37: correct
+scores: [-1.44090223  7.66792679]
+prediction: T (duration: 0.143)
+38: correct
+scores: [ 0.33219826 -5.28714037]
+prediction: S (duration: 0.142)
+39: correct
+scores: [-0.10502995 -5.28344774]
+prediction: S (duration: 0.143)
+40: correct
+scores: [-0.40554249  4.82055283]
+prediction: T (duration: 0.139)
+41: correct
+scores: [ 0.88586295  0.28571355]
+prediction: S (duration: 0.143)
+42: correct
+scores: [ -0.03420246 -10.16892433]
+prediction: S (duration: 0.139)
+43: correct
+scores: [-0.03700316 -2.73236346]
+prediction: S (duration: 0.141)
+44: correct
+scores: [ 1.37751496 -8.64780521]
+prediction: S (duration: 0.141)
+45: correct
+scores: [-0.52891576 -1.59351456]
+prediction: S (duration: 0.141)
+46: correct
+scores: [-0.32811964  2.37233877]
+prediction: T (duration: 0.140)
+47: correct
+scores: [-0.23541629  5.83834219]
+prediction: T (duration: 0.139)
+48: correct
+scores: [-0.58418071 -8.83580399]
+prediction: S (duration: 0.142)
+49: correct
+scores: [-0.25834143  2.01488733]
+prediction: T (duration: 0.139)
+50: correct
+scores: [-1.32785976  3.89893341]
+prediction: T (duration: 0.140)
+51: correct
+scores: [-0.36602819 -7.03384018]
+prediction: S (duration: 0.141)
+52: correct
+scores: [-0.50731242 -4.74956322]
+prediction: S (duration: 0.140)
+53: correct
+scores: [-0.62179077 -2.86569309]
+prediction: S (duration: 0.141)
+54: correct
+scores: [ 0.90792429  0.70934379]
+prediction: S (duration: 0.145)
+55: wrong
+scores: [-0.18113554 -7.24982166]
+prediction: S (duration: 0.145)
+56: correct
+scores: [-0.73418176 -4.06552267]
+prediction: S (duration: 0.141)
+57: correct
+scores: [  0.6344167  -10.87344265]
+prediction: S (duration: 0.141)
+58: correct
+scores: [-1.04901516  5.06309128]
+prediction: T (duration: 0.140)
+59: correct
+scores: [-0.26077783  3.60715771]
+prediction: T (duration: 0.141)
+60: correct
+scores: [-0.01106012 -8.35150242]
+prediction: S (duration: 0.140)
+61: correct
+scores: [ 0.01691591 -4.86043644]
+prediction: S (duration: 0.143)
+62: correct
+scores: [-1.28320181  6.5855546 ]
+prediction: T (duration: 0.143)
+63: correct
+scores: [-0.53810394  2.44647264]
+prediction: T (duration: 0.140)
+64: wrong
+scores: [ 0.52477682 -4.04498625]
+prediction: S (duration: 0.141)
+65: correct
+scores: [-0.67588139  3.85824442]
+prediction: T (duration: 0.143)
+66: correct
+scores: [-1.8639003   4.55740356]
+prediction: T (duration: 0.142)
+67: correct
+scores: [-1.2732048   3.30421877]
+prediction: T (duration: 0.143)
+68: correct
+scores: [-0.30932176  4.17524147]
+prediction: T (duration: 0.141)
+69: correct
+scores: [-0.26816165 -7.35330391]
+prediction: S (duration: 0.145)
+70: correct
+scores: [ 0.17194998 -0.7778188 ]
+prediction: S (duration: 0.141)
+71: correct
+scores: [-0.19397795 -5.28592634]
+prediction: S (duration: 0.140)
+72: correct
+scores: [ 0.17082345 -1.13736641]
+prediction: S (duration: 0.140)
+73: correct
+scores: [-0.1354264  -6.57048559]
+prediction: S (duration: 0.142)
+74: correct
+scores: [ 0.71896541  0.78466976]
+prediction: T (duration: 0.140)
+75: correct
+scores: [ 0.41155398 -7.78045511]
+prediction: S (duration: 0.140)
+76: correct
+scores: [ 0.27952754  3.25874281]
+prediction: T (duration: 0.144)
+77: correct
+scores: [ 0.16661227  0.48412788]
+prediction: T (duration: 0.143)
+78: correct
+scores: [-0.21345127 -5.7729826 ]
+prediction: S (duration: 0.141)
+79: correct
+scores: [ 0.23066747 -0.64115679]
+prediction: S (duration: 0.141)
+80: correct
+scores: [ 0.44077885 -1.18264782]
+prediction: S (duration: 0.140)
+81: correct
+scores: [-1.61106026  6.69274664]
+prediction: T (duration: 0.140)
+82: correct
+scores: [-0.03678787  4.09635115]
+prediction: T (duration: 0.146)
+83: correct
+scores: [-0.25719464  4.96714306]
+prediction: T (duration: 0.144)
+84: correct
+scores: [-1.24563825  3.5981493 ]
+prediction: T (duration: 0.142)
+85: correct
+scores: [-0.84571517  6.56177235]
+prediction: T (duration: 0.139)
+86: correct
+scores: [ 0.00615608  0.65334499]
+prediction: T (duration: 0.142)
+87: correct
+scores: [-0.45662177  4.67647409]
+prediction: T (duration: 0.143)
+88: correct
+scores: [-0.77519524  3.13842916]
+prediction: T (duration: 0.140)
+89: correct
+scores: [-0.85173255  9.15666866]
+prediction: T (duration: 0.140)
+90: correct
+scores: [-0.97467488  7.5294342 ]
+prediction: T (duration: 0.143)
+91: correct
+scores: [-0.36827123 -1.922279  ]
+prediction: S (duration: 0.140)
+92: correct
+scores: [ 1.24001276 -8.42891026]
+prediction: S (duration: 0.144)
+93: correct
+scores: [-2.44895959  9.98029327]
+prediction: T (duration: 0.146)
+94: correct
+scores: [ 0.02265441 -2.88445067]
+prediction: S (duration: 0.142)
+95: correct
+scores: [-2.65196848  7.92983627]
+prediction: T (duration: 0.142)
+96: correct
+scores: [ 1.16586053 -1.23864949]
+prediction: S (duration: 0.142)
+97: correct
+scores: [-0.85393298  6.0513773 ]
+prediction: T (duration: 0.145)
+98: correct
+scores: [-0.39780986 -8.38570213]
+prediction: S (duration: 0.140)
+99: correct
+scores: [-0.71870816  6.19652939]
+prediction: T (duration: 0.143)
+100: correct
+scores: [-0.15783274 -0.79364121]
+prediction: S (duration: 0.142)
+101: correct
+scores: [ 0.56106269 -5.60127068]
+prediction: S (duration: 0.142)
+102: correct
+scores: [-1.21492624  3.45680666]
+prediction: T (duration: 0.141)
+103: correct
+scores: [-0.13684785  4.20253611]
+prediction: T (duration: 0.141)
+104: correct
+scores: [ 0.34782732 -5.27960157]
+prediction: S (duration: 0.145)
+105: correct
+scores: [-0.51628029  3.19941425]
+prediction: T (duration: 0.142)
+106: correct
+scores: [-2.05870581  7.70968342]
+prediction: T (duration: 0.139)
+107: correct
+scores: [-0.5193485  -3.76887822]
+prediction: S (duration: 0.139)
+108: correct
+scores: [-0.64743125  3.5515666 ]
+prediction: T (duration: 0.140)
+109: correct
+scores: [-0.33132565 -0.23523629]
+prediction: T (duration: 0.140)
+110: wrong
+scores: [-0.85227823  3.96620846]
+prediction: T (duration: 0.146)
+111: correct
+scores: [ 0.47230518 -1.32828248]
+prediction: S (duration: 0.146)
+112: correct
+scores: [-1.24271286  4.19686413]
+prediction: T (duration: 0.141)
+113: correct
+scores: [-0.20645559  0.91149604]
+prediction: T (duration: 0.141)
+114: correct
+scores: [-0.54418576 -3.88293004]
+prediction: S (duration: 0.142)
+115: correct
+scores: [ 0.4209584  -7.05353546]
+prediction: S (duration: 0.143)
+116: correct
+scores: [-1.07941115  3.70621634]
+prediction: T (duration: 0.140)
+117: correct
+scores: [-0.90074313  1.02421701]
+prediction: T (duration: 0.140)
+118: correct
+scores: [-0.1113838  -8.11272335]
+prediction: S (duration: 0.144)
+119: correct
+scores: [-0.35648406  1.33268678]
+prediction: T (duration: 0.138)
+120: correct
+scores: [ 0.79206479 -7.0198164 ]
+prediction: S (duration: 0.138)
+121: correct
+scores: [-0.41578567 -7.72399807]
+prediction: S (duration: 0.140)
+122: correct
+scores: [-0.12026394 -6.04767513]
+prediction: S (duration: 0.140)
+123: correct
+scores: [-0.13956034 -1.9691788 ]
+prediction: S (duration: 0.139)
+124: correct
+scores: [-0.15303266  5.24608707]
+prediction: T (duration: 0.163)
+125: correct
+scores: [-0.02232874  3.38089657]
+prediction: T (duration: 0.144)
+126: correct
+scores: [ 0.55307567 -1.94992411]
+prediction: S (duration: 0.140)
+127: correct
+scores: [ -2.56113529  13.02100945]
+prediction: T (duration: 0.141)
+128: correct
+scores: [-0.63094771 -6.35153866]
+prediction: S (duration: 0.141)
+129: correct
+scores: [-0.66158187 -8.03125954]
+prediction: S (duration: 0.141)
+130: correct
+scores: [-0.19042957 -7.06584263]
+prediction: S (duration: 0.143)
+131: correct
+scores: [ 0.1329869  -2.18280101]
+prediction: S (duration: 0.142)
+132: correct
+scores: [ 0.22333348 -8.28652191]
+prediction: S (duration: 0.143)
+133: correct
+scores: [-0.60906088 -0.5780164 ]
+prediction: T (duration: 0.140)
+134: correct
+scores: [-0.13787925 -4.01801872]
+prediction: S (duration: 0.142)
+135: correct
+scores: [ 0.04425108 -4.78065729]
+prediction: S (duration: 0.141)
+136: correct
+scores: [-0.22829115 -0.00136053]
+prediction: T (duration: 0.140)
+137: wrong
+scores: [ 0.07324707  3.64161325]
+prediction: T (duration: 0.147)
+138: correct
+scores: [-0.25992262 -6.38909578]
+prediction: S (duration: 0.140)
+139: correct
+scores: [ 0.76244032 -6.28804684]
+prediction: S (duration: 0.142)
+140: correct
+scores: [-0.27338636 -0.70035136]
+prediction: S (duration: 0.140)
+141: wrong
+scores: [-0.64037764  3.2090888 ]
+prediction: T (duration: 0.142)
+142: correct
+scores: [-1.7480576   4.67065144]
+prediction: T (duration: 0.143)
+143: correct
+scores: [ 0.17772639 -7.31803942]
+prediction: S (duration: 0.143)
+144: correct
+scores: [-1.36265671  6.48210669]
+prediction: T (duration: 0.149)
+145: correct
+scores: [-0.43386757 -9.53133583]
+prediction: S (duration: 0.141)
+146: correct
+scores: [-1.46863914  6.18498135]
+prediction: T (duration: 0.143)
+147: correct
+scores: [-1.46229613  3.58990669]
+prediction: T (duration: 0.141)
+148: correct
+scores: [-2.53568411  9.3182621 ]
+prediction: T (duration: 0.142)
+149: correct
+scores: [-0.32760441  5.83770895]
+prediction: T (duration: 0.142)
+150: correct
+scores: [-2.9026053   9.43507767]
+prediction: T (duration: 0.143)
+151: correct
+scores: [-1.04555726  5.92728567]
+prediction: T (duration: 0.141)
+152: correct
+scores: [-0.70749581 -5.48036575]
+prediction: S (duration: 0.141)
+153: correct
+scores: [-0.68882978 -7.58260345]
+prediction: S (duration: 0.142)
+154: correct
+scores: [-0.00273383 -1.82507193]
+prediction: S (duration: 0.139)
+155: correct
+scores: [ 0.70559442 -0.26992047]
+prediction: S (duration: 0.143)
+156: correct
+scores: [-0.59541357 -0.10228216]
+prediction: T (duration: 0.139)
+157: correct
+scores: [-0.03107441 -2.50073099]
+prediction: S (duration: 0.142)
+158: correct
+scores: [ -2.96894813  12.7843647 ]
+prediction: T (duration: 0.142)
+159: correct
+scores: [-0.69930971  4.12870598]
+prediction: T (duration: 0.139)
+160: correct
+scores: [-0.05514205 -8.00092506]
+prediction: S (duration: 0.143)
+161: correct
+scores: [-0.73425114  1.54694068]
+prediction: T (duration: 0.143)
+162: correct
+scores: [ 0.21859491  4.70394611]
+prediction: T (duration: 0.140)
+163: correct
+scores: [-1.38396502  5.44899893]
+prediction: T (duration: 0.139)
+164: correct
+scores: [ 0.30366313  0.50453889]
+prediction: T (duration: 0.143)
+165: wrong
+scores: [ 1.02492249  4.02329826]
+prediction: T (duration: 0.142)
+166: correct
+scores: [-0.90436971  6.48457003]
+prediction: T (duration: 0.140)
+167: correct
+scores: [-0.39071572 -6.47452688]
+prediction: S (duration: 0.143)
+168: correct
+scores: [-0.00231827 -0.25292838]
+prediction: S (duration: 0.144)
+169: wrong
+scores: [ 0.26665342 -5.1733346 ]
+prediction: S (duration: 0.142)
+170: correct
+scores: [-0.31751049 -1.69121277]
+prediction: S (duration: 0.141)
+171: correct
+scores: [-3.47460556  9.46901035]
+prediction: T (duration: 0.142)
+172: correct
+scores: [ 0.51713049 -4.75450897]
+prediction: S (duration: 0.141)
+173: correct
+scores: [-0.23981965  4.16977072]
+prediction: T (duration: 0.143)
+174: correct
+scores: [-0.73084414 -6.27730846]
+prediction: S (duration: 0.143)
+175: correct
+scores: [-0.66252005  1.25380266]
+prediction: T (duration: 0.141)
+176: correct
+scores: [ 0.25249708 -4.39729357]
+prediction: S (duration: 0.143)
+177: correct
+num_cor
+167
+imgs.shape[0]
+178
+acc
+0.938202247191
+avg_dur
+0.142127023654
+acc: 0.9382 	avg_dur: 0.1421 $
+DONE
+
+real	0m27.117s
+user	1m7.931s
+sys	0m11.985s
+(carproject27)wireless-10-147-188-168:carproject joeliven$

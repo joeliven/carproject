@@ -1,0 +1,3 @@
+model: vgg5
+arch: cpu
+data set: heldout test set of 178 images

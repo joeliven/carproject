@@ -12,7 +12,11 @@ for proj_root in proj_roots:
         if os.path.exists(proj_root):
             sys.path.append(proj_root)
 
-from lib.vgg16_encoder import get_encoder
+# from lib.vgg16_encoder import get_encoder
+# from lib.vgg10_encoder import get_encoder
+from lib.vgg6t_encoder import get_encoder
+# from lib.vgg6f_encoder import get_encoder
+# from lib.vgg5_encoder import get_encoder
 
 idx2label = ['S', 'T']
 
@@ -45,7 +49,7 @@ class Classifier(object):
             pred_idx = np.argmax(scores)
             pred_class = idx2label[pred_idx]
             print('prediction: %s (duration: %.3f)' % (pred_class,duration))
-        return scores[1] > scores[0] # scores[1] is TURN, scores[0] is STRAIGHT
+        return scores[1] > scores[0], duration # scores[1] is TURN, scores[0] is STRAIGHT
 
 
 if __name__ == '__main__':
@@ -82,8 +86,10 @@ if __name__ == '__main__':
     print(labels.shape)
 
     num_cor = 0
+    tot_dur = 0.
     for i,img in enumerate(imgs):
-        turn = model.predict(img, verbose=verbose)
+        turn, dur = model.predict(img, verbose=verbose)
+        tot_dur += dur
         label = labels[i]
         assert label.shape == (2,)
         if turn == True and np.argmax(label) == 1:
@@ -101,7 +107,10 @@ if __name__ == '__main__':
     acc = float(num_cor) / float(imgs.shape[0])
     print('acc')
     print(acc)
-    print('acc: %.4f' % acc)
+    avg_dur = tot_dur / float(imgs.shape[0])
+    print('avg_dur')
+    print(avg_dur)
+    print('acc: %.4f \tavg_dur: %.4f $' % (acc, avg_dur))
     print('DONE')
 
 
