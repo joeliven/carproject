@@ -343,7 +343,7 @@ class VGG10(object):
                 else:
                     checkpoint_file = os.path.join(SAVE_PATH, '%s_checkpoint' % self.name )
                     print('train_acc: %f \t val_acc: %f \tsaving checkpoint to file: %s' % (train_acc, val_acc, str(checkpoint_file)))
-                    saver.save(sess, checkpoint_file, global_step=epoch_num+100)
+                    saver.save(sess, checkpoint_file, global_step=epoch_num)
             # END ALL EPOCHS
         return history, train_acc_best, val_acc_best
 
