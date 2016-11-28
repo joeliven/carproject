@@ -1,11 +1,6 @@
 ########################################################################################
 # Adapted from Davi Frossard, 2016                                                                  #
-# VGG16 implementation in TensorFlow                                                   #
-# Details:                                                                             #
 # http://www.cs.toronto.edu/~frossard/post/vgg16/                                      #
-#                                                                                      #
-# Model from https://gist.github.com/ksimonyan/211839e770f7b538e2d8#file-readme-md     #
-# Weights from Caffe converted using https://github.com/ethereon/caffe-tensorflow      #
 ########################################################################################
 import sys, os
 proj_roots = [
@@ -24,6 +19,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
+from lib.vgg10_encoder import get_encoder
 
 from collections import defaultdict
 from lib.data_set import DataSet
@@ -35,14 +31,13 @@ P = 'params'
 ENCODER = 'encoder'
 
 
-class VGG16(object):
+class VGG10(object):
     def __init__(self, **kwargs):
-        self.name = 'vgg16_a'
+        self.name = 'vgg10_a'
         # unpack args:
         self.batch_size_int = kwargs.get('batch_size',32)
         self.dim_img_int = kwargs.get('dim_img', 224)
         self.nb_channels_int = kwargs.get('nb_channels', 3)
-        # self.dim_fc1_int = kwargs.get('dim_fc1', 256)
         self.nb_classes = kwargs.get('nb_classes', 2) # number of target classes we are predicting
         self.encoder = defaultdict(dict) # each key maps to a dict with keys: inputs, outputs, params
 
@@ -52,312 +47,14 @@ class VGG16(object):
         return e_x / e_x.sum()
 
     def _encode(self, inputs_pl):
-        # conv1_1
-        prev_layer = inputs_pl
-        layer_name = '%s-conv1_1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            print(inputs_pl)
-            print('tf.shape(inputs_pl)')
-            print(tf.shape(inputs_pl))
-            print('inputs_pl.get_shape().as_list()')
-            print(inputs_pl.get_shape().as_list())
-            self.encoder[layer_name][I] = prev_layer
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 3, 64], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(inputs_pl, kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[64], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
+        preds, self.encoder = get_encoder(inputs_pl= inputs_pl,
+                                      batch_size=self.batch_size_int,
+                                      dim_img=self.dim_img_int,
+                                      nb_channels=self.nb_channels_int,
+                                      nb_classes=self.nb_classes,
+                                      encoder=self.encoder)
 
-        # conv1_2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv1_2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 64, 64], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[64], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-
-        # pool1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-pool1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            self.encoder[layer_name][O] = tf.nn.max_pool(self.encoder[layer_name][I],
-                                   ksize=[1, 2, 2, 1],
-                                   strides=[1, 2, 2, 1],
-                                   padding='SAME',
-                                   name='pool1')
-            self.encoder[layer_name][P] = None
-
-        # conv2_1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv2_1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 64, 128], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[128], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-
-        prev_layer = self.encoder[layer_name]
-        # conv2_2
-        layer_name = '%s-conv2_2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 128, 128], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[128], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-
-        # pool2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-pool2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            self.encoder[layer_name][O] = tf.nn.max_pool(self.encoder[layer_name][I],
-                                   ksize=[1, 2, 2, 1],
-                                   strides=[1, 2, 2, 1],
-                                   padding='SAME',
-                                   name='pool2')
-            self.encoder[layer_name][P] = None
-
-        # conv3_1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv3_1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 128, 256], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-
-        # conv3_2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv3_2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 256, 256], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-
-        # conv3_3
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv3_3' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 256, 256], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,56,56,256)
-
-        # pool3
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-pool3' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            self.encoder[layer_name][O] = tf.nn.max_pool(self.encoder[layer_name][I],
-                                   ksize=[1, 2, 2, 1],
-                                   strides=[1, 2, 2, 1],
-                                   padding='SAME',
-                                   name='pool3')
-            self.encoder[layer_name][P] = None
-        # tf.shape should be: (None,28,28,256)
-
-        # conv4_1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv4_1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 256, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,28,28,512)
-
-        # conv4_2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv4_2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,28,28,512)
-
-        # conv4_3
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv4_3' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,28,28,512)
-
-        # pool4
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-pool4' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            self.encoder[layer_name][O] = tf.nn.max_pool(self.encoder[layer_name][I],
-                                   ksize=[1, 2, 2, 1],
-                                   strides=[1, 2, 2, 1],
-                                   padding='SAME',
-                                   name='pool4')
-            self.encoder[layer_name][P] = None
-        # tf.shape should be: (None,14,14,512)
-
-        # conv5_1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv5_1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,14,14,512)
-
-        # conv5_2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv5_2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,14,14,512)
-
-        # conv5_3
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-conv5_3' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
-            conv = tf.nn.conv2d(self.encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-            biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            out = tf.nn.bias_add(conv, biases)
-            self.encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-            self.encoder[layer_name][P] = {'w': kernel, 'b': biases}
-        # tf.shape should be: (None,14,14,512)
-
-        # pool5
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-pool5' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            self.encoder[layer_name][O] = tf.nn.max_pool(self.encoder[layer_name][I],
-                                   ksize=[1, 2, 2, 1],
-                                   strides=[1, 2, 2, 1],
-                                   padding='SAME',
-                                   name='pool5')
-            self.encoder[layer_name][P] = None
-        # tf.shape should be: (None,7,7,512)
-
-        # fc1
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-fc1' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            shape = int(np.prod(self.encoder[layer_name][I].get_shape()[1:]))
-            fc1w = tf.Variable(tf.truncated_normal([shape, 4096],
-                                                         dtype=tf.float32,
-                                                         stddev=1e-1), name='weights', trainable=False)
-            fc1b = tf.Variable(tf.constant(0.0, shape=[4096], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            pool5_flat = tf.reshape(self.encoder[layer_name][I], [-1, shape])
-            # tf.shape should be: (None,25088)
-            fc1l = tf.nn.bias_add(tf.matmul(pool5_flat, fc1w), fc1b)
-            self.encoder[layer_name][O] = tf.nn.relu(fc1l, name=scope)
-            self.encoder[layer_name][P] = {'w': fc1w, 'b': fc1b}
-        # tf.shape should be: (None,4096)
-
-        # fc2
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-fc2' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            fc2w = tf.Variable(tf.truncated_normal([4096, 4096],
-                                                         dtype=tf.float32,
-                                                         stddev=1e-1), name='weights', trainable=False)
-            fc2b = tf.Variable(tf.constant(0.0, shape=[4096], dtype=tf.float32),
-                                 name='biases', trainable=False)
-            fc2l = tf.nn.bias_add(tf.matmul(self.encoder[layer_name][I], fc2w), fc2b)
-            self.encoder[layer_name][O] = tf.nn.relu(fc2l, name=scope)
-            self.encoder[layer_name][P] = {'w': fc2w, 'b': fc2b}
-        # tf.shape should be: (None,4096)
-
-        # fc3
-        prev_layer = self.encoder[layer_name]
-        layer_name = '%s-fc3' % (ENCODER)
-        with tf.name_scope(layer_name) as scope:
-            self.encoder[layer_name][I] = prev_layer[O]
-            fc3w = tf.Variable(tf.truncated_normal([4096, self.nb_classes],
-                                                         dtype=tf.float32,
-                                                         stddev=1e-1), name='weights', trainable=True)
-            fc3b = tf.Variable(tf.constant(0.0, shape=[self.nb_classes], dtype=tf.float32),
-                                 name='biases', trainable=True)
-            fc3l = tf.nn.bias_add(tf.matmul(self.encoder[layer_name][I], fc3w), fc3b, name=scope)
-            self.encoder[layer_name][O] = fc3l # no ReLU since this is the final (unormalized) prediction layer
-            self.encoder[layer_name][P] = {'w': fc3w, 'b': fc3b}
-        # tf.shape should be: (None,self.nb_classes) --> (None,2) by default
-
-        return self.encoder[layer_name][O] # --> self.encoder['encoder-fc3']['output']
+        return preds # --> self.encoder['encoder-fc3']['output']
 
     def _loss(self, predictions, targets):
         """Add L2Loss to all the trainable variables.
@@ -503,7 +200,7 @@ class VGG16(object):
             summary = tf.merge_all_summaries()
 
             # Create a saver for writing training checkpoints.
-            saver = tf.train.Saver(max_to_keep=20)
+            saver = tf.train.Saver(max_to_keep=10)
 
             # Create a session for running Ops on the Graph.
             sess = tf.Session()
@@ -783,22 +480,22 @@ class VGG16(object):
             'conv3_2_b': 'encoder-conv3_2',
             'conv3_3_W': 'encoder-conv3_3',
             'conv3_3_b': 'encoder-conv3_3',
-            'conv4_1_W': 'encoder-conv4_1',
-            'conv4_1_b': 'encoder-conv4_1',
-            'conv4_2_W': 'encoder-conv4_2',
-            'conv4_2_b': 'encoder-conv4_2',
-            'conv4_3_W': 'encoder-conv4_3',
-            'conv4_3_b': 'encoder-conv4_3',
-            'conv5_1_W': 'encoder-conv5_1',
-            'conv5_1_b': 'encoder-conv5_1',
-            'conv5_2_W': 'encoder-conv5_2',
-            'conv5_2_b': 'encoder-conv5_2',
-            'conv5_3_W': 'encoder-conv5_3',
-            'conv5_3_b': 'encoder-conv5_3',
-            'fc6_W': 'encoder-fc1',
-            'fc6_b': 'encoder-fc1',
-            'fc7_W': 'encoder-fc2',
-            'fc7_b': 'encoder-fc2',
+            # 'conv4_1_W': 'encoder-conv4_1',
+            # 'conv4_1_b': 'encoder-conv4_1',
+            # 'conv4_2_W': 'encoder-conv4_2',
+            # 'conv4_2_b': 'encoder-conv4_2',
+            # 'conv4_3_W': 'encoder-conv4_3',
+            # 'conv4_3_b': 'encoder-conv4_3',
+            # 'conv5_1_W': 'encoder-conv5_1',
+            # 'conv5_1_b': 'encoder-conv5_1',
+            # 'conv5_2_W': 'encoder-conv5_2',
+            # 'conv5_2_b': 'encoder-conv5_2',
+            # 'conv5_3_W': 'encoder-conv5_3',
+            # 'conv5_3_b': 'encoder-conv5_3',
+            # 'fc6_W': 'encoder-fc1',
+            # 'fc6_b': 'encoder-fc1',
+            # 'fc7_W': 'encoder-fc2',
+            # 'fc7_b': 'encoder-fc2',
             # 'fc8_W': 'encoder-fc3',
             # 'fc8_b': 'encoder-fc3',
         }
@@ -874,13 +571,6 @@ def prep_cmdln_parser():
                                 help="specify whether to train the model or just use for prediction (default) [default: %default].")
     return  cmdln
 
-# def get_model(batch_size=128, nb_channels=3, dim_img=224):
-#     vgg = VGG16(batch_size=batch_size,
-#                 nb_channels=nb_channels,
-#                 dim_img=dim_img)
-#     inputs_pl = tf.placeholder(tf.float32, [None, dim_img, dim_img, nb_channels])
-#     return vgg._encode(inputs_pl)
-
 
 if __name__ == '__main__':
     label_map = {
@@ -899,7 +589,7 @@ if __name__ == '__main__':
     cmdln = prep_cmdln_parser()
     args = cmdln.parse_args()
 
-    vgg = VGG16(batch_size=args.BATCH_SIZE_INT,
+    vgg = VGG10(batch_size=args.BATCH_SIZE_INT,
                     nb_channels=args.NB_CHANNELS_INT,
                     dim_img=args.DIM_IMG_INT)
 

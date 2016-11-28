@@ -1,11 +1,6 @@
 ########################################################################################
 # Adapted from Davi Frossard, 2016                                                                  #
-# VGG16 implementation in TensorFlow                                                   #
-# Details:                                                                             #
 # http://www.cs.toronto.edu/~frossard/post/vgg16/                                      #
-#                                                                                      #
-# Model from https://gist.github.com/ksimonyan/211839e770f7b538e2d8#file-readme-md     #
-# Weights from Caffe converted using https://github.com/ethereon/caffe-tensorflow      #
 ########################################################################################
 import tensorflow as tf
 import numpy as np
@@ -166,146 +161,30 @@ def get_encoder(**kwargs):
         encoder[layer_name][P] = None
     # tf.shape should be: (None,28,28,256)
 
-    # conv4_1
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv4_1' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 256, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,28,28,512)
-
-    # conv4_2
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv4_2' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,28,28,512)
-
-    # conv4_3
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv4_3' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,28,28,512)
-
-    # pool4
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-pool4' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        encoder[layer_name][O] = tf.nn.max_pool(encoder[layer_name][I],
-                               ksize=[1, 2, 2, 1],
-                               strides=[1, 2, 2, 1],
-                               padding='SAME',
-                               name='pool4')
-        encoder[layer_name][P] = None
-    # tf.shape should be: (None,14,14,512)
-
-    # conv5_1
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv5_1' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,14,14,512)
-
-    # conv5_2
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv5_2' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,14,14,512)
-
-    # conv5_3
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-conv5_3' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        kernel = tf.Variable(tf.truncated_normal([3, 3, 512, 512], dtype=tf.float32,
-                                                 stddev=1e-1), name='weights', trainable=False)
-        conv = tf.nn.conv2d(encoder[layer_name][I], kernel, [1, 1, 1, 1], padding='SAME')
-        biases = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
-                             name='biases', trainable=False)
-        out = tf.nn.bias_add(conv, biases)
-        encoder[layer_name][O] = tf.nn.relu(out, name=scope)
-        encoder[layer_name][P] = {'w': kernel, 'b': biases}
-    # tf.shape should be: (None,14,14,512)
-
-    # pool5
-    prev_layer = encoder[layer_name]
-    layer_name = '%s-pool5' % (ENCODER)
-    with tf.name_scope(layer_name) as scope:
-        encoder[layer_name][I] = prev_layer[O]
-        encoder[layer_name][O] = tf.nn.max_pool(encoder[layer_name][I],
-                               ksize=[1, 2, 2, 1],
-                               strides=[1, 2, 2, 1],
-                               padding='SAME',
-                               name='pool5')
-        encoder[layer_name][P] = None
-    # tf.shape should be: (None,7,7,512)
-
     # fc1
     prev_layer = encoder[layer_name]
     layer_name = '%s-fc1' % (ENCODER)
     with tf.name_scope(layer_name) as scope:
         encoder[layer_name][I] = prev_layer[O]
         shape = int(np.prod(encoder[layer_name][I].get_shape()[1:]))
-        fc1w = tf.Variable(tf.truncated_normal([shape, 4096],
+        fc1w = tf.Variable(tf.truncated_normal([shape, 100],
                                                      dtype=tf.float32,
                                                      stddev=1e-1), name='weights', trainable=False)
-        fc1b = tf.Variable(tf.constant(0.0, shape=[4096], dtype=tf.float32),
+        fc1b = tf.Variable(tf.constant(0.0, shape=[100], dtype=tf.float32),
                              name='biases', trainable=False)
         pool5_flat = tf.reshape(encoder[layer_name][I], [-1, shape])
-        # tf.shape should be: (None,25088)
+        # tf.shape should be: (None,200704)
         fc1l = tf.nn.bias_add(tf.matmul(pool5_flat, fc1w), fc1b)
         encoder[layer_name][O] = tf.nn.relu(fc1l, name=scope)
         encoder[layer_name][P] = {'w': fc1w, 'b': fc1b}
-    # tf.shape should be: (None,4096)
+    # tf.shape should be: (None,100)
 
     # fc2
     prev_layer = encoder[layer_name]
     layer_name = '%s-fc2' % (ENCODER)
     with tf.name_scope(layer_name) as scope:
         encoder[layer_name][I] = prev_layer[O]
-        fc2w = tf.Variable(tf.truncated_normal([4096, 4096],
+        fc2w = tf.Variable(tf.truncated_normal([100, 100],
                                                      dtype=tf.float32,
                                                      stddev=1e-1), name='weights', trainable=False)
         fc2b = tf.Variable(tf.constant(0.0, shape=[4096], dtype=tf.float32),
@@ -313,14 +192,14 @@ def get_encoder(**kwargs):
         fc2l = tf.nn.bias_add(tf.matmul(encoder[layer_name][I], fc2w), fc2b)
         encoder[layer_name][O] = tf.nn.relu(fc2l, name=scope)
         encoder[layer_name][P] = {'w': fc2w, 'b': fc2b}
-    # tf.shape should be: (None,4096)
+    # tf.shape should be: (None,100)
 
     # fc3
     prev_layer = encoder[layer_name]
     layer_name = '%s-fc3' % (ENCODER)
     with tf.name_scope(layer_name) as scope:
         encoder[layer_name][I] = prev_layer[O]
-        fc3w = tf.Variable(tf.truncated_normal([4096, nb_classes],
+        fc3w = tf.Variable(tf.truncated_normal([100, nb_classes],
                                                      dtype=tf.float32,
                                                      stddev=1e-1), name='weights', trainable=True)
         fc3b = tf.Variable(tf.constant(0.0, shape=[nb_classes], dtype=tf.float32),
