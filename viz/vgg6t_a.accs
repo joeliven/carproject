@@ -1,0 +1,3267 @@
+streetpizza$ cat vgg6t_a.out.1945320
+pwd:
+/u/joeliven/repos/carproject
+PATH:
+/u/joeliven/anaconda3/envs/ml34_old/bin::/u/joeliven/repos/object-tracking:/opt/cuda-7.5/bin:/lusr/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/bin/mh:/lusr/share/hosts:/lusr/bin/tex:/lusr/games/bin:/lusr/opt/condor/bin:.
+PYTHONPATH:
+:/u/joeliven/repos/object-tracking
+LD_LIBRARY_PATH:
+/u/joeliven/builds/cudnn_v5.1/lib64:/opt/cuda-7.5/lib64:
+CPATH:
+/u/joeliven/builds/cudnn_v5.1/include:
+LIBRARY_PATH:
+/u/joeliven/builds/cudnn_v5.1/lib64:/u/joeliven/builds/cudnn_v5.1/lib64:/opt/cuda-7.5/lib64:
+CUDNN_PATH:
+/u/joeliven/builds/cudnn_v5.1
+eldar-27
+Mon Nov 28 11:32:01 2016
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 367.48                 Driver Version: 367.48                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1080    Off  | 0000:04:00.0     Off |                  N/A |
+| 27%   30C    P0    38W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 1080    Off  | 0000:82:00.0     Off |                  N/A |
+|  0%   29C    P0    39W / 180W |      0MiB /  8113MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID  Type  Process name                               Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2015 NVIDIA Corporation
+Built on Tue_Aug_11_14:27:32_CDT_2015
+Cuda compilation tools, release 7.5, V7.5.17
+X_train.shape: (3023, 224, 224, 3)
+y_train.shape: (3023, 2)
+X_val.shape: (256, 224, 224, 3)
+y_val.shape: (256, 2)
+X_test.shape: (128, 224, 224, 3)
+y_test.shape: (128, 2)
+Tensor("Placeholder:0", shape=(?, 224, 224, 3), dtype=float32)
+tf.shape(inputs_pl)
+Tensor("encoder-conv1_1/Shape:0", shape=(4,), dtype=int32)
+inputs_pl.get_shape().as_list()
+[None, 224, 224, 3]
+tf.shape(targets)
+Tensor("Shape:0", shape=(2,), dtype=int32)
+Tensor("Placeholder_1:0", shape=(?, 2), dtype=float32)
+tf.shape(predictions)
+Tensor("Shape_1:0", shape=(2,), dtype=int32)
+Tensor("encoder-fc3:0", shape=(?, 2), dtype=float32)
+len(grads)
+10
+<tensorflow.python.ops.variables.Variable object at 0x2abbba056860>
+Tensor("gradients/encoder-conv2_1/Conv2D_grad/tuple/control_dependency_1:0", shape=(3, 3, 64, 128), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb9586390>
+Tensor("gradients/encoder-conv2_1/BiasAdd_grad/tuple/control_dependency_1:0", shape=(128,), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abbba056208>
+Tensor("gradients/encoder-conv3_1/Conv2D_grad/tuple/control_dependency_1:0", shape=(3, 3, 128, 128), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abbba056940>
+Tensor("gradients/encoder-conv3_1/BiasAdd_grad/tuple/control_dependency_1:0", shape=(128,), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb9595a90>
+Tensor("gradients/encoder-fc1/MatMul_grad/tuple/control_dependency_1:0", shape=(100352, 100), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb95a36a0>
+Tensor("gradients/encoder-fc1/BiasAdd_grad/tuple/control_dependency_1:0", shape=(100,), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb95a9a20>
+Tensor("gradients/encoder-fc2/MatMul_grad/tuple/control_dependency_1:0", shape=(100, 100), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb95c0b70>
+Tensor("gradients/encoder-fc2/BiasAdd_grad/tuple/control_dependency_1:0", shape=(100,), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb95a3a90>
+Tensor("gradients/encoder-fc3/MatMul_grad/tuple/control_dependency_1:0", shape=(100, 2), dtype=float32)
+<tensorflow.python.ops.variables.Variable object at 0x2abcb95cf5c0>
+Tensor("gradients/encoder-fc3_grad/tuple/control_dependency_1:0", shape=(2,), dtype=float32)
+No RESTORE_PATH specified, so initializing the model with random weights for training...
+0 conv1_1_W (3, 3, 3, 64)
+1 conv1_1_b (64,)
+2 conv1_2_W (3, 3, 64, 64)
+3 conv1_2_b (64,)
+4 conv2_1_W (3, 3, 64, 128)
+5 conv2_1_b (128,)
+6 conv2_2_W (3, 3, 128, 128)
+7 conv2_2_b (128,)
+8 conv3_1_W (3, 3, 128, 256)
+9 conv3_1_b (256,)
+10 conv3_2_W (3, 3, 256, 256)
+11 conv3_2_b (256,)
+12 conv3_3_W (3, 3, 256, 256)
+13 conv3_3_b (256,)
+14 conv4_1_W (3, 3, 256, 512)
+15 conv4_1_b (512,)
+16 conv4_2_W (3, 3, 512, 512)
+17 conv4_2_b (512,)
+18 conv4_3_W (3, 3, 512, 512)
+19 conv4_3_b (512,)
+20 conv5_1_W (3, 3, 512, 512)
+21 conv5_1_b (512,)
+22 conv5_2_W (3, 3, 512, 512)
+23 conv5_2_b (512,)
+24 conv5_3_W (3, 3, 512, 512)
+25 conv5_3_b (512,)
+26 fc6_W (25088, 4096)
+27 fc6_b (4096,)
+28 fc7_W (4096, 4096)
+29 fc7_b (4096,)
+30 fc8_W (4096, 1000)
+31 fc8_b (1000,)
+...weights loaded successfully...
+starting epoch 1 / 250
+	batch_num 1 / 24 : batch_loss = 12.257 	epoch_avg_loss = 12.257 	(155.973 sec)
+	batch_num 2 / 24 : batch_loss = 211.184 	epoch_avg_loss = 111.721 	(0.449 sec)
+	batch_num 3 / 24 : batch_loss = 61.684 	epoch_avg_loss = 95.042 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 19.388 	epoch_avg_loss = 76.128 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 13.858 	epoch_avg_loss = 63.674 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 6.874 	epoch_avg_loss = 54.208 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 2.220 	epoch_avg_loss = 46.781 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 3.802 	epoch_avg_loss = 41.409 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.908 	epoch_avg_loss = 36.908 	(0.445 sec)
+	batch_num 10 / 24 : batch_loss = 3.123 	epoch_avg_loss = 33.530 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 1.120 	epoch_avg_loss = 30.584 	(0.479 sec)
+	batch_num 12 / 24 : batch_loss = 1.679 	epoch_avg_loss = 28.175 	(0.446 sec)
+	batch_num 13 / 24 : batch_loss = 1.915 	epoch_avg_loss = 26.155 	(0.443 sec)
+	batch_num 14 / 24 : batch_loss = 1.131 	epoch_avg_loss = 24.367 	(0.442 sec)
+	batch_num 15 / 24 : batch_loss = 1.531 	epoch_avg_loss = 22.845 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.607 	epoch_avg_loss = 21.455 	(0.443 sec)
+	batch_num 17 / 24 : batch_loss = 1.092 	epoch_avg_loss = 20.257 	(0.444 sec)
+	batch_num 18 / 24 : batch_loss = 0.864 	epoch_avg_loss = 19.180 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.726 	epoch_avg_loss = 18.209 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.974 	epoch_avg_loss = 17.347 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.795 	epoch_avg_loss = 16.559 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.569 	epoch_avg_loss = 15.832 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.849 	epoch_avg_loss = 15.180 	(0.443 sec)
+	batch_num 24 / 24 : batch_loss = 0.717 	epoch_avg_loss = 14.578 	(0.513 sec)
+pred_vals
+(5, 2)
+[[ 5.5544095   6.4863205 ]
+ [ 2.40456486  5.55170155]
+ [ 2.82756972  4.84616661]
+ [ 3.60630131  3.87155056]
+ [ 2.81243277  4.97115088]]
+	predicted class dist: [ 0.28253716  0.71746278]
+	predicted class: 	T
+	true class: 		S
+	predicted class dist: [ 0.04120425  0.95879579]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.11726415  0.88273585]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.43407378  0.56592625]
+	predicted class: 	T
+	true class: 		S
+	predicted class dist: [ 0.10351935  0.89648068]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 93  Precision @ 1: 0.7266
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 96  Precision @ 1: 0.7500
+train_acc: 0.726562 	 val_acc: 0.750000 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 2 / 250
+	batch_num 1 / 24 : batch_loss = 0.616 	epoch_avg_loss = 0.616 	(0.476 sec)
+	batch_num 2 / 24 : batch_loss = 0.615 	epoch_avg_loss = 0.615 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.671 	epoch_avg_loss = 0.634 	(0.442 sec)
+	batch_num 4 / 24 : batch_loss = 0.577 	epoch_avg_loss = 0.620 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.538 	epoch_avg_loss = 0.603 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.705 	epoch_avg_loss = 0.620 	(0.441 sec)
+	batch_num 7 / 24 : batch_loss = 0.587 	epoch_avg_loss = 0.616 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.486 	epoch_avg_loss = 0.599 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.537 	epoch_avg_loss = 0.593 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.556 	epoch_avg_loss = 0.589 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.488 	epoch_avg_loss = 0.580 	(0.448 sec)
+	batch_num 12 / 24 : batch_loss = 0.454 	epoch_avg_loss = 0.569 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.670 	epoch_avg_loss = 0.577 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.467 	epoch_avg_loss = 0.569 	(0.442 sec)
+	batch_num 15 / 24 : batch_loss = 0.563 	epoch_avg_loss = 0.569 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.544 	epoch_avg_loss = 0.567 	(0.442 sec)
+	batch_num 17 / 24 : batch_loss = 0.546 	epoch_avg_loss = 0.566 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.476 	epoch_avg_loss = 0.561 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.534 	epoch_avg_loss = 0.560 	(0.442 sec)
+	batch_num 20 / 24 : batch_loss = 0.543 	epoch_avg_loss = 0.559 	(0.442 sec)
+	batch_num 21 / 24 : batch_loss = 0.474 	epoch_avg_loss = 0.555 	(0.442 sec)
+	batch_num 22 / 24 : batch_loss = 0.437 	epoch_avg_loss = 0.549 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.491 	epoch_avg_loss = 0.547 	(0.442 sec)
+	batch_num 24 / 24 : batch_loss = 0.468 	epoch_avg_loss = 0.544 	(0.506 sec)
+pred_vals
+(5, 2)
+[[ 5.47510672  3.57675385]
+ [ 2.74213028  3.90064526]
+ [ 3.08711743  3.39731574]
+ [ 3.38318086  2.53329277]
+ [ 2.80688739  3.64332509]]
+	predicted class dist: [ 0.86970496  0.13029501]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.23893721  0.76106274]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.42306635  0.57693368]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.70054364  0.29945633]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.30228558  0.69771445]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 101  Precision @ 1: 0.7891
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 106  Precision @ 1: 0.8281
+train_acc: 0.789062 	 val_acc: 0.828125 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 3 / 250
+	batch_num 1 / 24 : batch_loss = 0.450 	epoch_avg_loss = 0.450 	(0.456 sec)
+	batch_num 2 / 24 : batch_loss = 0.511 	epoch_avg_loss = 0.481 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.377 	epoch_avg_loss = 0.446 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.496 	epoch_avg_loss = 0.459 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.464 	epoch_avg_loss = 0.460 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.488 	epoch_avg_loss = 0.465 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.452 	epoch_avg_loss = 0.463 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.323 	epoch_avg_loss = 0.445 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.367 	epoch_avg_loss = 0.437 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.352 	epoch_avg_loss = 0.428 	(0.445 sec)
+	batch_num 11 / 24 : batch_loss = 0.389 	epoch_avg_loss = 0.425 	(0.448 sec)
+	batch_num 12 / 24 : batch_loss = 0.356 	epoch_avg_loss = 0.419 	(0.442 sec)
+	batch_num 13 / 24 : batch_loss = 0.488 	epoch_avg_loss = 0.424 	(0.442 sec)
+	batch_num 14 / 24 : batch_loss = 0.392 	epoch_avg_loss = 0.422 	(0.442 sec)
+	batch_num 15 / 24 : batch_loss = 0.431 	epoch_avg_loss = 0.423 	(0.445 sec)
+	batch_num 16 / 24 : batch_loss = 0.371 	epoch_avg_loss = 0.419 	(0.444 sec)
+	batch_num 17 / 24 : batch_loss = 0.380 	epoch_avg_loss = 0.417 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.407 	epoch_avg_loss = 0.416 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.371 	epoch_avg_loss = 0.414 	(0.442 sec)
+	batch_num 20 / 24 : batch_loss = 0.489 	epoch_avg_loss = 0.418 	(0.442 sec)
+	batch_num 21 / 24 : batch_loss = 0.407 	epoch_avg_loss = 0.417 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.350 	epoch_avg_loss = 0.414 	(0.452 sec)
+	batch_num 23 / 24 : batch_loss = 0.350 	epoch_avg_loss = 0.411 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.324 	epoch_avg_loss = 0.408 	(0.514 sec)
+pred_vals
+(5, 2)
+[[ 5.07666445  2.7353425 ]
+ [ 1.74016428  3.85776711]
+ [ 2.37849212  3.253196  ]
+ [ 3.01755953  2.06206274]
+ [ 2.2410543   3.3547585 ]]
+	predicted class dist: [ 0.912242    0.08775803]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.10739765  0.89260232]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.29427648  0.70572352]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.72221929  0.27778071]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.24718095  0.752819  ]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 114  Precision @ 1: 0.8906
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 104  Precision @ 1: 0.8125
+train_acc: 0.890625 	 val_acc: 0.812500 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 4 / 250
+	batch_num 1 / 24 : batch_loss = 0.371 	epoch_avg_loss = 0.371 	(0.451 sec)
+	batch_num 2 / 24 : batch_loss = 0.337 	epoch_avg_loss = 0.354 	(0.447 sec)
+	batch_num 3 / 24 : batch_loss = 0.309 	epoch_avg_loss = 0.339 	(0.448 sec)
+	batch_num 4 / 24 : batch_loss = 0.386 	epoch_avg_loss = 0.351 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.369 	epoch_avg_loss = 0.354 	(0.447 sec)
+	batch_num 6 / 24 : batch_loss = 0.388 	epoch_avg_loss = 0.360 	(0.450 sec)
+	batch_num 7 / 24 : batch_loss = 0.393 	epoch_avg_loss = 0.365 	(0.449 sec)
+	batch_num 8 / 24 : batch_loss = 0.256 	epoch_avg_loss = 0.351 	(0.447 sec)
+	batch_num 9 / 24 : batch_loss = 0.285 	epoch_avg_loss = 0.344 	(0.449 sec)
+	batch_num 10 / 24 : batch_loss = 0.251 	epoch_avg_loss = 0.335 	(0.447 sec)
+	batch_num 11 / 24 : batch_loss = 0.303 	epoch_avg_loss = 0.332 	(0.448 sec)
+	batch_num 12 / 24 : batch_loss = 0.274 	epoch_avg_loss = 0.327 	(0.448 sec)
+	batch_num 13 / 24 : batch_loss = 0.400 	epoch_avg_loss = 0.333 	(0.447 sec)
+	batch_num 14 / 24 : batch_loss = 0.307 	epoch_avg_loss = 0.331 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.326 	epoch_avg_loss = 0.331 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.303 	epoch_avg_loss = 0.329 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.287 	epoch_avg_loss = 0.326 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.301 	epoch_avg_loss = 0.325 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.339 	epoch_avg_loss = 0.326 	(0.447 sec)
+	batch_num 20 / 24 : batch_loss = 0.404 	epoch_avg_loss = 0.330 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.320 	epoch_avg_loss = 0.329 	(0.448 sec)
+	batch_num 22 / 24 : batch_loss = 0.302 	epoch_avg_loss = 0.328 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.273 	epoch_avg_loss = 0.326 	(0.460 sec)
+	batch_num 24 / 24 : batch_loss = 0.248 	epoch_avg_loss = 0.322 	(0.511 sec)
+pred_vals
+(5, 2)
+[[ 4.71364164  0.71636254]
+ [ 1.14939129  3.09212589]
+ [ 1.45738113  2.64380169]
+ [ 2.69399738  1.26360941]
+ [ 1.35140109  2.63821936]]
+	predicted class dist: [ 0.98196572  0.01803433]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.12534775  0.87465227]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.23389973  0.76610029]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.80696177  0.19303824]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.21639183  0.78360814]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 117  Precision @ 1: 0.9141
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 110  Precision @ 1: 0.8594
+train_acc: 0.914062 	 val_acc: 0.859375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 5 / 250
+	batch_num 1 / 24 : batch_loss = 0.255 	epoch_avg_loss = 0.255 	(0.459 sec)
+	batch_num 2 / 24 : batch_loss = 0.286 	epoch_avg_loss = 0.271 	(0.450 sec)
+	batch_num 3 / 24 : batch_loss = 0.245 	epoch_avg_loss = 0.262 	(0.447 sec)
+	batch_num 4 / 24 : batch_loss = 0.327 	epoch_avg_loss = 0.278 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.297 	epoch_avg_loss = 0.282 	(0.449 sec)
+	batch_num 6 / 24 : batch_loss = 0.298 	epoch_avg_loss = 0.285 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.340 	epoch_avg_loss = 0.293 	(0.451 sec)
+	batch_num 8 / 24 : batch_loss = 0.206 	epoch_avg_loss = 0.282 	(0.454 sec)
+	batch_num 9 / 24 : batch_loss = 0.233 	epoch_avg_loss = 0.276 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.197 	epoch_avg_loss = 0.268 	(0.446 sec)
+	batch_num 11 / 24 : batch_loss = 0.233 	epoch_avg_loss = 0.265 	(0.476 sec)
+	batch_num 12 / 24 : batch_loss = 0.208 	epoch_avg_loss = 0.260 	(0.447 sec)
+	batch_num 13 / 24 : batch_loss = 0.307 	epoch_avg_loss = 0.264 	(0.454 sec)
+	batch_num 14 / 24 : batch_loss = 0.279 	epoch_avg_loss = 0.265 	(0.446 sec)
+	batch_num 15 / 24 : batch_loss = 0.296 	epoch_avg_loss = 0.267 	(0.446 sec)
+	batch_num 16 / 24 : batch_loss = 0.268 	epoch_avg_loss = 0.267 	(0.458 sec)
+	batch_num 17 / 24 : batch_loss = 0.257 	epoch_avg_loss = 0.267 	(0.446 sec)
+	batch_num 18 / 24 : batch_loss = 0.212 	epoch_avg_loss = 0.264 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.324 	epoch_avg_loss = 0.267 	(0.447 sec)
+	batch_num 20 / 24 : batch_loss = 0.282 	epoch_avg_loss = 0.267 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.269 	epoch_avg_loss = 0.268 	(0.446 sec)
+	batch_num 22 / 24 : batch_loss = 0.208 	epoch_avg_loss = 0.265 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.226 	epoch_avg_loss = 0.263 	(0.446 sec)
+	batch_num 24 / 24 : batch_loss = 0.175 	epoch_avg_loss = 0.259 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 4.24217653  0.49030063]
+ [ 0.27000508  2.65441561]
+ [-0.60905141  2.63089919]
+ [ 2.03041577  0.92260587]
+ [-0.67039472  2.16740799]]
+	predicted class dist: [ 0.97706473  0.0229353 ]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.08436921  0.91563076]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.03768968  0.96231031]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.75172061  0.24827942]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.05531525  0.94468474]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 121  Precision @ 1: 0.9453
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 115  Precision @ 1: 0.8984
+train_acc: 0.945312 	 val_acc: 0.898438 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 6 / 250
+	batch_num 1 / 24 : batch_loss = 0.176 	epoch_avg_loss = 0.176 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.210 	epoch_avg_loss = 0.193 	(0.449 sec)
+	batch_num 3 / 24 : batch_loss = 0.192 	epoch_avg_loss = 0.193 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.294 	epoch_avg_loss = 0.218 	(0.447 sec)
+	batch_num 5 / 24 : batch_loss = 0.227 	epoch_avg_loss = 0.220 	(0.447 sec)
+	batch_num 6 / 24 : batch_loss = 0.230 	epoch_avg_loss = 0.221 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.285 	epoch_avg_loss = 0.230 	(0.483 sec)
+	batch_num 8 / 24 : batch_loss = 0.158 	epoch_avg_loss = 0.221 	(0.448 sec)
+	batch_num 9 / 24 : batch_loss = 0.195 	epoch_avg_loss = 0.218 	(0.453 sec)
+	batch_num 10 / 24 : batch_loss = 0.137 	epoch_avg_loss = 0.210 	(0.449 sec)
+	batch_num 11 / 24 : batch_loss = 0.210 	epoch_avg_loss = 0.210 	(0.451 sec)
+	batch_num 12 / 24 : batch_loss = 0.180 	epoch_avg_loss = 0.208 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.266 	epoch_avg_loss = 0.212 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.194 	epoch_avg_loss = 0.211 	(0.453 sec)
+	batch_num 15 / 24 : batch_loss = 0.194 	epoch_avg_loss = 0.210 	(0.451 sec)
+	batch_num 16 / 24 : batch_loss = 0.226 	epoch_avg_loss = 0.211 	(0.470 sec)
+	batch_num 17 / 24 : batch_loss = 0.179 	epoch_avg_loss = 0.209 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.165 	epoch_avg_loss = 0.206 	(0.453 sec)
+	batch_num 19 / 24 : batch_loss = 0.244 	epoch_avg_loss = 0.208 	(0.450 sec)
+	batch_num 20 / 24 : batch_loss = 0.211 	epoch_avg_loss = 0.209 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.212 	epoch_avg_loss = 0.209 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.154 	epoch_avg_loss = 0.206 	(0.445 sec)
+	batch_num 23 / 24 : batch_loss = 0.171 	epoch_avg_loss = 0.205 	(0.443 sec)
+	batch_num 24 / 24 : batch_loss = 0.130 	epoch_avg_loss = 0.202 	(0.510 sec)
+pred_vals
+(5, 2)
+[[ 4.16738987 -1.9402889 ]
+ [-1.99404848  1.97332144]
+ [-1.93456268  1.00869691]
+ [ 1.92676067 -0.37680906]
+ [-1.58460057  1.09036911]]
+	predicted class dist: [ 0.99777919  0.00222077]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.0185717   0.98142827]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.05005604  0.9499439 ]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.9091723   0.09082775]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.06446659  0.9355334 ]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 116  Precision @ 1: 0.9062
+train_acc: 0.968750 	 val_acc: 0.906250 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 7 / 250
+	batch_num 1 / 24 : batch_loss = 0.123 	epoch_avg_loss = 0.123 	(0.467 sec)
+	batch_num 2 / 24 : batch_loss = 0.149 	epoch_avg_loss = 0.136 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.142 	epoch_avg_loss = 0.138 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.238 	epoch_avg_loss = 0.163 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.168 	epoch_avg_loss = 0.164 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.178 	epoch_avg_loss = 0.166 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.227 	epoch_avg_loss = 0.175 	(0.450 sec)
+	batch_num 8 / 24 : batch_loss = 0.123 	epoch_avg_loss = 0.169 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.141 	epoch_avg_loss = 0.166 	(0.449 sec)
+	batch_num 10 / 24 : batch_loss = 0.104 	epoch_avg_loss = 0.159 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.145 	epoch_avg_loss = 0.158 	(0.448 sec)
+	batch_num 12 / 24 : batch_loss = 0.127 	epoch_avg_loss = 0.155 	(0.446 sec)
+	batch_num 13 / 24 : batch_loss = 0.250 	epoch_avg_loss = 0.163 	(0.446 sec)
+	batch_num 14 / 24 : batch_loss = 0.221 	epoch_avg_loss = 0.167 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.138 	epoch_avg_loss = 0.165 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.268 	epoch_avg_loss = 0.171 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.112 	epoch_avg_loss = 0.168 	(0.453 sec)
+	batch_num 18 / 24 : batch_loss = 0.223 	epoch_avg_loss = 0.171 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.221 	epoch_avg_loss = 0.174 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.202 	epoch_avg_loss = 0.175 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.164 	epoch_avg_loss = 0.174 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.132 	epoch_avg_loss = 0.172 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.151 	epoch_avg_loss = 0.172 	(0.459 sec)
+	batch_num 24 / 24 : batch_loss = 0.104 	epoch_avg_loss = 0.169 	(0.511 sec)
+pred_vals
+(5, 2)
+[[ 2.48952627 -2.46699429]
+ [-1.20962989  1.08407962]
+ [-4.07629585  0.75702089]
+ [ 1.02255929 -0.81364477]
+ [-3.79246187  0.2834267 ]]
+	predicted class dist: [ 0.99301177  0.00698819]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.09164528  0.90835476]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00789721  0.9921028 ]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.86249912  0.13750085]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.01669371  0.98330635]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 122  Precision @ 1: 0.9531
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 116  Precision @ 1: 0.9062
+train_acc: 0.953125 	 val_acc: 0.906250 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 8 / 250
+	batch_num 1 / 24 : batch_loss = 0.101 	epoch_avg_loss = 0.101 	(0.464 sec)
+	batch_num 2 / 24 : batch_loss = 0.138 	epoch_avg_loss = 0.119 	(0.451 sec)
+	batch_num 3 / 24 : batch_loss = 0.131 	epoch_avg_loss = 0.123 	(0.446 sec)
+	batch_num 4 / 24 : batch_loss = 0.196 	epoch_avg_loss = 0.141 	(0.450 sec)
+	batch_num 5 / 24 : batch_loss = 0.145 	epoch_avg_loss = 0.142 	(0.448 sec)
+	batch_num 6 / 24 : batch_loss = 0.152 	epoch_avg_loss = 0.144 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.217 	epoch_avg_loss = 0.154 	(0.448 sec)
+	batch_num 8 / 24 : batch_loss = 0.107 	epoch_avg_loss = 0.148 	(0.449 sec)
+	batch_num 9 / 24 : batch_loss = 0.147 	epoch_avg_loss = 0.148 	(0.450 sec)
+	batch_num 10 / 24 : batch_loss = 0.088 	epoch_avg_loss = 0.142 	(0.452 sec)
+	batch_num 11 / 24 : batch_loss = 0.109 	epoch_avg_loss = 0.139 	(0.445 sec)
+	batch_num 12 / 24 : batch_loss = 0.095 	epoch_avg_loss = 0.136 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.191 	epoch_avg_loss = 0.140 	(0.442 sec)
+	batch_num 14 / 24 : batch_loss = 0.136 	epoch_avg_loss = 0.139 	(0.446 sec)
+	batch_num 15 / 24 : batch_loss = 0.143 	epoch_avg_loss = 0.140 	(0.446 sec)
+	batch_num 16 / 24 : batch_loss = 0.167 	epoch_avg_loss = 0.141 	(0.470 sec)
+	batch_num 17 / 24 : batch_loss = 0.091 	epoch_avg_loss = 0.138 	(0.446 sec)
+	batch_num 18 / 24 : batch_loss = 0.105 	epoch_avg_loss = 0.137 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.196 	epoch_avg_loss = 0.140 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.143 	epoch_avg_loss = 0.140 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.163 	epoch_avg_loss = 0.141 	(0.451 sec)
+	batch_num 22 / 24 : batch_loss = 0.075 	epoch_avg_loss = 0.138 	(0.451 sec)
+	batch_num 23 / 24 : batch_loss = 0.104 	epoch_avg_loss = 0.137 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.065 	epoch_avg_loss = 0.134 	(0.510 sec)
+pred_vals
+(5, 2)
+[[ 3.77676916 -2.1748414 ]
+ [-1.38048732  2.2935226 ]
+ [-3.91965985  1.08542931]
+ [ 1.51997435 -1.18837118]
+ [-3.97363615  0.95304489]]
+	predicted class dist: [ 0.99740511  0.0025949 ]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.02474659  0.9752534 ]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.0066591   0.99334091]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.93751734  0.0624827 ]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00719834  0.99280167]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 125  Precision @ 1: 0.9766
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 119  Precision @ 1: 0.9297
+train_acc: 0.976562 	 val_acc: 0.929688 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 9 / 250
+	batch_num 1 / 24 : batch_loss = 0.072 	epoch_avg_loss = 0.072 	(0.465 sec)
+	batch_num 2 / 24 : batch_loss = 0.085 	epoch_avg_loss = 0.079 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.093 	epoch_avg_loss = 0.083 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.164 	epoch_avg_loss = 0.103 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.105 	epoch_avg_loss = 0.104 	(0.452 sec)
+	batch_num 6 / 24 : batch_loss = 0.104 	epoch_avg_loss = 0.104 	(0.447 sec)
+	batch_num 7 / 24 : batch_loss = 0.187 	epoch_avg_loss = 0.116 	(0.450 sec)
+	batch_num 8 / 24 : batch_loss = 0.098 	epoch_avg_loss = 0.114 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.125 	epoch_avg_loss = 0.115 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.056 	epoch_avg_loss = 0.109 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.134 	epoch_avg_loss = 0.111 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.059 	epoch_avg_loss = 0.107 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.113 	epoch_avg_loss = 0.107 	(0.444 sec)
+	batch_num 14 / 24 : batch_loss = 0.083 	epoch_avg_loss = 0.106 	(0.444 sec)
+	batch_num 15 / 24 : batch_loss = 0.082 	epoch_avg_loss = 0.104 	(0.444 sec)
+	batch_num 16 / 24 : batch_loss = 0.107 	epoch_avg_loss = 0.104 	(0.443 sec)
+	batch_num 17 / 24 : batch_loss = 0.059 	epoch_avg_loss = 0.102 	(0.445 sec)
+	batch_num 18 / 24 : batch_loss = 0.079 	epoch_avg_loss = 0.100 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.149 	epoch_avg_loss = 0.103 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.106 	epoch_avg_loss = 0.103 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.107 	epoch_avg_loss = 0.103 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.102 	(0.444 sec)
+	batch_num 23 / 24 : batch_loss = 0.074 	epoch_avg_loss = 0.101 	(0.443 sec)
+	batch_num 24 / 24 : batch_loss = 0.063 	epoch_avg_loss = 0.099 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 4.22959518 -3.92003751]
+ [-1.43639457  1.5365994 ]
+ [-4.49986696  0.56710494]
+ [ 2.24302793 -1.74095941]
+ [-4.04778671 -0.25924519]]
+	predicted class dist: [  9.99711215e-01   2.88758078e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.04866094  0.95133907]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00626201  0.99373794]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.98172873  0.01827123]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.02212786  0.97787219]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 116  Precision @ 1: 0.9062
+train_acc: 0.984375 	 val_acc: 0.906250 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 10 / 250
+	batch_num 1 / 24 : batch_loss = 0.074 	epoch_avg_loss = 0.074 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.050 	epoch_avg_loss = 0.062 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.131 	epoch_avg_loss = 0.085 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.093 	epoch_avg_loss = 0.087 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.144 	epoch_avg_loss = 0.098 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.068 	epoch_avg_loss = 0.093 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.189 	epoch_avg_loss = 0.107 	(0.478 sec)
+	batch_num 8 / 24 : batch_loss = 0.056 	epoch_avg_loss = 0.100 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.099 	epoch_avg_loss = 0.100 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.094 	epoch_avg_loss = 0.100 	(0.445 sec)
+	batch_num 11 / 24 : batch_loss = 0.061 	epoch_avg_loss = 0.096 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.097 	epoch_avg_loss = 0.096 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.152 	epoch_avg_loss = 0.101 	(0.455 sec)
+	batch_num 14 / 24 : batch_loss = 0.059 	epoch_avg_loss = 0.098 	(0.454 sec)
+	batch_num 15 / 24 : batch_loss = 0.154 	epoch_avg_loss = 0.101 	(0.447 sec)
+	batch_num 16 / 24 : batch_loss = 0.103 	epoch_avg_loss = 0.101 	(0.446 sec)
+	batch_num 17 / 24 : batch_loss = 0.048 	epoch_avg_loss = 0.098 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.186 	epoch_avg_loss = 0.103 	(0.445 sec)
+	batch_num 19 / 24 : batch_loss = 0.131 	epoch_avg_loss = 0.105 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.120 	epoch_avg_loss = 0.105 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.186 	epoch_avg_loss = 0.109 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.049 	epoch_avg_loss = 0.106 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.153 	epoch_avg_loss = 0.109 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.056 	epoch_avg_loss = 0.106 	(0.524 sec)
+pred_vals
+(5, 2)
+[[ 3.05378032 -3.97781587]
+ [-2.40396619  1.57984543]
+ [-6.92241335  0.90058309]
+ [ 0.46305791 -1.04309022]
+ [-6.74721575  0.53773832]]
+	predicted class dist: [  9.99117196e-01   8.82740424e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.01827438  0.98172563]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  4.00259712e-04   9.99599755e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.81848967  0.18151034]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  6.85309758e-04   9.99314666e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 120  Precision @ 1: 0.9375
+train_acc: 1.000000 	 val_acc: 0.937500 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 11 / 250
+	batch_num 1 / 24 : batch_loss = 0.054 	epoch_avg_loss = 0.054 	(0.468 sec)
+	batch_num 2 / 24 : batch_loss = 0.099 	epoch_avg_loss = 0.076 	(0.451 sec)
+	batch_num 3 / 24 : batch_loss = 0.081 	epoch_avg_loss = 0.078 	(0.449 sec)
+	batch_num 4 / 24 : batch_loss = 0.085 	epoch_avg_loss = 0.080 	(0.446 sec)
+	batch_num 5 / 24 : batch_loss = 0.061 	epoch_avg_loss = 0.076 	(0.448 sec)
+	batch_num 6 / 24 : batch_loss = 0.058 	epoch_avg_loss = 0.073 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.093 	epoch_avg_loss = 0.076 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.040 	epoch_avg_loss = 0.071 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.066 	epoch_avg_loss = 0.071 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.033 	epoch_avg_loss = 0.067 	(0.455 sec)
+	batch_num 11 / 24 : batch_loss = 0.068 	epoch_avg_loss = 0.067 	(0.445 sec)
+	batch_num 12 / 24 : batch_loss = 0.035 	epoch_avg_loss = 0.064 	(0.451 sec)
+	batch_num 13 / 24 : batch_loss = 0.079 	epoch_avg_loss = 0.066 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.055 	epoch_avg_loss = 0.065 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.034 	epoch_avg_loss = 0.063 	(0.442 sec)
+	batch_num 16 / 24 : batch_loss = 0.076 	epoch_avg_loss = 0.064 	(0.445 sec)
+	batch_num 17 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.062 	(0.445 sec)
+	batch_num 18 / 24 : batch_loss = 0.055 	epoch_avg_loss = 0.062 	(0.442 sec)
+	batch_num 19 / 24 : batch_loss = 0.176 	epoch_avg_loss = 0.068 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.068 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.105 	epoch_avg_loss = 0.070 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.069 	epoch_avg_loss = 0.070 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.045 	epoch_avg_loss = 0.069 	(0.446 sec)
+	batch_num 24 / 24 : batch_loss = 0.044 	epoch_avg_loss = 0.068 	(0.512 sec)
+pred_vals
+(5, 2)
+[[ 2.88522172 -3.39718223]
+ [-3.07146645  2.54852676]
+ [-8.86530018  1.20432818]
+ [ 1.40522265 -1.2476275 ]
+ [-6.95767784  0.22917864]]
+	predicted class dist: [ 0.99813461  0.00186542]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00361157  0.99638844]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  4.23445417e-05   9.99957681e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.9341864   0.06581356]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.55891670e-04   9.99244094e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 0.984375 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 12 / 250
+	batch_num 1 / 24 : batch_loss = 0.074 	epoch_avg_loss = 0.074 	(0.453 sec)
+	batch_num 2 / 24 : batch_loss = 0.040 	epoch_avg_loss = 0.057 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.048 	epoch_avg_loss = 0.054 	(0.446 sec)
+	batch_num 4 / 24 : batch_loss = 0.081 	epoch_avg_loss = 0.061 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.039 	epoch_avg_loss = 0.056 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.053 	epoch_avg_loss = 0.056 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.075 	epoch_avg_loss = 0.059 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.055 	epoch_avg_loss = 0.058 	(0.446 sec)
+	batch_num 9 / 24 : batch_loss = 0.057 	epoch_avg_loss = 0.058 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.019 	epoch_avg_loss = 0.054 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.075 	epoch_avg_loss = 0.056 	(0.449 sec)
+	batch_num 12 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.054 	(0.445 sec)
+	batch_num 13 / 24 : batch_loss = 0.058 	epoch_avg_loss = 0.054 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.096 	epoch_avg_loss = 0.057 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.028 	epoch_avg_loss = 0.055 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.088 	epoch_avg_loss = 0.057 	(0.451 sec)
+	batch_num 17 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.058 	(0.452 sec)
+	batch_num 18 / 24 : batch_loss = 0.045 	epoch_avg_loss = 0.057 	(0.453 sec)
+	batch_num 19 / 24 : batch_loss = 0.138 	epoch_avg_loss = 0.062 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.130 	epoch_avg_loss = 0.065 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.060 	epoch_avg_loss = 0.065 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.033 	epoch_avg_loss = 0.063 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.120 	epoch_avg_loss = 0.066 	(0.443 sec)
+	batch_num 24 / 24 : batch_loss = 0.068 	epoch_avg_loss = 0.066 	(0.510 sec)
+pred_vals
+(5, 2)
+[[ 6.00443411 -3.94445443]
+ [-0.08554666  1.98587537]
+ [-6.49793768  0.30784974]
+ [ 3.52371788 -1.60472441]
+ [-3.97921491 -0.06457607]]
+	predicted class dist: [  9.99952197e-01   4.77784160e-05]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.11190562  0.88809437]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00110612  0.99889392]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99410915  0.00589088]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.01955762  0.98044235]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 13 / 250
+	batch_num 1 / 24 : batch_loss = 0.041 	epoch_avg_loss = 0.041 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.058 	epoch_avg_loss = 0.049 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.118 	epoch_avg_loss = 0.072 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.075 	epoch_avg_loss = 0.073 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.054 	epoch_avg_loss = 0.069 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.142 	epoch_avg_loss = 0.081 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.065 	epoch_avg_loss = 0.079 	(0.446 sec)
+	batch_num 8 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.078 	(0.445 sec)
+	batch_num 9 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.074 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.070 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.046 	epoch_avg_loss = 0.068 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.034 	epoch_avg_loss = 0.065 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.066 	epoch_avg_loss = 0.065 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.041 	epoch_avg_loss = 0.063 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.047 	epoch_avg_loss = 0.062 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.045 	epoch_avg_loss = 0.061 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.059 	(0.447 sec)
+	batch_num 18 / 24 : batch_loss = 0.115 	epoch_avg_loss = 0.062 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.105 	epoch_avg_loss = 0.065 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.080 	epoch_avg_loss = 0.065 	(0.445 sec)
+	batch_num 21 / 24 : batch_loss = 0.077 	epoch_avg_loss = 0.066 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.020 	epoch_avg_loss = 0.064 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.062 	(0.444 sec)
+	batch_num 24 / 24 : batch_loss = 0.062 	epoch_avg_loss = 0.062 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 5.91990614 -6.53279495]
+ [-0.44179904  1.76213181]
+ [-7.21946526 -2.21574402]
+ [ 3.00569677 -3.52972293]
+ [-4.4216547  -1.86696434]]
+	predicted class dist: [  9.99996066e-01   3.90713740e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.09939805  0.90060192]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00666816  0.99333185]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99855095  0.00144902]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.07211201  0.92788792]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 116  Precision @ 1: 0.9062
+train_acc: 1.000000 	 val_acc: 0.906250 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 14 / 250
+	batch_num 1 / 24 : batch_loss = 0.054 	epoch_avg_loss = 0.054 	(0.460 sec)
+	batch_num 2 / 24 : batch_loss = 0.022 	epoch_avg_loss = 0.038 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.067 	epoch_avg_loss = 0.048 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.106 	epoch_avg_loss = 0.062 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.035 	epoch_avg_loss = 0.057 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.046 	epoch_avg_loss = 0.055 	(0.449 sec)
+	batch_num 7 / 24 : batch_loss = 0.106 	epoch_avg_loss = 0.062 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.055 	epoch_avg_loss = 0.061 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.034 	epoch_avg_loss = 0.058 	(0.445 sec)
+	batch_num 10 / 24 : batch_loss = 0.053 	epoch_avg_loss = 0.058 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.060 	epoch_avg_loss = 0.058 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.056 	(0.451 sec)
+	batch_num 13 / 24 : batch_loss = 0.048 	epoch_avg_loss = 0.055 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.047 	epoch_avg_loss = 0.055 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.053 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.051 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.049 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.048 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.076 	epoch_avg_loss = 0.050 	(0.452 sec)
+	batch_num 20 / 24 : batch_loss = 0.039 	epoch_avg_loss = 0.049 	(0.451 sec)
+	batch_num 21 / 24 : batch_loss = 0.043 	epoch_avg_loss = 0.049 	(0.445 sec)
+	batch_num 22 / 24 : batch_loss = 0.032 	epoch_avg_loss = 0.048 	(0.444 sec)
+	batch_num 23 / 24 : batch_loss = 0.035 	epoch_avg_loss = 0.048 	(0.447 sec)
+	batch_num 24 / 24 : batch_loss = 0.013 	epoch_avg_loss = 0.046 	(0.511 sec)
+pred_vals
+(5, 2)
+[[ 4.95956707 -4.49337482]
+ [-3.41476846  3.17563987]
+ [-7.04462337 -0.01062401]
+ [ 2.99533486 -2.31538343]
+ [-6.59050608  0.91224766]]
+	predicted class dist: [  9.99921560e-01   7.84522563e-05]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.0013716   0.99862838]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  8.80623411e-04   9.99119341e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.9950859   0.00491411]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.51259320e-04   9.99448717e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 123  Precision @ 1: 0.9609
+train_acc: 1.000000 	 val_acc: 0.960938 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 15 / 250
+	batch_num 1 / 24 : batch_loss = 0.019 	epoch_avg_loss = 0.019 	(0.459 sec)
+	batch_num 2 / 24 : batch_loss = 0.020 	epoch_avg_loss = 0.019 	(0.452 sec)
+	batch_num 3 / 24 : batch_loss = 0.040 	epoch_avg_loss = 0.026 	(0.449 sec)
+	batch_num 4 / 24 : batch_loss = 0.024 	epoch_avg_loss = 0.026 	(0.448 sec)
+	batch_num 5 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.026 	(0.448 sec)
+	batch_num 6 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.026 	(0.449 sec)
+	batch_num 7 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.026 	(0.453 sec)
+	batch_num 8 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.026 	(0.449 sec)
+	batch_num 9 / 24 : batch_loss = 0.036 	epoch_avg_loss = 0.027 	(0.452 sec)
+	batch_num 10 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.026 	(0.445 sec)
+	batch_num 11 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.026 	(0.451 sec)
+	batch_num 12 / 24 : batch_loss = 0.028 	epoch_avg_loss = 0.026 	(0.455 sec)
+	batch_num 13 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.027 	(0.477 sec)
+	batch_num 14 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.027 	(0.456 sec)
+	batch_num 15 / 24 : batch_loss = 0.018 	epoch_avg_loss = 0.027 	(0.478 sec)
+	batch_num 16 / 24 : batch_loss = 0.030 	epoch_avg_loss = 0.027 	(0.479 sec)
+	batch_num 17 / 24 : batch_loss = 0.014 	epoch_avg_loss = 0.026 	(0.450 sec)
+	batch_num 18 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.026 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.027 	(0.452 sec)
+	batch_num 20 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.027 	(0.449 sec)
+	batch_num 21 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.027 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.027 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.026 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.026 	(0.515 sec)
+pred_vals
+(5, 2)
+[[ 8.29117584 -3.9026556 ]
+ [-2.18470144  4.61488533]
+ [-5.70441628 -0.48587453]
+ [ 4.26199484 -2.73707366]
+ [-4.16428566  1.78021753]]
+	predicted class dist: [  9.99994993e-01   5.06155675e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.001113  0.998887]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00538605  0.99461395]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99088049e-01   9.11899609e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00261336  0.99738663]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 118  Precision @ 1: 0.9219
+train_acc: 1.000000 	 val_acc: 0.921875 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 16 / 250
+	batch_num 1 / 24 : batch_loss = 0.041 	epoch_avg_loss = 0.041 	(0.447 sec)
+	batch_num 2 / 24 : batch_loss = 0.028 	epoch_avg_loss = 0.035 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.030 	epoch_avg_loss = 0.033 	(0.448 sec)
+	batch_num 4 / 24 : batch_loss = 0.049 	epoch_avg_loss = 0.037 	(0.447 sec)
+	batch_num 5 / 24 : batch_loss = 0.023 	epoch_avg_loss = 0.034 	(0.453 sec)
+	batch_num 6 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.031 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.028 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.023 	epoch_avg_loss = 0.028 	(0.448 sec)
+	batch_num 9 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.027 	(0.448 sec)
+	batch_num 10 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.025 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.018 	epoch_avg_loss = 0.025 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.017 	epoch_avg_loss = 0.024 	(0.449 sec)
+	batch_num 13 / 24 : batch_loss = 0.045 	epoch_avg_loss = 0.026 	(0.451 sec)
+	batch_num 14 / 24 : batch_loss = 0.019 	epoch_avg_loss = 0.025 	(0.445 sec)
+	batch_num 15 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.024 	(0.450 sec)
+	batch_num 16 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.024 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.013 	epoch_avg_loss = 0.024 	(0.451 sec)
+	batch_num 18 / 24 : batch_loss = 0.040 	epoch_avg_loss = 0.025 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.049 	epoch_avg_loss = 0.026 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.026 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.026 	(0.449 sec)
+	batch_num 22 / 24 : batch_loss = 0.046 	epoch_avg_loss = 0.027 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.028 	epoch_avg_loss = 0.027 	(0.446 sec)
+	batch_num 24 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.026 	(0.513 sec)
+pred_vals
+(5, 2)
+[[ 8.23595715 -5.68636799]
+ [-3.38008618  3.71000004]
+ [-7.64230442 -1.51739609]
+ [ 3.49258971 -2.82408381]
+ [-6.378932    0.5129205 ]]
+	predicted class dist: [  9.99999046e-01   8.98691439e-07]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  8.32631893e-04   9.99167442e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.00218292  0.99781704]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99819738  0.00180269]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.001015    0.99898499]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 114  Precision @ 1: 0.8906
+train_acc: 0.992188 	 val_acc: 0.890625 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 17 / 250
+	batch_num 1 / 24 : batch_loss = 0.041 	epoch_avg_loss = 0.041 	(0.464 sec)
+	batch_num 2 / 24 : batch_loss = 0.050 	epoch_avg_loss = 0.046 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.038 	epoch_avg_loss = 0.043 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.036 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.035 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.036 	epoch_avg_loss = 0.035 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.034 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.032 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.031 	(0.442 sec)
+	batch_num 10 / 24 : batch_loss = 0.019 	epoch_avg_loss = 0.030 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.041 	epoch_avg_loss = 0.031 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.030 	(0.447 sec)
+	batch_num 13 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.030 	(0.449 sec)
+	batch_num 14 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.029 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.030 	epoch_avg_loss = 0.030 	(0.478 sec)
+	batch_num 16 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.029 	(0.478 sec)
+	batch_num 17 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.028 	(0.445 sec)
+	batch_num 18 / 24 : batch_loss = 0.032 	epoch_avg_loss = 0.028 	(0.452 sec)
+	batch_num 19 / 24 : batch_loss = 0.064 	epoch_avg_loss = 0.030 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.022 	epoch_avg_loss = 0.030 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.029 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.023 	epoch_avg_loss = 0.029 	(0.442 sec)
+	batch_num 23 / 24 : batch_loss = 0.124 	epoch_avg_loss = 0.033 	(0.442 sec)
+	batch_num 24 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.032 	(0.510 sec)
+pred_vals
+(5, 2)
+[[  6.81317759  -6.39390659]
+ [ -5.26606464   4.22550869]
+ [-10.34614086  -1.56141102]
+ [  2.33168197  -3.20031786]
+ [ -7.7766881    0.60065037]]
+	predicted class dist: [  9.99998212e-01   1.83753332e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.54795474e-05   9.99924541e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.53029017e-04   9.99846935e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99605751  0.00394246]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.29968442e-04   9.99769986e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 117  Precision @ 1: 0.9141
+train_acc: 1.000000 	 val_acc: 0.914062 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 18 / 250
+	batch_num 1 / 24 : batch_loss = 0.017 	epoch_avg_loss = 0.017 	(0.459 sec)
+	batch_num 2 / 24 : batch_loss = 0.076 	epoch_avg_loss = 0.047 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.090 	epoch_avg_loss = 0.061 	(0.452 sec)
+	batch_num 4 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.053 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.023 	epoch_avg_loss = 0.047 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.051 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.070 	epoch_avg_loss = 0.054 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.019 	epoch_avg_loss = 0.050 	(0.448 sec)
+	batch_num 9 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.049 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.038 	epoch_avg_loss = 0.048 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.059 	epoch_avg_loss = 0.049 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.046 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.073 	epoch_avg_loss = 0.048 	(0.479 sec)
+	batch_num 14 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.048 	(0.444 sec)
+	batch_num 15 / 24 : batch_loss = 0.020 	epoch_avg_loss = 0.046 	(0.442 sec)
+	batch_num 16 / 24 : batch_loss = 0.029 	epoch_avg_loss = 0.045 	(0.444 sec)
+	batch_num 17 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.043 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.043 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.042 	epoch_avg_loss = 0.043 	(0.442 sec)
+	batch_num 20 / 24 : batch_loss = 0.020 	epoch_avg_loss = 0.041 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.040 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.039 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.038 	(0.445 sec)
+	batch_num 24 / 24 : batch_loss = 0.045 	epoch_avg_loss = 0.039 	(0.509 sec)
+pred_vals
+(5, 2)
+[[  4.70489979  -6.9574399 ]
+ [ -4.5256443    3.73754191]
+ [-14.21720123   0.41453347]
+ [  0.67736095  -2.47652102]
+ [-10.76523399   1.60945606]]
+	predicted class dist: [  9.99991417e-01   8.61204535e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.57769629e-04   9.99742210e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  4.42097530e-07   9.99999523e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.95906138  0.04093859]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  4.22414269e-06   9.99995828e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 0.992188 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 19 / 250
+	batch_num 1 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.008 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.033 	epoch_avg_loss = 0.016 	(0.446 sec)
+	batch_num 4 / 24 : batch_loss = 0.035 	epoch_avg_loss = 0.021 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.022 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.021 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.019 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.021 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.030 	epoch_avg_loss = 0.022 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.022 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.020 	(0.449 sec)
+	batch_num 12 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.020 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.054 	epoch_avg_loss = 0.023 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.018 	epoch_avg_loss = 0.022 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.021 	(0.445 sec)
+	batch_num 16 / 24 : batch_loss = 0.033 	epoch_avg_loss = 0.022 	(0.444 sec)
+	batch_num 17 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.021 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.022 	epoch_avg_loss = 0.021 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.052 	epoch_avg_loss = 0.023 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.023 	(0.445 sec)
+	batch_num 21 / 24 : batch_loss = 0.065 	epoch_avg_loss = 0.025 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.025 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.025 	(0.443 sec)
+	batch_num 24 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.024 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 5.97577524 -4.05488491]
+ [-2.94766092  3.50073385]
+ [-9.71439552  1.13759756]
+ [ 2.79514408 -1.4243331 ]
+ [-6.46319437  2.1057539 ]]
+	predicted class dist: [  9.99956012e-01   4.40271288e-05]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00158056  0.9984194 ]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.93655869e-05   9.99980688e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.98550677  0.01449319]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.89876126e-04   9.99810159e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 1.000000 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 20 / 250
+	batch_num 1 / 24 : batch_loss = 0.017 	epoch_avg_loss = 0.017 	(0.460 sec)
+	batch_num 2 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.019 	(0.450 sec)
+	batch_num 3 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.021 	(0.455 sec)
+	batch_num 4 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.018 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.016 	(0.447 sec)
+	batch_num 6 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.019 	(0.445 sec)
+	batch_num 7 / 24 : batch_loss = 0.054 	epoch_avg_loss = 0.024 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.022 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.021 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.024 	epoch_avg_loss = 0.021 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.021 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.020 	(0.442 sec)
+	batch_num 13 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.019 	(0.452 sec)
+	batch_num 14 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.019 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.024 	epoch_avg_loss = 0.019 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.019 	(0.446 sec)
+	batch_num 17 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.018 	(0.444 sec)
+	batch_num 18 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.017 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.018 	(0.452 sec)
+	batch_num 20 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.017 	(0.445 sec)
+	batch_num 21 / 24 : batch_loss = 0.020 	epoch_avg_loss = 0.017 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.017 	(0.441 sec)
+	batch_num 23 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.016 	(0.444 sec)
+	batch_num 24 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.016 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 8.17103195 -4.41774511]
+ [-3.07444406  7.80328035]
+ [-9.73249245 -0.04039863]
+ [ 3.68371034 -2.07937193]
+ [-6.82398653  2.77980018]]
+	predicted class dist: [  9.99996543e-01   3.41005875e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.88736558e-05   9.99981165e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  6.17661208e-05   9.99938250e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99686843  0.00313158]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  6.74682160e-05   9.99932528e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 125  Precision @ 1: 0.9766
+train_acc: 1.000000 	 val_acc: 0.976562 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 21 / 250
+	batch_num 1 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.003 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.004 	(0.447 sec)
+	batch_num 3 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.009 	(0.445 sec)
+	batch_num 4 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.010 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.010 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.010 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.018 	epoch_avg_loss = 0.011 	(0.453 sec)
+	batch_num 9 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.010 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.010 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.014 	epoch_avg_loss = 0.010 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.010 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.022 	epoch_avg_loss = 0.011 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.011 	(0.442 sec)
+	batch_num 15 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 16 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.011 	(0.451 sec)
+	batch_num 17 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.010 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.010 	(0.451 sec)
+	batch_num 19 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.010 	(0.451 sec)
+	batch_num 20 / 24 : batch_loss = 0.013 	epoch_avg_loss = 0.011 	(0.452 sec)
+	batch_num 21 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.010 	(0.452 sec)
+	batch_num 22 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.010 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.010 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.010 	(0.515 sec)
+pred_vals
+(5, 2)
+[[  7.26056099  -4.33271933]
+ [ -4.74734831   7.87062693]
+ [-11.81957912   0.03038567]
+ [  3.45437574  -1.97920966]
+ [ -8.05058575   2.13095045]]
+	predicted class dist: [  9.99990821e-01   9.22779964e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.31193291e-06   9.99996662e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  7.13875443e-06   9.99992847e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99565166  0.00434842]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.78615805e-05   9.99962091e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 22 / 250
+	batch_num 1 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.012 	(0.467 sec)
+	batch_num 2 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.008 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.024 	epoch_avg_loss = 0.013 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.012 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.013 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.011 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.011 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.010 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.009 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.009 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.008 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.009 	(0.456 sec)
+	batch_num 14 / 24 : batch_loss = 0.014 	epoch_avg_loss = 0.009 	(0.444 sec)
+	batch_num 15 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.009 	(0.444 sec)
+	batch_num 16 / 24 : batch_loss = 0.013 	epoch_avg_loss = 0.009 	(0.446 sec)
+	batch_num 17 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.009 	(0.446 sec)
+	batch_num 18 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.009 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.009 	(0.446 sec)
+	batch_num 20 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.009 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.009 	(0.446 sec)
+	batch_num 22 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.009 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.008 	(0.448 sec)
+	batch_num 24 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.008 	(0.512 sec)
+pred_vals
+(5, 2)
+[[  7.75659895  -5.1706481 ]
+ [ -3.31230021   7.4857769 ]
+ [-11.68006706  -0.72929233]
+ [  2.83716416  -2.68678951]
+ [ -8.59944344   2.16881847]]
+	predicted class dist: [  9.99997616e-01   2.43089903e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.04383596e-05   9.99979615e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.75441037e-05   9.99982476e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.9960258   0.00397419]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.10568851e-05   9.99978900e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 123  Precision @ 1: 0.9609
+train_acc: 1.000000 	 val_acc: 0.960938 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 23 / 250
+	batch_num 1 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.003 	(0.445 sec)
+	batch_num 2 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.007 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.010 	(0.442 sec)
+	batch_num 4 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.014 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.012 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.012 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.014 	epoch_avg_loss = 0.012 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.012 	(0.450 sec)
+	batch_num 9 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.012 	(0.451 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.011 	(0.449 sec)
+	batch_num 11 / 24 : batch_loss = 0.018 	epoch_avg_loss = 0.011 	(0.453 sec)
+	batch_num 12 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.010 	(0.451 sec)
+	batch_num 13 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.010 	(0.455 sec)
+	batch_num 14 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.011 	(0.452 sec)
+	batch_num 15 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.011 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.025 	epoch_avg_loss = 0.012 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.011 	(0.446 sec)
+	batch_num 18 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.017 	epoch_avg_loss = 0.011 	(0.446 sec)
+	batch_num 20 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.011 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.012 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.011 	(0.444 sec)
+	batch_num 23 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.011 	(0.445 sec)
+	batch_num 24 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.011 	(0.510 sec)
+pred_vals
+(5, 2)
+[[  7.35095263  -5.10761261]
+ [ -2.99850798   7.07556105]
+ [-13.22737789  -1.55959499]
+ [  2.53503346  -3.00320411]
+ [ -9.1214447    2.12419987]]
+	predicted class dist: [  9.99996066e-01   3.88429635e-06]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  4.21569421e-05   9.99957800e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  8.56530005e-06   9.99991417e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99608201  0.00391804]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.30639028e-05   9.99986887e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 24 / 250
+	batch_num 1 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.003 	(0.456 sec)
+	batch_num 2 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.005 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.016 	epoch_avg_loss = 0.009 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.028 	epoch_avg_loss = 0.014 	(0.446 sec)
+	batch_num 5 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.011 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.010 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.009 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.009 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.009 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.009 	(0.469 sec)
+	batch_num 11 / 24 : batch_loss = 0.027 	epoch_avg_loss = 0.011 	(0.481 sec)
+	batch_num 12 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.010 	(0.479 sec)
+	batch_num 13 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.010 	(0.476 sec)
+	batch_num 14 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.009 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.009 	(0.479 sec)
+	batch_num 16 / 24 : batch_loss = 0.031 	epoch_avg_loss = 0.010 	(0.480 sec)
+	batch_num 17 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.010 	(0.452 sec)
+	batch_num 18 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.010 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.010 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.010 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.009 	(0.445 sec)
+	batch_num 22 / 24 : batch_loss = 0.021 	epoch_avg_loss = 0.010 	(0.444 sec)
+	batch_num 23 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.010 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.010 	(0.514 sec)
+pred_vals
+(5, 2)
+[[  9.62267113  -7.30007935]
+ [ -1.19537783   5.55426168]
+ [-12.22400951  -2.07611561]
+ [  3.24594545  -3.67840743]
+ [ -8.15748119   1.65573895]]
+	predicted class dist: [  1.00000000e+00   4.47242279e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00116993  0.99883002]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.91569338e-05   9.99960899e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99017358e-01   9.82573139e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.47203599e-05   9.99945283e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 123  Precision @ 1: 0.9609
+train_acc: 1.000000 	 val_acc: 0.960938 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 25 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.458 sec)
+	batch_num 2 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 3 / 24 : batch_loss = 0.012 	epoch_avg_loss = 0.005 	(0.451 sec)
+	batch_num 4 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.006 	(0.445 sec)
+	batch_num 5 / 24 : batch_loss = 0.010 	epoch_avg_loss = 0.007 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.006 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.008 	epoch_avg_loss = 0.006 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.006 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.006 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.005 	(0.464 sec)
+	batch_num 11 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.006 	(0.449 sec)
+	batch_num 12 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.006 	(0.448 sec)
+	batch_num 13 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.006 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.006 	(0.446 sec)
+	batch_num 15 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.005 	(0.451 sec)
+	batch_num 16 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.005 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.005 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.011 	epoch_avg_loss = 0.005 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.026 	epoch_avg_loss = 0.006 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.006 	(0.446 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.006 	(0.449 sec)
+	batch_num 22 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.006 	(0.445 sec)
+	batch_num 23 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.006 	(0.448 sec)
+	batch_num 24 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.006 	(0.512 sec)
+pred_vals
+(5, 2)
+[[ 11.50021839  -7.60204458]
+ [ -0.69935924   5.65222311]
+ [-10.06554222  -3.11857104]
+ [  4.47458792  -4.53300333]
+ [ -6.09521914   1.89665055]]
+	predicted class dist: [  1.00000000e+00   5.05816278e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [ 0.00174095  0.99825901]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.60619596e-04   9.99039352e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99877572e-01   1.22461526e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.38086742e-04   9.99661922e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 122  Precision @ 1: 0.9531
+train_acc: 1.000000 	 val_acc: 0.953125 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 26 / 250
+	batch_num 1 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.004 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.004 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.015 	epoch_avg_loss = 0.008 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.007 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.006 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.005 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.005 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.004 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.004 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.004 	(0.457 sec)
+	batch_num 11 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.004 	(0.478 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.004 	(0.479 sec)
+	batch_num 13 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.004 	(0.451 sec)
+	batch_num 14 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.004 	(0.450 sec)
+	batch_num 15 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.004 	(0.447 sec)
+	batch_num 16 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.004 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.003 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.003 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.003 	(0.451 sec)
+	batch_num 20 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.003 	(0.452 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.003 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.003 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.003 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.003 	(0.520 sec)
+pred_vals
+(5, 2)
+[[ 10.95392418  -7.84210539]
+ [ -2.03374028   6.55483389]
+ [-12.4810009   -2.29466081]
+ [  3.6909523   -3.72367716]
+ [ -8.1821394    1.87781942]]
+	predicted class dist: [  1.00000000e+00   6.87049262e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.86186706e-04   9.99813855e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.76801181e-05   9.99962330e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99397993e-01   6.02012908e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  4.27559899e-05   9.99957204e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 1.000000 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 27 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.465 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.445 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.450 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.002 	(0.449 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.452 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 15 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.453 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.480 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.478 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.531 sec)
+pred_vals
+(5, 2)
+[[ 11.30710983  -7.98269987]
+ [ -2.31241989   6.88442087]
+ [-12.76096153  -1.79252589]
+ [  3.88228416  -3.43974137]
+ [ -8.40499115   2.47183466]]
+	predicted class dist: [  1.00000000e+00   4.19316448e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.01348895e-04   9.99898672e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.72369946e-05   9.99982715e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99339640e-01   6.60386111e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.88906361e-05   9.99981165e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 28 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.002 	(0.447 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.453 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.465 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.453 sec)
+	batch_num 15 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.481 sec)
+	batch_num 16 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.480 sec)
+	batch_num 17 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.004 	epoch_avg_loss = 0.002 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.445 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.450 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.519 sec)
+pred_vals
+(5, 2)
+[[ 11.37385082  -7.64976835]
+ [ -2.72470236   7.13214779]
+ [-13.89593983  -1.70373619]
+ [  3.59388065  -3.29772687]
+ [ -8.84820175   2.75779366]]
+	predicted class dist: [  1.00000000e+00   5.47201617e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.23843846e-05   9.99947667e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  5.06980268e-06   9.99994874e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99898475  0.00101525]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  9.11121697e-06   9.99990940e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 29 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.464 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.442 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 15 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 17 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 20 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.516 sec)
+pred_vals
+(5, 2)
+[[ 11.1701355   -7.55307341]
+ [ -3.40222907   7.38762903]
+ [-14.97319126  -1.59071708]
+ [  3.22545266  -3.15049362]
+ [ -9.72202587   3.00523901]]
+	predicted class dist: [  1.00000000e+00   7.38947348e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.06070254e-05   9.99979377e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.54193026e-06   9.99998450e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99830097  0.00169912]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.96905341e-06   9.99997020e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 125  Precision @ 1: 0.9766
+train_acc: 1.000000 	 val_acc: 0.976562 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 30 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.454 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.519 sec)
+pred_vals
+(5, 2)
+[[ 10.84568691  -7.06777477]
+ [ -4.0242095    7.74824429]
+ [-15.92217255  -1.26570761]
+ [  3.08435917  -3.02094483]
+ [-10.31429005   3.37622452]]
+	predicted class dist: [  1.00000000e+00   1.66066663e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.71409759e-06   9.99992251e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  4.31298673e-07   9.99999523e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99777395  0.00222604]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.13314252e-06   9.99998808e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 125  Precision @ 1: 0.9766
+train_acc: 1.000000 	 val_acc: 0.976562 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 31 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 13 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 20 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 21 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.514 sec)
+pred_vals
+(5, 2)
+[[ 10.5691185   -6.91744757]
+ [ -4.48378038   7.96819496]
+ [-16.54558754  -1.03133357]
+ [  2.96475697  -3.00091314]
+ [-10.75029087   3.5903368 ]]
+	predicted class dist: [  1.00000000e+00   2.54495820e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.90997775e-06   9.99996066e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.82913254e-07   9.99999762e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99744117  0.00255876]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.91485730e-07   9.99999404e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 32 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.467 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 7 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 14 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.441 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.455 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.511 sec)
+pred_vals
+(5, 2)
+[[ 10.39137554  -6.90211153]
+ [ -4.8299017    8.16830349]
+ [-16.9919796   -0.91257823]
+ [  2.94597864  -3.04139137]
+ [-11.00489807   3.76007557]]
+	predicted class dist: [  1.00000000e+00   3.08697992e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.26438465e-06   9.99997735e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.03945290e-07   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99749595  0.00250397]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.86948585e-07   9.99999642e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 125  Precision @ 1: 0.9766
+train_acc: 1.000000 	 val_acc: 0.976562 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 33 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 13 / 24 : batch_loss = 0.007 	epoch_avg_loss = 0.002 	(0.469 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.446 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 19 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.001 	(0.453 sec)
+	batch_num 20 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.484 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.523 sec)
+pred_vals
+(5, 2)
+[[ 10.65851307  -7.5572052 ]
+ [ -5.04456329   8.0259552 ]
+ [-16.87791824  -1.31403601]
+ [  3.20227981  -3.34652495]
+ [-10.37448692   3.40237927]]
+	predicted class dist: [  1.00000000e+00   1.22748016e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.10642020e-06   9.99997854e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.74057178e-07   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.9985702   0.00142978]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.03939988e-06   9.99998927e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 1.000000 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 34 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.471 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 3 / 24 : batch_loss = 0.006 	epoch_avg_loss = 0.002 	(0.449 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.002 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.451 sec)
+	batch_num 6 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.451 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.451 sec)
+	batch_num 8 / 24 : batch_loss = 0.003 	epoch_avg_loss = 0.002 	(0.452 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.453 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.446 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.446 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.009 	epoch_avg_loss = 0.002 	(0.452 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.445 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.453 sec)
+	batch_num 17 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 18 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.002 	(0.446 sec)
+	batch_num 20 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.002 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.448 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.451 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.002 	(0.453 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.002 	(0.513 sec)
+pred_vals
+(5, 2)
+[[ 11.33374691  -8.0488596 ]
+ [ -4.80470324   7.89060497]
+ [-16.49379539  -1.63580048]
+ [  3.22669673  -3.51412582]
+ [ -9.71910477   3.40717888]]
+	predicted class dist: [  1.00000000e+00   3.82156218e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.06546349e-06   9.99996901e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.52577501e-07   9.99999642e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99881965  0.00118028]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.99217061e-06   9.99997973e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 1.000000 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 35 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.005 	epoch_avg_loss = 0.002 	(0.447 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 6 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 8 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 9 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.453 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 20 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 21 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 23 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.461 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.532 sec)
+pred_vals
+(5, 2)
+[[ 10.40943527  -7.34019518]
+ [ -4.57147455   7.93223143]
+ [-17.81082344  -1.05027854]
+ [  2.32784081  -3.08419728]
+ [-11.33172703   4.01520586]]
+	predicted class dist: [  1.00000000e+00   1.95629184e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.71285410e-06   9.99996305e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  5.26002104e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99555737  0.00444271]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.16227747e-07   9.99999762e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 36 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.445 sec)
+	batch_num 12 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.479 sec)
+	batch_num 14 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 15 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.478 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.478 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.453 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 24 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.519 sec)
+pred_vals
+(5, 2)
+[[ 10.82309437  -7.36561203]
+ [ -5.08946657   8.44960499]
+ [-18.16761971  -1.04787385]
+ [  3.14851689  -3.42861915]
+ [-10.94107056   4.03048372]]
+	predicted class dist: [  1.00000000e+00   1.26108857e-08]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.31842421e-06   9.99998689e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.67273074e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [ 0.99861002  0.0013899 ]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.14728908e-07   9.99999642e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 124  Precision @ 1: 0.9688
+train_acc: 1.000000 	 val_acc: 0.968750 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 37 / 250
+	batch_num 1 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.464 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 3 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 4 / 24 : batch_loss = 0.002 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.452 sec)
+	batch_num 11 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 13 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.457 sec)
+	batch_num 14 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.481 sec)
+	batch_num 15 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 16 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.479 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.454 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.446 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.514 sec)
+pred_vals
+(5, 2)
+[[ 11.50479317  -8.05711365]
+ [ -4.61902761   8.05643654]
+ [-17.74522591  -1.27495015]
+ [  3.46579862  -3.68873596]
+ [-10.41592312   3.69477868]]
+	predicted class dist: [  1.00000000e+00   3.19427151e-09]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.12690213e-06   9.99996901e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  7.03153304e-08   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99219298e-01   7.80703325e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.44388899e-07   9.99999285e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 126  Precision @ 1: 0.9844
+train_acc: 1.000000 	 val_acc: 0.984375 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 38 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.465 sec)
+	batch_num 2 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.447 sec)
+	batch_num 4 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.480 sec)
+	batch_num 5 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.477 sec)
+	batch_num 6 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.477 sec)
+	batch_num 7 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.001 	(0.478 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.480 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.001 	(0.482 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.482 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.515 sec)
+pred_vals
+(5, 2)
+[[ 12.51635647  -8.696311  ]
+ [ -4.28619051   7.91423607]
+ [-17.27098656  -1.61835074]
+ [  4.00889206  -4.00439548]
+ [ -9.60864353   3.44849801]]
+	predicted class dist: [  1.00000000e+00   6.12993101e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.02828743e-06   9.99994993e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.59274663e-07   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99669075e-01   3.30925104e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.13478756e-06   9.99997854e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 39 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.458 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.477 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.544 sec)
+pred_vals
+(5, 2)
+[[ 12.50425243  -8.72969246]
+ [ -4.44751835   7.99019098]
+ [-17.52268982  -1.62765706]
+ [  3.96538353  -4.02469921]
+ [ -9.65217209   3.56158972]]
+	predicted class dist: [  1.00000000e+00   6.00088534e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.96615405e-06   9.99996066e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.24989882e-07   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99661326e-01   3.38691287e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.82530380e-06   9.99998212e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 40 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.462 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.457 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.487 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.483 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.524 sec)
+pred_vals
+(5, 2)
+[[ 12.5029459   -8.67197704]
+ [ -4.56007957   8.11519432]
+ [-17.80031395  -1.5124234 ]
+ [  3.99517727  -4.0224905 ]
+ [ -9.63986492   3.75635052]]
+	predicted class dist: [  1.00000000e+00   6.36572406e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.12749876e-06   9.99996901e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  8.43837071e-08   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99670506e-01   3.29479226e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.52088671e-06   9.99998450e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 41 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.462 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.482 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.459 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.461 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.463 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.535 sec)
+pred_vals
+(5, 2)
+[[ 12.65066242  -8.69944096]
+ [ -4.58950043   8.16549683]
+ [-17.96335983  -1.47295773]
+ [  4.08765841  -4.06675434]
+ [ -9.5021925    3.85926676]]
+	predicted class dist: [  1.00000000e+00   5.34278788e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.88784486e-06   9.99997139e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  6.89142894e-08   9.99999881e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99712646e-01   2.87381321e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.57467559e-06   9.99998450e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 42 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.476 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.475 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.471 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.482 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.458 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.512 sec)
+pred_vals
+(5, 2)
+[[ 12.73911095  -8.71344566]
+ [ -4.6390667    8.18982601]
+ [-18.13512993  -1.44478822]
+ [  4.1312561   -4.09525299]
+ [ -9.46478462   3.94463539]]
+	predicted class dist: [  1.00000000e+00   4.82250906e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.68214058e-06   9.99997377e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  5.64256517e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99732554e-01   2.67396885e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.50093615e-06   9.99998450e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 43 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.463 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.477 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.454 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.515 sec)
+pred_vals
+(5, 2)
+[[ 12.83393955  -8.71060848]
+ [ -4.68046474   8.23280144]
+ [-18.28598022  -1.40206957]
+ [  4.18536186  -4.12355947]
+ [ -9.42697239   4.03988457]]
+	predicted class dist: [  1.00000000e+00   4.39867309e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.46512354e-06   9.99997497e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  4.64954617e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99753773e-01   2.46248819e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.41715611e-06   9.99998569e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 44 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.467 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.460 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.457 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.517 sec)
+pred_vals
+(5, 2)
+[[ 12.93334675  -8.72964954]
+ [ -4.72099352   8.26897144]
+ [-18.42422867  -1.37633169]
+ [  4.23384619  -4.15391159]
+ [ -9.37982368   4.12509012]]
+	predicted class dist: [  1.00000000e+00   3.90733140e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.28311978e-06   9.99997735e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.94631954e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99772370e-01   2.27585188e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.36423785e-06   9.99998689e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 45 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.511 sec)
+pred_vals
+(5, 2)
+[[ 12.9761734   -8.75321198]
+ [ -4.76665926   8.27248192]
+ [-18.59028435  -1.36511469]
+ [  4.26015234  -4.18902969]
+ [ -9.36737633   4.1835556 ]]
+	predicted class dist: [  1.00000000e+00   3.65635050e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.17356273e-06   9.99997854e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  3.30524514e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99785960e-01   2.14029526e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.30288015e-06   9.99998689e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 46 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.462 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.518 sec)
+pred_vals
+(5, 2)
+[[ 13.00495529  -8.78231144]
+ [ -4.81136322   8.27308273]
+ [-18.76856804  -1.36794841]
+ [  4.28334618  -4.22777748]
+ [ -9.37175083   4.24076366]]
+	predicted class dist: [  1.00000000e+00   3.45072776e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.07728658e-06   9.99997973e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  2.77336465e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99798834e-01   2.01177114e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.22506617e-06   9.99998808e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 47 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.001 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.514 sec)
+pred_vals
+(5, 2)
+[[ 13.24898911  -8.96299934]
+ [ -4.84722757   8.2095499 ]
+ [-18.78607559  -1.46186519]
+ [  4.30914116  -4.32511806]
+ [ -9.30130005   4.23354816]]
+	predicted class dist: [  1.00000000e+00   2.25660726e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.13556336e-06   9.99997854e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  2.99357872e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99822199e-01   1.77873648e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.32400476e-06   9.99998689e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 48 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.459 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.477 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.515 sec)
+pred_vals
+(5, 2)
+[[ 13.09797668  -8.75968361]
+ [ -4.90305853   8.2923317 ]
+ [-19.08435059  -1.2675879 ]
+ [  4.30023336  -4.26693296]
+ [ -9.43798733   4.45033121]]
+	predicted class dist: [  1.00000000e+00   3.21616817e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.85914735e-06   9.99998093e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.82927149e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99809802e-01   1.90214807e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  9.29777968e-07   9.99999046e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 49 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.470 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.458 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.457 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.454 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.483 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.457 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.538 sec)
+pred_vals
+(5, 2)
+[[ 13.24245548  -8.83298016]
+ [ -4.92841673   8.29023933]
+ [-19.16129494  -1.29970098]
+ [  4.36052656  -4.32085848]
+ [ -9.37476921   4.47912264]]
+	predicted class dist: [  1.00000000e+00   2.58678384e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.81639211e-06   9.99998212e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.74907573e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99830246e-01   1.69687046e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  9.62345439e-07   9.99999046e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 50 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.460 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.470 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.483 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.454 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.458 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.517 sec)
+pred_vals
+(5, 2)
+[[ 13.2757597   -8.88548565]
+ [ -5.0074234    8.27892208]
+ [-19.29681206  -1.30935752]
+ [  4.35995579  -4.35863686]
+ [ -9.4149971    4.52002764]]
+	predicted class dist: [  1.00000000e+00   2.37406955e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.69751161e-06   9.99998331e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.54222377e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99836445e-01   1.63490404e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  8.87351121e-07   9.99999166e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 51 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.460 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.485 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.525 sec)
+pred_vals
+(5, 2)
+[[ 13.31207371  -8.88925362]
+ [ -5.07424402   8.29053211]
+ [-19.42154503  -1.28634584]
+ [  4.37226486  -4.3833003 ]
+ [ -9.4401083    4.59625626]]
+	predicted class dist: [  1.00000000e+00   2.28079181e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.56946123e-06   9.99998450e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.33040334e-08   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99842405e-01   1.57557006e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  8.01833039e-07   9.99999166e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 52 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.453 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.466 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.478 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.454 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.518 sec)
+pred_vals
+(5, 2)
+[[ 13.37000942  -8.90576839]
+ [ -5.12642908   8.29685879]
+ [-19.1569519   -0.66926146]
+ [  4.38618612  -4.40996218]
+ [ -9.44606495   4.6581378 ]]
+	predicted class dist: [  1.00000000e+00   2.11715478e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.48026447e-06   9.99998569e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.35186595e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99848723e-01   1.51291883e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.49242645e-07   9.99999285e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 53 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.466 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.519 sec)
+pred_vals
+(5, 2)
+[[ 14.13692093  -8.8907795 ]
+ [ -4.1524868    9.40032387]
+ [-17.25252914   1.80929077]
+ [  5.17210722  -3.72955036]
+ [ -7.51702595   6.79590559]]
+	predicted class dist: [  1.00000000e+00   9.98152186e-11]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  1.30043463e-06   9.99998689e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  5.26692512e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99863863e-01   1.36144561e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  6.08096855e-07   9.99999404e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 54 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.463 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.455 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 14.20196438  -8.59551525]
+ [ -3.93335104   9.96513844]
+ [-16.86458588   2.83119392]
+ [  5.28715849  -3.57664013]
+ [ -7.11720181   7.72476053]]
+	predicted class dist: [  1.00000000e+00   1.25655181e-10]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  9.20370155e-07   9.99999046e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  2.79403300e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99858618e-01   1.41396929e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  3.58275628e-07   9.99999642e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 55 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.458 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.480 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.512 sec)
+pred_vals
+(5, 2)
+[[ 14.1317358   -8.90421772]
+ [ -3.88529158  10.18025684]
+ [-16.74934196   3.20034456]
+ [  5.23224449  -3.79984999]
+ [ -6.97876596   8.04090977]]
+	predicted class dist: [  1.00000000e+00   9.89948262e-11]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.78771039e-07   9.99999166e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  2.16751150e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99880433e-01   1.19497570e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.99942030e-07   9.99999642e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 56 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.462 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.518 sec)
+pred_vals
+(5, 2)
+[[ 14.19129753  -9.17338276]
+ [ -3.83101106  10.32064819]
+ [-16.61199188   3.48184729]
+ [  5.20860577  -4.0002265 ]
+ [ -6.80770969   8.27865601]]
+	predicted class dist: [  1.00000000e+00   7.12603379e-11]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  7.14516489e-07   9.99999285e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.87653360e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99899864e-01   1.00140947e-04]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.80591507e-07   9.99999762e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 57 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.457 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.446 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.479 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.509 sec)
+pred_vals
+(5, 2)
+[[ 14.33181381  -9.23251057]
+ [ -3.76933551  10.50908375]
+ [-16.45163536   3.84553766]
+ [  5.23026419  -4.09519291]
+ [ -6.61376286   8.60320759]]
+	predicted class dist: [  1.00000000e+00   5.83639109e-11]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  6.29449573e-07   9.99999404e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.53126367e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99910831e-01   8.91183081e-05]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.46237164e-07   9.99999762e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 58 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.448 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.445 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.450 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.451 sec)
+	batch_num 22 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.452 sec)
+	batch_num 23 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 24 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.516 sec)
+pred_vals
+(5, 2)
+[[ 14.45124054  -9.31425667]
+ [ -3.70623016  10.68054867]
+ [-16.30368423   4.20073509]
+ [  5.25919628  -4.15302038]
+ [ -6.43836164   8.92250633]]
+	predicted class dist: [  1.00000000e+00   4.77282727e-11]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  5.64808317e-07   9.99999404e-01]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  1.24464017e-09   1.00000000e+00]
+	predicted class: 	T
+	true class: 		T
+	predicted class dist: [  9.99918222e-01   8.17129621e-05]
+	predicted class: 	S
+	true class: 		S
+	predicted class dist: [  2.13235481e-07   9.99999762e-01]
+	predicted class: 	T
+	true class: 		T
+Training Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 128  Precision @ 1: 1.0000
+Validation Data Eval:
+only evaluating on 100 of the samples in the dataset.
+  nb_samples: 128  Num correct: 127  Precision @ 1: 0.9922
+train_acc: 1.000000 	 val_acc: 0.992188 	saving checkpoint to file: /scratch/cluster/joeliven/carproject/models/vgg6t/vgg6t_a_checkpoint
+starting epoch 59 / 250
+	batch_num 1 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.471 sec)
+	batch_num 2 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 3 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 4 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 5 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 6 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.449 sec)
+	batch_num 7 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.444 sec)
+	batch_num 8 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 9 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 10 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 11 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)
+	batch_num 12 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 13 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 14 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 15 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.442 sec)
+	batch_num 16 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 17 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 18 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.447 sec)
+	batch_num 19 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.456 sec)
+	batch_num 20 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.481 sec)
+	batch_num 21 / 24 : batch_loss = 0.000 	epoch_avg_loss = 0.000 	(0.443 sec)streetpizza$
