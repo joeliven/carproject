@@ -187,7 +187,7 @@ def get_encoder(**kwargs):
         fc2w = tf.Variable(tf.truncated_normal([100, 100],
                                                      dtype=tf.float32,
                                                      stddev=1e-1), name='weights', trainable=False)
-        fc2b = tf.Variable(tf.constant(0.0, shape=[4096], dtype=tf.float32),
+        fc2b = tf.Variable(tf.constant(0.0, shape=[100], dtype=tf.float32),
                              name='biases', trainable=False)
         fc2l = tf.nn.bias_add(tf.matmul(encoder[layer_name][I], fc2w), fc2b)
         encoder[layer_name][O] = tf.nn.relu(fc2l, name=scope)
