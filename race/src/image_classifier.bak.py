@@ -7,7 +7,6 @@ from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from image_utils import preprocess_image
-from classifier import _Classifier
 
 pub = rospy.Publisher('classifier_decision', Bool, queue_size=1)
 
@@ -17,24 +16,19 @@ class Classifier(object):
       self.bridge = CvBridge()
       self.encoding = 'rgb8'
       self.hasSaved = False
-      RESTORE_PATH = "../models/vgg6t_a_checkpoint-57"
-      META_PATH = "../models/vgg6t_a_checkpoint-57.meta"
-      self._classifier = _Classifier(meta_path=META_PATH, weights_path=RESTORE_PATH)
       rospy.Subscriber("rgb/image_rect",Image,self.classify)
       rospy.spin()
     
 
   def classify(self,data):
+        
       image = self.convertImg(data)
       image = preprocess_image(image,dbg=False)
-      print(image.shape)
-      raw_input('image.shape')
-      shouldTurn, duration = self._classifier.predict(image, verbose=True)
       #if not self.hasSaved:
       #  self.hasSaved = True
       #  np.save(self.encoding,image)
       # Run classifier
-      # shouldTurn = False
+      shouldTurn = False
 
       pub.publish(shouldTurn)
 
