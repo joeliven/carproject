@@ -32,6 +32,8 @@ from lib.image_utils import deprocess_image
 I = 'inputs'
 O = 'outputs'
 P = 'params'
+ENCODER = 'encoder'
+
 
 class VGG16(object):
     def __init__(self, **kwargs):
@@ -872,6 +874,13 @@ def prep_cmdln_parser():
                                 help="specify whether to train the model or just use for prediction (default) [default: %default].")
     return  cmdln
 
+# def get_model(batch_size=128, nb_channels=3, dim_img=224):
+#     vgg = VGG16(batch_size=batch_size,
+#                 nb_channels=nb_channels,
+#                 dim_img=dim_img)
+#     inputs_pl = tf.placeholder(tf.float32, [None, dim_img, dim_img, nb_channels])
+#     return vgg._encode(inputs_pl)
+
 
 if __name__ == '__main__':
     label_map = {
@@ -886,7 +895,6 @@ if __name__ == '__main__':
     NUM_EPOCHS_PER_DECAY = 350.0  # Epochs after which learning rate decays.
     LEARNING_RATE_DECAY_FACTOR = 0.1  # Learning rate decay factor.
     INITIAL_LEARNING_RATE = 0.1  # Initial learning rate.
-    ENCODER = 'encoder'
 
     cmdln = prep_cmdln_parser()
     args = cmdln.parse_args()

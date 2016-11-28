@@ -1,13 +1,11 @@
 #!/usr/local/bin/bash
 P="python"
-PROGRAM="lib27/classifier.py"
+PROGRAM="lib27/classifier_tf11.py"
 
 ######### START CONSTANTS #########
 RESTORE_PATH="models/vgg16a/vgg16_a_checkpoint-99"
 META_PATH="models/vgg16a/vgg16_a_checkpoint-99.meta"
-#META_PATH="models/vgg16a/vgg16a_graphdef.bin"
 IMAGE_PATH="data/preprocessed/all/X_test.npy"
-LABELS_PATH="data/preprocessed/all/y_test.npy"
 ######### END CONSTANTS #########
 
 ######### START VARIABLES #########
@@ -42,5 +40,4 @@ time "$P" "$PROGRAM" \
 "$META_PATH" \
 "$RESTORE_PATH" \
 "$IMAGE_PATH" \
-"$LABELS_PATH" \
 -v
