@@ -27,61 +27,13 @@ class Classifier(object):
         with tf.Graph().as_default():
             self.inputs_pl = tf.placeholder(tf.float32, [None, self.dim_img, self.dim_img, self.nb_channels])
             self.preds, _ = get_encoder(inputs_pl=self.inputs_pl)
-            print('self.preds')
-            print(self.preds)
             self.sess = tf.Session()
-            raw_input('self.preds')
             # restore the trained model:
             saver = tf.train.Saver()
             saver.restore(self.sess,self.RESTORE_PATH)
-            raw_input('can the saver restore...')
-
-
-
-        # output_graph_path = 'models/vgg16a/vgg16a_graph.bin.froz'
-        # with tf.Graph().as_default():
-        #     output_graph_def = tf.GraphDef()
-        #     with open(output_graph_path, "rb") as f:
-        #         output_graph_def.ParseFromString(f.read())
-        #         _ = tf.import_graph_def(output_graph_def, name="")
-        #     self.sess = tf.Session()
-        #     ops = tf.get_default_graph().get_operations()
-        #     for i,op in enumerate(ops):
-        #         print('%d:\t%s' % (i, op.name))
-        #
-        #     self.preds = tf.get_default_graph().get_operation_by_name("encoder-fc3").outputs[0]
-        #     self.inputs_pl = tf.get_default_graph().get_operation_by_name("Placeholder").outputs[0]
-
-            # print(self.preds)
-            # raw_input('self.preds')
-            # print(self.inputs_pl)
-            # raw_input('self.inputs_pl')
-            # output = self.sess.run(self.preds)
-            # raw_input('just rant sess.run')
-
-        # # saver = tf.train.import_meta_graph(self.META_PATH)
-        # # saver = tf.import_graph_def(self.META_PATH)
-        # graph_def = tf.get_default_graph().as_graph_def()
-        # with open(self.META_PATH, 'rb') as f:
-        #     graph_def.ParseFromString(f.read())
-        #     graph_def_imp = tf.import_graph_def(graph_def)
-        # print('graph_def')
-        # print(graph_def)
-        # print('graph_def_imp')
-        # print(graph_def_imp)
-        # input('...about to fail bc of saver ...')
-        # saver.restore(self.sess, self.RESTORE_PATH)
-        # self.preds = tf.get_default_graph().get_operation_by_name("encoder-fc3").outputs[0]
-        # self.inputs_pl = tf.get_default_graph().get_operation_by_name("Placeholder").outputs[0]
-
-    # def _preprocess(self, X):
-    #     """preprocess a single incoming image"""
-    #     # TODO: convert my python3.4 code from lib/image_utils.py-->preprocess_image() into python2.7 compatible code
-    #     return X
 
     def predict(self, X, verbose=False):
         """make a prediction on a single incoming image"""
-        print('in predict()')
         start_time = time.time()
         X = np.asarray([X])
         feed_dict = {self.inputs_pl: X}
@@ -136,14 +88,20 @@ if __name__ == '__main__':
         assert label.shape == (2,)
         if turn == True and np.argmax(label) == 1:
             num_cor += 1
-            print('correct')
+            print('%d: correct' % i)
         elif turn == False and np.argmax(label) == 0:
             num_cor += 1
-            print('correct')
+            print('%d: correct' % i)
         else:
-            print('wrong')
-    acc = num_cor / imgs.shape[0]
-    print('acc: %.f' % acc)
+            print('%d: wrong' % i)
+    print('num_cor')
+    print(num_cor)
+    print('imgs.shape[0]')
+    print(imgs.shape[0])
+    acc = float(num_cor) / float(imgs.shape[0])
+    print('acc')
+    print(acc)
+    print('acc: %.4f' % acc)
     print('DONE')
 
 
