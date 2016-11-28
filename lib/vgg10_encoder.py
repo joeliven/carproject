@@ -169,9 +169,9 @@ def get_encoder(**kwargs):
         shape = int(np.prod(encoder[layer_name][I].get_shape()[1:]))
         fc1w = tf.Variable(tf.truncated_normal([shape, 100],
                                                      dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
+                                                     stddev=1e-1), name='weights', trainable=True)
         fc1b = tf.Variable(tf.constant(0.0, shape=[100], dtype=tf.float32),
-                             name='biases', trainable=False)
+                             name='biases', trainable=True)
         pool5_flat = tf.reshape(encoder[layer_name][I], [-1, shape])
         # tf.shape should be: (None,200704)
         fc1l = tf.nn.bias_add(tf.matmul(pool5_flat, fc1w), fc1b)
@@ -186,9 +186,9 @@ def get_encoder(**kwargs):
         encoder[layer_name][I] = prev_layer[O]
         fc2w = tf.Variable(tf.truncated_normal([100, 100],
                                                      dtype=tf.float32,
-                                                     stddev=1e-1), name='weights', trainable=False)
+                                                     stddev=1e-1), name='weights', trainable=True)
         fc2b = tf.Variable(tf.constant(0.0, shape=[100], dtype=tf.float32),
-                             name='biases', trainable=False)
+                             name='biases', trainable=True)
         fc2l = tf.nn.bias_add(tf.matmul(encoder[layer_name][I], fc2w), fc2b)
         encoder[layer_name][O] = tf.nn.relu(fc2l, name=scope)
         encoder[layer_name][P] = {'w': fc2w, 'b': fc2b}
