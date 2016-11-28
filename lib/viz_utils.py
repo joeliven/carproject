@@ -39,7 +39,7 @@ def main():
     val_accs = np.asarray(val_accs)
     print('train_accs.shape[0]')
     print(train_accs.shape[0])
-    assert train_accs.shape[0] == 100
+    # assert train_accs.shape[0] == 100
     epochs = np.arange(train_accs.shape[0]) + 1
     plt.plot(epochs, train_accs, 'b', epochs, val_accs, 'r')
     plt.show()
