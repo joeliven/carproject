@@ -13,9 +13,37 @@
 \maketitle
 
 \section{Introduction}
+The aim of this work is to let the f1tenth race car drive on its own in our building floors. The f1tenth car is the small autonomous car used in the f1tenth competition (f1tenth.org). For the purpose of navigation, car is equipped of a lidar sensor and a camera. The lidar sensor is used to determine the distance from objects or walls in front and in the sides of the car. The camera is used as a validation for the lidar, confirming or blocking the lidar decisions. 
+
+The pre-existing method proposed to us only used the lidar for navigation. The control algorithm constantly computes the distance to the wall to the right of the car, and adjusts the steering to keep a constant distance to the wall. It follows that the car will drive in clock-wise circles, as allowed by the building corridors. However, some the pre-existing method faced some problems, since the control algorithm was making the car turn any time an opening was detected on the right. First, some doors have a metal shielding on the bottom, where the lidar signal is reflected: the car will detect an opening on the right while in reality there is a door. Second, not all openings on the right are actually accessible: in our building floors there is a kitchen area ad a copy room area. As soon as the lidar detects the opening, the control will make the car turn, resulting in the car being crashed in the copy room or in the kitchen. 
+
+Overall, there are two main general problems with only using the lidar for navigation: 
+\begin{itemize}
+\item The lidar reading can be faulty
+\item The lidar cannot distinguish an opening from a corridor
+\end{itemize}
+
+In order to solve the above problems, we used the camera as a validation for the lidar readings. In fact, a camera facing in front of the car can distinguish the parts of the floor, and thus can determine whether to turn in the opening detected by the lidar or not. For instance, the kitchen is in the middle of the corridor: the camera will see that the corridor still continues ahead, and the control algorithm can ignore the opening detected by the lidar, and thus the car will keep driving straight. A similar scenario holds for the copy room and the metal shielded doors. However, when we are approaching the end of the corridor, and the lidar detects an opening on the right, then the camera will see that the car is at the end of the corridor, and thus the camera would leave the control to the lidar. 
+
+In our method, the camera is not used as a primary source of navigation, but rather as a source of validation. When the lidar detects an opening, the camera is used to decide whether to follow the lidar control (through the pre-existing algorithm), or whether to keep driving straight. Our method adjusts the problems highlighted earlier, thus the cases when the lidar dictates a turn but actually a turn is not possible. 
 
 
 \section{Method}
+
+%add how vision works with nn 
+
+%i'm just sticking stuff here, will need to be moved when vision part is added.
+
+%data collection part:
+In order to train the classifier, we collected visual data in different floors of our building. We placed the camera pointing forward on the car, and started recording. We pushed the car around the floor, following the intended path (the path that does not turn into the copy room or in the kitchen, but just follows the corridors). We collected 10 lapses overall, in 5 different floors and 2 different driving directions (clockwise and counter-clockwise). We collected the data in different times of the day, so that the data included different light exposures. 
+We fragmented the videos into frames, for a total of 3602 frames. We labeled each frame with one label out of the set ${T,S,Bad}$. Label $T$ was used in these frames corresponding to positions in which the car should have turned. This means that when seeing frames similar to these labeled $T$, the control algorithm should follow the lidar reading and turn when an opening is detected. Label $S$ was used in these frames corresponding to positions in which the car should not have turned. This means that when seeing frames similar to these labeled $S$, the control algorithm should not follow the lidar, in the case the lidar detected an opening, but rather keep going straight. Label $Bad$ was used for faulty frames. The classifier was trained on the frames with labels $T$ and $S$, and the frames with label $Bad$ were discarded. 
+%end of data collection part
+
+
+%angle threshold part:
+While we want to discard full turns in these cases where a turn is not desired (thus when a faulty or bad opening is detected by the lidar), we still want to keep the car running in the middle of the corridor. Thus, even when our image classifier dictates "Straight", we still want to allow minor adjustments. In order to do so, we established an angle threshold of 20°. If the turn command dictated by the pre-existing algorithm and the lidar reading was less than 20°, it was considered a minor adjustment, and thus it was allowed even if our classifier would state "Straight". However, turns greater than 20° were ignored. The value of 20° was established experimentally. 
+%end of angle threshold part
+
 
 
 \section{Results and Discussion}
