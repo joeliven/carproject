@@ -16,7 +16,10 @@ META_PATH="models/vgg6t/vgg6t_a_checkpoint-57.meta"
 
 
 #META_PATH="models/vgg16a/vgg16a_graphdef.bin"
-IMAGE_PATH="data/preprocessed/all/X_test.npy"
+IMAGE_PATH="data/rgb8.npy"
+#IMAGE_PATH="data/CORRECT.npy"
+#IMAGE_PATH="data/preprocessed/all/X_test.npy"
+#IMAGE_PATH="data/raw/all/000515.jpg"
 LABELS_PATH="data/preprocessed/all/y_test.npy"
 ######### END CONSTANTS #########
 

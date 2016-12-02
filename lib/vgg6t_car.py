@@ -3,27 +3,17 @@
 # http://www.cs.toronto.edu/~frossard/post/vgg16/                                      #
 ########################################################################################
 import sys, os
-proj_roots = [
-    '/Users/joeliven/repos/carproject',
-    '/scratch/cluster/joeliven/carproject',
-    '/u/joeliven/repos/carproject',
-    ]
-for proj_root in proj_roots:
-    if proj_root not in sys.path:
-        if os.path.exists(proj_root):
-            sys.path.append(proj_root)
 
 import time
 import pdb
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-import argparse
-from lib.vgg6t_encoder import get_encoder
+from vgg6t_encoder import get_encoder
 
 from collections import defaultdict
-from lib.data_set import DataSet
-from lib.image_utils import deprocess_image
+from data_set import DataSet
+from image_utils import deprocess_image
 
 I = 'inputs'
 O = 'outputs'
@@ -73,7 +63,7 @@ class VGG6t(object):
         print('tf.shape(predictions)')
         print(tf.shape(predictions))
         print(predictions)
-        targets = tf.cast(targets, tf.int64)
+        # targets = tf.cast(targets, tf.int64)
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
             predictions, targets, name='cross_entropy_per_example')
         cross_entropy_mean = tf.reduce_mean(cross_entropy, name='cross_entropy')
@@ -200,7 +190,7 @@ class VGG6t(object):
             summary = tf.merge_all_summaries()
 
             # Create a saver for writing training checkpoints.
-            saver = tf.train.Saver(max_to_keep=10)
+            saver = tf.train.Saver(max_to_keep=3)
 
             # Create a session for running Ops on the Graph.
             sess = tf.Session()
@@ -218,7 +208,7 @@ class VGG6t(object):
                 #     checkpoint_path = tf.train.get_checkpoint_state(checkpoint_dir=checkpoint_dir, latest_filename=checkpoint_name)
                 # else:
                 #     checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir=checkpoint_dir)
-                # saver.restore(sess, checkpoint_path)
+                # saver.`restore(sess, checkpoint_path)
                 # print('model restored from checkpoint file: %s' % str(checkpoint_path))
                 saver.restore(sess, RESTORE_PATH)
                 print('model restored from checkpoint file: %s' % str(RESTORE_PATH))
@@ -519,58 +509,6 @@ class VGG6t(object):
             self.load_weights_encoder(weights=weights, sess=sess)
         print('...weights loaded successfully...')
 
-def prep_cmdln_parser():
-    usage = "usage: %prog [options]"
-    cmdln = argparse.ArgumentParser(usage)
-    cmdln.add_argument("--batch-size", action="store", dest="BATCH_SIZE_INT", default=32, type=int,
-                                help="batch-size to use during training [default: %default].")
-    cmdln.add_argument("--nb-channels", action="store", dest="NB_CHANNELS_INT", default=3, type=int,
-                                help="number of channels in the training data images [default: %default].")
-    cmdln.add_argument("--dim-img", action="store", dest="DIM_IMG_INT", default=224, type=int,
-                                help="dimensionality of the training data [default: %default].")
-    cmdln.add_argument("--train-lim", action="store", dest="TRAIN_LIM", default=-1, type=int,
-                                help="amount of training data to use [default: %default].")
-    cmdln.add_argument("--val-lim", action="store", dest="VAL_LIM", default=250, type=int,
-                                help="amount of validation data to use [default: %default].")
-    cmdln.add_argument("--test-lim", action="store", dest="TEST_LIM", default=100, type=int,
-                                help="amount of validation data to use [default: %default].")
-    cmdln.add_argument("--save-summaries-every", action="store", dest="SAVE_SUMMARIES_EVERY", default=100, type=int,
-                                help="save summary data for displaying in tensorboard every how many batches [default: %default].")
-    cmdln.add_argument("--display-every", action="store", dest="DISPLAY_EVERY", default=1, type=int,
-                                help="print (and optionally display) predicted results from final batch of training "
-                                     "every how many epochs (at end of epoch only) [default: %default].")
-    cmdln.add_argument("--display", action="store_true", dest="DISPLAY", default=False,
-                                help="display images when printing predicted results from subset of data at end of epoch [default: %default].")
-    cmdln.add_argument("--nb-to-display", action="store", dest="NB_TO_DISPLAY", type=int, default=5,
-                                help="how many images to display predicted results from at end of epoch [default: %default].")
-    cmdln.add_argument("--nb-epochs", action="store", dest="NB_EPOCHS", type=int, default=100,
-                                help="how many epochs to train the model for [default: %default].")
-    cmdln.add_argument("--save-best-only", action="store", dest="SAVE_BEST_ONLY", default='save_all',
-                                help="save all models at checkpoints or only save if the model has a new best "
-                                     "training_acc or val_acc (specify which) [default: %default].")
-    cmdln.add_argument("--weights-path", action="store", dest="WEIGHTS_PATH", default='',
-                                help="path from which to load the pretrained weights for the model [default: %default].")
-    cmdln.add_argument("--restore-path", action="store", dest="RESTORE_PATH", default='',
-                                help="path from which to restore a previously trained model [default: %default].")
-    cmdln.add_argument("--save-path", action="store", dest="SAVE_PATH", default='',
-                                help="path at which to save the model checkpoints during training [default: %default].")
-
-    cmdln.add_argument("--X-train", action="store", dest="X_TRAIN_PATH", default='',
-                                help="path where the X_train data is stored [default: %default].")
-    cmdln.add_argument("--X-val", action="store", dest="X_VAL_PATH", default='',
-                                help="path where the X_val data is stored [default: %default].")
-    cmdln.add_argument("--X-test", action="store", dest="X_TEST_PATH", default='',
-                                help="path where the X_test data is stored [default: %default].")
-    cmdln.add_argument("--y-train", action="store", dest="Y_TRAIN_PATH", default='',
-                                help="path where the y_train data is stored [default: %default].")
-    cmdln.add_argument("--y-val", action="store", dest="Y_VAL_PATH", default='',
-                                help="path where the y_val data is stored [default: %default].")
-    cmdln.add_argument("--y-test", action="store", dest="Y_TEST_PATH", default='',
-                                help="path where the y_test data is stored [default: %default].")
-    cmdln.add_argument("--train", action="store_true", dest="TRAIN", default=False,
-                                help="specify whether to train the model or just use for prediction (default) [default: %default].")
-    return  cmdln
-
 
 if __name__ == '__main__':
     label_map = {
@@ -586,65 +524,91 @@ if __name__ == '__main__':
     LEARNING_RATE_DECAY_FACTOR = 0.1  # Learning rate decay factor.
     INITIAL_LEARNING_RATE = 0.1  # Initial learning rate.
 
-    cmdln = prep_cmdln_parser()
-    args = cmdln.parse_args()
+    # cmdln = prep_cmdln_parser()
+    # args = cmdln.parse_args()
 
-    vgg = VGG6t(batch_size=args.BATCH_SIZE_INT,
-                    nb_channels=args.NB_CHANNELS_INT,
-                    dim_img=args.DIM_IMG_INT)
+    BATCH_SIZE_INT = 128
+    NB_CHANNELS_INT = 3
+    DIM_IMG_INT = 224
+    TRAIN_LIM = -1
+    VAL_LIM = 256
+    TEST_LIM = 128
+    SAVE_SUMMARIES_EVERY = 10
+    DISPLAY_EVERY = 1
+    DISPLAY = False
+    NB_TO_DISPLAY = 5
+    NB_EPOCHS = 250
+    SAVE_BEST_ONLY = "save_best_val"  # 'save_best_train' or 'save_best_val'
+    # WEIGHTS_PATH="models/vgg/vgg16_weights_pretrained.npz"
+    WEIGHTS_PATH = "/home/ubuntu/JJG/models/vgg6t/vgg16_weights_pretrained.npz"
+    # RESTORE_PATH="/home/ubuntu/JJG/models/vgg6t/vgg6t_car_checkpoint-99"
+    RESTORE_PATH=""
+    # SAVE_PATH="models/vgg"
+    SAVE_PATH = "/home/ubuntu/JJG/models/vgg6t"
+    X_TRAIN_PATH = "/home/ubuntu/JJG/data/preprocessed/all/X_train.npy"
+    X_VAL_PATH = "/home/ubuntu/JJG/data/preprocessed/all/X_val.npy"
+    X_TEST_PATH = "/home/ubuntu/JJG/data/preprocessed/all/X_test.npy"
+    Y_TRAIN_PATH = "/home/ubuntu/JJG/data/preprocessed/all/y_train.npy"
+    Y_VAL_PATH = "/home/ubuntu/JJG/data/preprocessed/all/y_val.npy"
+    Y_TEST_PATH = "/home/ubuntu/JJG/data/preprocessed/all/y_test.npy"
+    TRAIN = True
 
-    X_train = np.load(args.X_TRAIN_PATH)
-    X_val = np.load(args.X_VAL_PATH)
-    X_test = np.load(args.X_TEST_PATH)
+    vgg = VGG6t(batch_size=BATCH_SIZE_INT,
+                    nb_channels=NB_CHANNELS_INT,
+                    dim_img=DIM_IMG_INT)
+
+    X_train = np.load(X_TRAIN_PATH)
+    X_val = np.load(X_VAL_PATH)
+    # X_test = np.load(X_TEST_PATH)
     if X_train.shape[-1] != 3:
         X_train = np.transpose(X_train, axes=(0, 2, 3, 1))
     if X_val.shape[-1] != 3:
         X_val = np.transpose(X_val, axes=(0, 2, 3, 1))
-    if X_test.shape[-1] != 3:
-        X_test = np.transpose(X_test, axes=(0, 2, 3, 1))
+    # if X_test.shape[-1] != 3:
+    #     X_test = np.transpose(X_test, axes=(0, 2, 3, 1))
 
-    y_train = np.load(args.Y_TRAIN_PATH)
-    y_val = np.load(args.Y_VAL_PATH)
-    y_test = np.load(args.Y_TEST_PATH)
+    y_train = np.load(Y_TRAIN_PATH)
+    y_val = np.load(Y_VAL_PATH)
+    # y_test = np.load(Y_TEST_PATH)
 
-    if args.TRAIN_LIM > 0:
-        X_train = X_train[0:args.TRAIN_LIM]
-        y_train = y_train[0:args.TRAIN_LIM]
-    if args.VAL_LIM > 0:
-        X_val = X_val[0:args.VAL_LIM]
-        y_val = y_val[0:args.VAL_LIM]
-    if args.TEST_LIM > 0:
-        X_test = X_test[0:args.TEST_LIM]
-        y_test = y_test[0:args.TEST_LIM]
+    if TRAIN_LIM > 0:
+        X_train = X_train[0:TRAIN_LIM]
+        y_train = y_train[0:TRAIN_LIM]
+    if VAL_LIM > 0:
+        X_val = X_val[0:VAL_LIM]
+        y_val = y_val[0:VAL_LIM]
+    # if TEST_LIM > 0:
+    #     X_test = X_test[0:TEST_LIM]
+    #     y_test = y_test[0:TEST_LIM]
 
     print('X_train.shape: %s' % str(X_train.shape))
     print('y_train.shape: %s' % str(y_train.shape))
     print('X_val.shape: %s' % str(X_val.shape))
     print('y_val.shape: %s' % str(y_val.shape))
-    print('X_test.shape: %s' % str(X_test.shape))
-    print('y_test.shape: %s' % str(y_test.shape))
+    # print('X_test.shape: %s' % str(X_test.shape))
+    # print('y_test.shape: %s' % str(y_test.shape))
 
     assert X_train.shape[0] == y_train.shape[0]
     assert X_val.shape[0] == y_val.shape[0]
-    assert X_test.shape[0] == y_test.shape[0]
+    # assert X_test.shape[0] == y_test.shape[0]
 
-    data_train_ = DataSet(X=X_train, y=y_train, batch_size=args.BATCH_SIZE_INT)
-    data_val_ = DataSet(X=X_val, y=y_val, batch_size=args.BATCH_SIZE_INT)
-    data_test_ = DataSet(X=X_test, y=y_test, batch_size=args.BATCH_SIZE_INT)
+    data_train_ = DataSet(X=X_train, y=y_train, batch_size=BATCH_SIZE_INT)
+    data_val_ = DataSet(X=X_val, y=y_val, batch_size=BATCH_SIZE_INT)
+    # data_test_ = DataSet(X=X_test, y=y_test, batch_size=BATCH_SIZE_INT)
 
-    if args.TRAIN:
+    if TRAIN:
         history, best_train_acc, best_val_acc = \
             vgg.train(data_train=data_train_, data_val=data_val_,
-                  save_path=args.SAVE_PATH,
-                  weights_path=args.WEIGHTS_PATH,
-                  restore_path=args.RESTORE_PATH,
-                  save_summaries_every=args.SAVE_SUMMARIES_EVERY,
-                  display_every=args.DISPLAY_EVERY,
-                  display=args.DISPLAY,
-                  nb_to_display=args.NB_TO_DISPLAY,
-                  nb_epochs=args.NB_EPOCHS,
-                  save_best_only=args.SAVE_BEST_ONLY)
+                  save_path=SAVE_PATH,
+                  weights_path=WEIGHTS_PATH,
+                  restore_path=RESTORE_PATH,
+                  save_summaries_every=SAVE_SUMMARIES_EVERY,
+                  display_every=DISPLAY_EVERY,
+                  display=DISPLAY,
+                  nb_to_display=NB_TO_DISPLAY,
+                  nb_epochs=NB_EPOCHS,
+                  save_best_only=SAVE_BEST_ONLY)
 
-    else:
-        vgg.predict(X=X_test[0:5],
-                    restore_path=args.RESTORE_PATH)
+    # else:
+    #     vgg.predict(X=X_test[0:5],
+    #                 restore_path=RESTORE_PATH)

@@ -3,16 +3,17 @@ import skimage.transform
 from skimage.io import imread
 from skimage.color import rgb2gray
 from skimage import transform as tf
-from skimage.util import crop
-from skimage.feature import (corner_harris, corner_fast, CENSURE,
-                             corner_peaks, ORB, blob_dog, daisy)
+#from skimage.util import crop
+#from skimage.feature import (corner_harris, corner_fast, CENSURE,
+#                             corner_peaks, ORB, blob_dog, daisy)
 from scipy import signal
 import matplotlib.pyplot as plt
-# import urllib.request, urllib.error, urllib.parse, os, tempfile
+#import urllib.request, urllib.error, urllib.parse, os, tempfile
 import os, json
 import numpy as np
-# import h5py
+#import h5py
 import math, time, sys
+from numpy.lib.arraypad import _validate_lengths
 
 """
 Utility functions used for viewing and processing images.
@@ -85,8 +86,19 @@ def channel_first2last(img, nb_channels=3):
         else:
             return img.transpose(0,2,3,1)
 
+def crop(ar, crop_width, copy=False, order='K'):
+    ar = np.array(ar, copy=False)
+    crops = _validate_lengths(ar, crop_width)
+    slices = [slice(a, ar.shape[i] - b) for i, (a, b) in enumerate(crops)]
+    if copy:
+        cropped = np.array(ar[slices], order=order, copy=True)
+    else:
+        cropped = ar[slices]
+    return cropped
+
 
 def preprocess_image(img, proc_shape=(3, 224, 224), mean_pixel=[0.,0.,0.], dbg=False):
+# def preprocess_image(img, proc_shape=(3, 224, 224), mean_pixel=[103.939, 116.779, 123.68], dbg=False):
     """
     Convert to float, transpose, and subtract mean pixel
 
@@ -123,7 +135,8 @@ def preprocess_image(img, proc_shape=(3, 224, 224), mean_pixel=[0.,0.,0.], dbg=F
         # img is wider than target (by ratio) so we rescale to target's H, and then crop to target's W
         if dbg:
             print('wider')
-        scale = proc_shape[1] / H
+        scale = proc_shape[1] / float(H)
+
         crop_ = (round(W * scale) - proc_shape[2]) // 2
         if dbg:
             assert ((crop_ * 2) + proc_shape[2] == round(W * scale)) or ((crop_ * 2) + proc_shape[2] == round(W * scale) - 1), 'crop dims are wrong:%f != %d' % (((crop_ * 2) + proc_shape[2]), round(W * scale))
@@ -167,7 +180,7 @@ def preprocess_image(img, proc_shape=(3, 224, 224), mean_pixel=[0.,0.,0.], dbg=F
     assert ((img_sk.shape[0] == proc_shape[1]) and (img_sk.shape[1] == proc_shape[2])), 'img was not rescaled or cropped to the corrects dims'
     if dbg:
         ax[1].imshow(img_sk)
-        plt.show()
+        #plt.show()
     img = rgb2bgr(img_sk)
     mean_pixel = np.asarray(mean_pixel) / 255.
     for c in range(3): # c represents 'channel'

@@ -2,7 +2,6 @@ import os,sys
 import time
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
 
 from vgg6t_encoder import get_encoder
 
@@ -24,38 +23,20 @@ class _Classifier(object):
             saver = tf.train.Saver()
             saver.restore(self.sess,self.RESTORE_PATH)
 
-    def hacky_predict(self, X, magic_i1=50, magic_i2=100, magic_j1=50, magic_j2=224-50, magic_thresh_light=.985, magic_thresh_sum=20., verbose=False):
-        X = self.threshold(X, magic_thresh_light)
-        X_below = X[magic_i1:magic_i2,magic_j1:magic_j2]
-        X_below_sum = np.sum(X_below)
-        print('Sum: %.2f' % X_below_sum)
-        plt.imshow(X_below)
-        plt.show()
-        if X_below_sum > magic_thresh_sum:
-            return False
-        else:
-            return True
-
     def predict(self, X, verbose=False):
         """make a prediction on a single incoming image"""
         start_time = time.time()
-        pred =  self.hacky_predict(X=X, verbose=verbose)
-        if pred:
-            pred_str = 'TURN'
-        else:
-            pred_str = 'STRAIGHT'
+        X = np.asarray([X])
+        feed_dict = {self.inputs_pl: X}
+        scores = self.sess.run([self.preds], feed_dict=feed_dict)[0]  # [0] since sess.run([preds]) returns a list of len 1 in this case
+        scores = scores[0] # since we are only classifying one image at a time
         duration = time.time() - start_time
         if verbose:
-            print('prediction: %s (duration: %.3f)' % (pred_str,duration))
-        return pred, duration
-
-
-def threshold(self, X, thresh):
-    X = np.where(X >= thresh, X, 0)
-    X_mask = X[:, :, 0] * X[:, :, 1] * X[:, :, 2]
-    X_mask = np.asarray([X_mask, X_mask, X_mask]).transpose(1, 2, 0)
-    X = X * X_mask
-    return X
+            print('scores: %s' % str(scores))
+            pred_idx = np.argmax(scores)
+            pred_class = idx2label[pred_idx]
+            print('prediction: %s (duration: %.3f)' % (pred_class,duration))
+        return scores[1] > scores[0], duration # scores[1] is TURN, scores[0] is STRAIGHT
 
 
 if __name__ == '__main__':
