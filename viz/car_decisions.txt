@@ -1,0 +1,500 @@
+prediction: TURN (duration: 0.009)
+77204.0433134
+Sum: 0.00
+prediction: TURN (duration: 0.014)
+67508.1629887
+Sum: 91.19
+prediction: STRAIGHT (duration: 0.012)
+65075.2938928
+Sum: 131.76
+prediction: STRAIGHT (duration: 0.011)
+63701.0225326
+Sum: 154.81
+prediction: STRAIGHT (duration: 0.010)
+63926.9709723
+Sum: 168.96
+prediction: STRAIGHT (duration: 0.010)
+63980.6214796
+Sum: 171.95
+prediction: STRAIGHT (duration: 0.010)
+63895.5484397
+Sum: 177.62
+prediction: STRAIGHT (duration: 0.014)
+63895.417588
+Sum: 175.02
+prediction: STRAIGHT (duration: 0.012)
+63839.0229289
+Sum: 177.80
+prediction: STRAIGHT (duration: 0.010)
+63978.2536803
+Sum: 177.79
+prediction: STRAIGHT (duration: 0.010)
+63805.4064632
+Sum: 177.86
+prediction: STRAIGHT (duration: 0.010)
+63813.8920407
+Sum: 177.95
+prediction: STRAIGHT (duration: 0.010)
+63976.3702697
+Sum: 175.10
+prediction: STRAIGHT (duration: 0.013)
+63968.8428412
+Sum: 178.02
+prediction: STRAIGHT (duration: 0.012)
+63946.0118546
+Sum: 177.92
+prediction: STRAIGHT (duration: 0.010)
+63942.9000028
+Sum: 172.21
+prediction: STRAIGHT (duration: 0.010)
+63946.5351929
+Sum: 175.07
+prediction: STRAIGHT (duration: 0.010)
+63981.0833254
+Sum: 175.15
+prediction: STRAIGHT (duration: 0.010)
+64007.64799
+Sum: 177.99
+prediction: STRAIGHT (duration: 0.013)
+64026.9588544
+Sum: 177.88
+prediction: STRAIGHT (duration: 0.013)
+63998.6915554
+Sum: 172.37
+prediction: STRAIGHT (duration: 0.011)
+64025.3655078
+Sum: 177.80
+prediction: STRAIGHT (duration: 0.010)
+64043.529557
+Sum: 172.31
+prediction: STRAIGHT (duration: 0.010)
+64026.7298717
+Sum: 172.36
+prediction: STRAIGHT (duration: 0.013)
+64020.6881941
+Sum: 175.09
+prediction: STRAIGHT (duration: 0.012)
+64058.7925456
+Sum: 177.91
+prediction: STRAIGHT (duration: 0.010)
+64061.5050045
+Sum: 174.97
+prediction: STRAIGHT (duration: 0.010)
+64019.9298474
+Sum: 177.96
+prediction: STRAIGHT (duration: 0.012)
+64020.6883608
+Sum: 175.11
+prediction: STRAIGHT (duration: 0.014)
+64053.609551
+Sum: 172.36
+prediction: STRAIGHT (duration: 0.010)
+64032.2118359
+Sum: 177.89
+prediction: STRAIGHT (duration: 0.010)
+64034.3440628
+Sum: 177.88
+prediction: STRAIGHT (duration: 0.013)
+64065.1241402
+Sum: 177.88
+prediction: STRAIGHT (duration: 0.011)
+64056.6456498
+Sum: 172.33
+prediction: STRAIGHT (duration: 0.012)
+64133.3682902
+Sum: 175.14
+prediction: STRAIGHT (duration: 0.010)
+64133.4676372
+Sum: 172.43
+prediction: STRAIGHT (duration: 0.010)
+64139.8079462
+Sum: 177.97
+prediction: STRAIGHT (duration: 0.013)
+64115.6181473
+Sum: 178.01
+prediction: STRAIGHT (duration: 0.010)
+64093.5599843
+Sum: 175.15
+prediction: STRAIGHT (duration: 0.013)
+63917.8288478
+Sum: 172.22
+prediction: STRAIGHT (duration: 0.012)
+63855.8893689
+Sum: 172.46
+prediction: STRAIGHT (duration: 0.010)
+62528.4716028
+Sum: 175.11
+prediction: STRAIGHT (duration: 0.013)
+61686.8049436
+Sum: 175.06
+prediction: STRAIGHT (duration: 0.012)
+61393.2654207
+Sum: 172.29
+prediction: STRAIGHT (duration: 0.010)
+59942.0356295
+Sum: 172.13
+prediction: STRAIGHT (duration: 0.013)
+60009.7326935
+Sum: 172.34
+prediction: STRAIGHT (duration: 0.011)
+60529.4424496
+Sum: 172.32
+prediction: STRAIGHT (duration: 0.012)
+60509.3399801
+Sum: 172.17
+prediction: STRAIGHT (duration: 0.012)
+60160.701364
+Sum: 172.36
+prediction: STRAIGHT (duration: 0.012)
+60127.497434
+Sum: 172.27
+prediction: STRAIGHT (duration: 0.015)
+59463.5299373
+Sum: 172.28
+prediction: STRAIGHT (duration: 0.012)
+59331.2461089
+Sum: 172.41
+prediction: STRAIGHT (duration: 0.011)
+57418.7215124
+Sum: 163.48
+prediction: STRAIGHT (duration: 0.010)
+57383.057022
+Sum: 172.37
+prediction: STRAIGHT (duration: 0.013)
+56900.4321407
+Sum: 172.24
+prediction: STRAIGHT (duration: 0.010)
+56730.1793392
+Sum: 172.14
+prediction: STRAIGHT (duration: 0.010)
+56848.1659256
+Sum: 172.32
+prediction: STRAIGHT (duration: 0.012)
+57275.0465127
+Sum: 172.29
+prediction: STRAIGHT (duration: 0.012)
+57356.6823473
+Sum: 172.31
+prediction: STRAIGHT (duration: 0.011)
+57477.2017912
+Sum: 172.33
+prediction: STRAIGHT (duration: 0.010)
+57343.224277
+Sum: 172.22
+prediction: STRAIGHT (duration: 0.011)
+58012.3374797
+Sum: 180.66
+prediction: STRAIGHT (duration: 0.013)
+58180.6562491
+Sum: 172.35
+prediction: STRAIGHT (duration: 0.011)
+57837.9220436
+Sum: 175.19
+prediction: STRAIGHT (duration: 0.010)
+58826.0746372
+Sum: 175.06
+prediction: STRAIGHT (duration: 0.010)
+58955.613288
+Sum: 172.31
+prediction: STRAIGHT (duration: 0.013)
+59016.159439
+Sum: 178.05
+prediction: STRAIGHT (duration: 0.014)
+59398.8539595
+Sum: 175.22
+prediction: STRAIGHT (duration: 0.010)
+62382.1951444
+Sum: 175.12
+prediction: STRAIGHT (duration: 0.010)
+63358.9321482
+Sum: 172.31
+prediction: STRAIGHT (duration: 0.013)
+63548.1887965
+Sum: 172.29
+prediction: STRAIGHT (duration: 0.012)
+63645.1217972
+Sum: 177.92
+prediction: STRAIGHT (duration: 0.011)
+63701.8936352
+Sum: 175.16
+prediction: STRAIGHT (duration: 0.010)
+63673.3125545
+Sum: 177.98
+prediction: STRAIGHT (duration: 0.011)
+63656.0050177
+Sum: 172.29
+prediction: STRAIGHT (duration: 0.012)
+63683.1114996
+Sum: 178.06
+prediction: STRAIGHT (duration: 0.010)
+63739.5456873
+Sum: 175.20
+prediction: STRAIGHT (duration: 0.011)
+63910.1311299
+Sum: 175.13
+prediction: STRAIGHT (duration: 0.015)
+64006.5118397
+Sum: 175.11
+prediction: STRAIGHT (duration: 0.011)
+63977.5450662
+Sum: 175.17
+prediction: STRAIGHT (duration: 0.016)
+63918.7572628
+Sum: 172.30
+prediction: STRAIGHT (duration: 0.018)
+63839.6777128
+Sum: 178.12
+prediction: STRAIGHT (duration: 0.013)
+63757.1834256
+Sum: 172.45
+prediction: STRAIGHT (duration: 0.012)
+63562.2726333
+Sum: 175.13
+prediction: STRAIGHT (duration: 0.010)
+63493.9247716
+Sum: 175.14
+prediction: STRAIGHT (duration: 0.012)
+63496.2416374
+Sum: 175.19
+prediction: STRAIGHT (duration: 0.013)
+63516.4190448
+Sum: 175.11
+prediction: STRAIGHT (duration: 0.010)
+63614.4500136
+Sum: 175.15
+prediction: STRAIGHT (duration: 0.010)
+63793.675427
+Sum: 175.06
+prediction: STRAIGHT (duration: 0.013)
+63643.6610457
+Sum: 177.94
+prediction: STRAIGHT (duration: 0.012)
+63672.5431766
+Sum: 175.19
+prediction: STRAIGHT (duration: 0.010)
+63621.4765062
+Sum: 175.11
+prediction: STRAIGHT (duration: 0.013)
+64766.8866249
+Sum: 215.06
+prediction: STRAIGHT (duration: 0.011)
+65879.5701901
+Sum: 238.90
+prediction: STRAIGHT (duration: 0.010)
+65704.0708009
+Sum: 255.19
+prediction: STRAIGHT (duration: 0.011)
+64885.681685
+Sum: 259.47
+prediction: STRAIGHT (duration: 0.013)
+64937.4481662
+Sum: 268.74
+prediction: STRAIGHT (duration: 0.010)
+65219.0507893
+Sum: 255.16
+prediction: STRAIGHT (duration: 0.011)
+65526.5275999
+Sum: 251.72
+prediction: STRAIGHT (duration: 0.014)
+65158.0542771
+Sum: 212.04
+prediction: STRAIGHT (duration: 0.010)
+65355.4683398
+Sum: 215.37
+prediction: STRAIGHT (duration: 0.010)
+64997.0667931
+Sum: 217.45
+prediction: STRAIGHT (duration: 0.010)
+65026.5963707
+Sum: 215.69
+prediction: STRAIGHT (duration: 0.010)
+64664.465475
+Sum: 204.29
+prediction: STRAIGHT (duration: 0.013)
+64993.6215199
+Sum: 203.82
+prediction: STRAIGHT (duration: 0.010)
+65125.6709283
+Sum: 221.16
+prediction: STRAIGHT (duration: 0.013)
+65067.6053287
+Sum: 198.51
+prediction: STRAIGHT (duration: 0.011)
+65404.5939874
+Sum: 206.65
+prediction: STRAIGHT (duration: 0.010)
+65248.9266041
+Sum: 224.06
+prediction: STRAIGHT (duration: 0.014)
+65601.6988299
+Sum: 218.07
+prediction: STRAIGHT (duration: 0.013)
+66120.5198692
+Sum: 212.70
+prediction: STRAIGHT (duration: 0.011)
+66994.1724741
+Sum: 203.90
+prediction: STRAIGHT (duration: 0.013)
+64778.050126
+Sum: 215.11
+prediction: STRAIGHT (duration: 0.015)
+65407.5420786
+Sum: 193.64
+prediction: STRAIGHT (duration: 0.013)
+65574.7067592
+Sum: 193.92
+prediction: STRAIGHT (duration: 0.011)
+65627.2645616
+Sum: 178.84
+prediction: STRAIGHT (duration: 0.010)
+65521.9297715
+Sum: 138.39
+prediction: STRAIGHT (duration: 0.013)
+65640.0308695
+Sum: 131.79
+prediction: STRAIGHT (duration: 0.011)
+65718.350778
+Sum: 122.66
+prediction: STRAIGHT (duration: 0.010)
+66398.3577068
+Sum: 146.39
+prediction: STRAIGHT (duration: 0.012)
+63612.0572918
+Sum: 123.12
+prediction: STRAIGHT (duration: 0.010)
+64281.8444132
+Sum: 131.87
+prediction: STRAIGHT (duration: 0.014)
+64747.9228362
+Sum: 132.43
+prediction: STRAIGHT (duration: 0.012)
+64483.69696
+Sum: 109.69
+prediction: STRAIGHT (duration: 0.011)
+64173.4668334
+Sum: 117.98
+prediction: STRAIGHT (duration: 0.010)
+63958.9090095
+Sum: 109.85
+prediction: STRAIGHT (duration: 0.013)
+63760.7757539
+Sum: 89.08
+prediction: STRAIGHT (duration: 0.011)
+63069.0933485
+Sum: 74.62
+prediction: STRAIGHT (duration: 0.010)
+62180.171941
+Sum: 53.70
+prediction: STRAIGHT (duration: 0.011)
+61146.2862192
+Sum: 40.13
+prediction: TURN (duration: 0.013)
+61004.3442071
+Sum: 43.04
+prediction: TURN (duration: 0.011)
+60407.6673983
+Sum: 34.36
+prediction: TURN (duration: 0.011)
+59433.887083
+Sum: 19.88
+prediction: TURN (duration: 0.010)
+58133.9981619
+Sum: 8.32
+prediction: TURN (duration: 0.013)
+57452.9079068
+Sum: 0.00
+prediction: TURN (duration: 0.011)
+57647.1984964
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+56543.5397338
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+55994.8479928
+Sum: 0.00
+prediction: TURN (duration: 0.013)
+56275.1347245
+Sum: 0.00
+prediction: TURN (duration: 0.011)
+58262.6400101
+Sum: 0.00
+prediction: TURN (duration: 0.011)
+53358.7736704
+Sum: 0.00
+prediction: TURN (duration: 0.011)
+55592.6360567
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+60682.9411755
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+59305.2436834
+Sum: 0.00
+prediction: TURN (duration: 0.012)
+57132.6744002
+Sum: 0.00
+prediction: TURN (duration: 0.012)
+56233.7028817
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+58078.6344238
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+57755.1095828
+Sum: 0.00
+prediction: TURN (duration: 0.009)
+57096.0470925
+Sum: 0.00
+prediction: TURN (duration: 0.012)
+57118.0151008
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+56596.8818002
+Sum: 0.00
+prediction: TURN (duration: 0.014)
+56553.7658273
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+56644.5885023
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+56139.4126875
+Sum: 0.00
+prediction: TURN (duration: 0.013)
+54114.8129685
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+54024.9916603
+Sum: 0.00
+prediction: TURN (duration: 0.014)
+56632.2676588
+Sum: 0.00
+prediction: TURN (duration: 0.013)
+56456.15892
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+55613.8499471
+Sum: 0.00
+prediction: TURN (duration: 0.012)
+55355.890864
+Sum: 0.00
+prediction: TURN (duration: 0.012)
+55342.9592189
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+55124.8589359
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+54983.7064379
+Sum: 0.00
+prediction: TURN (duration: 0.014)
+59983.9771638
+Sum: 0.00
+prediction: TURN (duration: 0.010)
+59945.5324181
+Sum: 0.00
+prediction: TURN (duration: 0.013)
+^C59714.989248
+Sum: 0.00
+prediction: TURN (duration: 0.009)
+

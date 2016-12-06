@@ -26,6 +26,7 @@ class _Classifier(object):
 
     def hacky_predict(self, X, magic_i1=50, magic_i2=100, magic_j1=50, magic_j2=224-50, magic_thresh_light=.985, magic_thresh_sum=20., verbose=False):
         X = self.threshold(X, magic_thresh_light)
+        magic_j1, magic_j2 = self.get_window(X, width=40)
         X_below = X[magic_i1:magic_i2,magic_j1:magic_j2]
         X_below_sum = np.sum(X_below)
         print('Sum: %.2f' % X_below_sum)
@@ -50,13 +51,62 @@ class _Classifier(object):
         return pred, duration
 
 
-def threshold(self, X, thresh):
-    X = np.where(X >= thresh, X, 0)
-    X_mask = X[:, :, 0] * X[:, :, 1] * X[:, :, 2]
-    X_mask = np.asarray([X_mask, X_mask, X_mask]).transpose(1, 2, 0)
-    X = X * X_mask
-    return X
+    def threshold(self, X, thresh):
+        X = np.where(X >= thresh, X, 0)
+        X_mask = X[:, :, 0] * X[:, :, 1] * X[:, :, 2]
+        X_mask = np.asarray([X_mask, X_mask, X_mask]).transpose(1, 2, 0)
+        X = X * X_mask
+        return X
 
+    def get_window(self, X, width=40):
+        nb_patches = 224 // width
+        start = 0
+        end = width
+        best_err = np.inf
+        best_start = 0
+        for patch_num in range(nb_patches+1):
+            patch = X[:,start:end+1,0]
+            assert patch.shape == (224,width)
+            m_b, X1, y = self.fit_line(patch)
+            err = self.get_error(m_b, X1, y)
+            if err < best_err:
+                best_err = err
+                best_start = start
+            start += width
+            if patch_num == nb_patches - 1:
+                end = 224 - start
+            else:
+                end += width
+        magicj1 = best_start
+        magicj2 = best_start + width
+        return magicj1,magicj2
+
+    def fit_line(self, patch):
+        # patch = np.where(patch > 0, 1., 0.)
+        y,X = np.where(patch > 0.)
+        print('y.shape')
+        print(y.shape)
+        print('X.shape')
+        print(X.shape)
+        biases = np.ones(shape=X.shape[0])
+        X1_T = np.asarray([X,biases])
+        X1 = X1_T.transpose()
+        print('X1.shape')
+        print(X1.shape)
+        X1_T_X1 = np.dot(X1_T, X)
+        X1_T_X1_inv = np.linalg.inv(X1_T_X1)
+        m_b = np.dot(np.dot(X1_T_X1_inv, X1_T),y)
+        print('m_b.shape')
+        print(m_b.shape)
+        print(m_b)
+        return m_b, X1, y
+
+    def get_error(self, m_b, X1, y):
+        yhat = np.dot(X1, m_b)
+        err = yhat - y
+        err = err.sum()
+        print('err: %.4f' % err)
+        return err
 
 if __name__ == '__main__':
     if len(sys.argv) < 4:
