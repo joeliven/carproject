@@ -53,12 +53,22 @@ There are many possible environments in which an autonomous agent (robot, car, e
 \par It is precisely this issue - namely, the observation that even apparently similar operating environments can have very different visual features - that motivates our first category of classification models: learned neural network models. Neural Networks have long been known for their ability to learn predictive tasks with a high degree of accuracy when trained on substantial amounts of data [need ref]. Furthermore, in the past decade advances in nueral network architectures (i.e. convolutional neural networks (CNNs)) have enabled the design and implementation of extremely successful vision-based object classificaition systems that require no hand-engineering of features, but simply learn the predictive task based on an implicit (learned) feature representation of the data [need ref]. This internal representation is embedded into the model in the form of the model's weights (often referred to as ``parameters" in the literature, not to be confused with ``hyperparameters", which are those settings used to train neural models and much fewer in the number - e.g. millions of parameters compared to 1-10 hyperparameters typically) through the process of training the model [need ref]. One of the key findings in the image classification literature is that CNNs are able to learn a very useful heirarchy of feature representations by training simply on raw pixel data. 
 \par Returning to the task of autonomous control of our race car, the high variablity in visual features in the environment make CNNs a great fit for the classification task required by our proposed method. Rather than using hand-engineered rules to identify useful features in the environment that can then be used for classification, this category of classifiers instead proposes to learn the features in the enironment implicitly by training a CNN to make a binary classification decision (whether the car should turn or continue forward) based on the current (forward-looking) image of its environment collected from the camera.
 
-% (3.2.2) Data Collection
-\subsubsection{Data Collection}
-
+% (3.2.2) Data Collection and Preprocessing
+\subsubsection{Data Collection and Preprocessing}
+In order to train the CNN classifier, we collected visual data in different floors of GDC. We placed the camera pointing forward on the car, and started recording. We pushed the car around the floor, following the intended path (the path that does not turn into the copy room or in the kitchen, but just follows the corridors). We collected 10 laps of video overall, in five different floors and two different driving directions (clockwise and counter-clockwise). We collected the data in different times of the day, to ensure that the data included different light exposures, thus enabling the classifier to be more robust to different environmental factors and to generalize better to slightly differing environments.
+Each lap consisted of approximately 30-45 seconds of video, collected at 10 Hz. We fragmented the videos into frames, resulting in a total of 3602 frames. Each fram was assigned a label out of the set ${T,S,Bad}$. Label $T$ was used in these frames corresponding to positions in which the car should have turned. This means that when seeing frames similar to these labeled $T$, the control algorithm should follow the lidar reading and turn when an opening is detected. Label $S$ was used in these frames corresponding to positions in which the car should not have turned. The intuition behind our method of data collection and labelling is that when seeing frames similar to these labeled $S$ at run time, the control algorithm should not follow the lidar (in the case the lidar detected an opening) but rather keep going straight. Label $Bad$ was used for faulty frames. The classifier was trained on the frames with labels $T$ and $S$, and the frames with label $Bad$ were discarded. This resulted in approximately 3000 frames of traning data.
+\par The training data was preprocessed using standard preprocessing methods, with the exception that no mean pixel was subtracted. Given the relatively small size of the data set, we thought this might hurt generalization purformance during test (run) time. The data was preprocessed by:
+\begin{enumerate}
+\item Each image resized and downsampled to 224x224x3 (height, width, channels)
+\item Each image converted from RBG (red, blue, green) to GBR in the channels dimension, to conform to the data format that was used to train the VGG models that we used to initiate our model parameters (see section \ref{sec:vggmodels} for details on our model architectures)
+\item To avoid imbalance, random instances of frames corresponding to $T$ labels were duplicated until the data set was approximately balanced.
+\item The data was randomly split into a training set (85\%), validation set (10\%) and test set (5\%)
+\item All models (discussed below) were trained on the training set, using the validation set to monitor the model's performance at the end of each trainining epoch. At the end of training, each model was tested on the held-out test set to determine final performance metric when deciding which model we might use in the final control system.
+\end{enumerate}
 
 % (3.2.3) Models
 \subsubsection{Models}
+RIGHT HERE
 
 % (3.2.4) Results
 \subsubsection{Results}
@@ -103,11 +113,6 @@ There are many possible environments in which an autonomous agent (robot, car, e
 %********************************************************************************************************%
 
 %i'm just sticking stuff here, will need to be moved when vision part is added.
-
-%data collection part:
-In order to train the classifier, we collected visual data in different floors of our building. We placed the camera pointing forward on the car, and started recording. We pushed the car around the floor, following the intended path (the path that does not turn into the copy room or in the kitchen, but just follows the corridors). We collected 10 lapses overall, in 5 different floors and 2 different driving directions (clockwise and counter-clockwise). We collected the data in different times of the day, so that the data included different light exposures. 
-We fragmented the videos into frames, for a total of 3602 frames. We labeled each frame with one label out of the set ${T,S,Bad}$. Label $T$ was used in these frames corresponding to positions in which the car should have turned. This means that when seeing frames similar to these labeled $T$, the control algorithm should follow the lidar reading and turn when an opening is detected. Label $S$ was used in these frames corresponding to positions in which the car should not have turned. This means that when seeing frames similar to these labeled $S$, the control algorithm should not follow the lidar, in the case the lidar detected an opening, but rather keep going straight. Label $Bad$ was used for faulty frames. The classifier was trained on the frames with labels $T$ and $S$, and the frames with label $Bad$ were discarded. 
-%end of data collection part
 
 
 %angle threshold part:
