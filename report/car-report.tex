@@ -61,14 +61,23 @@ Each lap consisted of approximately 30-45 seconds of video, collected at 10 Hz. 
 \begin{enumerate}
 \item Each image resized and downsampled to 224x224x3 (height, width, channels)
 \item Each image converted from RBG (red, blue, green) to GBR in the channels dimension, to conform to the data format that was used to train the VGG models that we used to initiate our model parameters (see section \ref{sec:vggmodels} for details on our model architectures)
+\item At run time, image frame collected from the camera are preprocessed in the same manner - thus the computational complexity of the preprocessing operation (per image) is an important factor.
 \item To avoid imbalance, random instances of frames corresponding to $T$ labels were duplicated until the data set was approximately balanced.
 \item The data was randomly split into a training set (85\%), validation set (10\%) and test set (5\%)
 \item All models (discussed below) were trained on the training set, using the validation set to monitor the model's performance at the end of each trainining epoch. At the end of training, each model was tested on the held-out test set to determine final performance metric when deciding which model we might use in the final control system.
 \end{enumerate}
 
-% (3.2.3) Models
-\subsubsection{Models}
-RIGHT HERE
+% (3.2.3) CNN Model Specifications
+\subsubsection{CNN Model Specifications}
+We experimented with five different model architectures, all of which were variants of the popular and successful VGG CNN architecture [VGG ref]. Furthermore, each of our proposed models used the pretrained weights from the VGG16 model trained by [VGG ref] for the 2012 (???) ImageNet Challenge, for one or more layers in our model. The layers in our models that were initated with the VGG pretrained weights were frozen - meaning the parameters for those layers in the model were not updated during training. The layers in our various models that did not use pretrained weights were initiated using small random values drawn from a zero mean Guassian distribution with a standard deviation of 0.1. In choosing our model architectures, we considered several key factors:
+\begin{itemize}
+\item \textbf{speed:} to fuction in the real-time enviroment of the autonomous F1tenth race car, we needed our model to be fast enough to operate at a high enough frequency that it could provide timely classification decisions to the master control algorithm. We estimated that we would need our classifier to run at approximately five to ten Hz in order for the control algorithm to function properly - thus whatever model architecture we used had to be able to complete a forward pass through the network (including preprocessing operations) in 100-200 milliseconds. Given that the full VGG16 (``16" represents 16 different layers in the architecture) takes approxiately 400 milliseconds on a multicore CPU (measured experimentally), not including preprocessing, most of our proposed model architectures are shallower (less layers) than the full VGG16 model, and thus much faster.
+\item \textbf{accuracy:} for our modified control algorithm to function properly, our model proposed model must be accurate enough to provide reliable classification decisions. This poses a challenge, since speed and accuracy are often inversely related. Fortunatlely, the binary classificaation task at hand is simple enough that the best of our proposed models achieves both concurrently.
+\item \textbf{generalization/overfitting:} Given the relatively small size of our training data set (approximately 3000 images versus over one million images in the ImageNet data set), we were concerned about our model overfitting the training data, thus suffering from poor generalization performance at run time and in different environments (e.g. GDC 3rd floor south wing versus 6th floor south wing)
+ \end{itemize}
+ Given the above considerations, we proposed the following five model architectures for use in our experiments. Each was trained using the same training procedure: the Adam variant of stochastic gradient descent [Adam ref], trained for 250 epochs or until convergence (all models converged well before 250 epochs). All models were trained using the same training and validation data sets, and then tested on the same held-out test set. Model specifications and results are shown in Table \ref{table:modelspecs} and Table \ref{table:modelresults} respectively.
+ 
+ RIGHT HERE
 
 % (3.2.4) Results
 \subsubsection{Results}
