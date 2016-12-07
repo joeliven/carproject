@@ -100,6 +100,15 @@ vgg6f                                                                           
 \end{table}
 % (3.2.4) Results
 \subsubsection{Results}
+After training, each of the four proposed CNN models was tested on a small set of held-out data (178 images) that had not been used during training - neither for gradient updates nor validation. The intuition behind this was that we should use whichever model performed best on the test set in our master control algorithm (subject to speed requirements). Results for each model are detailed in table \ref{table:model_results}. It should be noted that the GPU computation times are very approximate estimates, because ultimately we were not able to sucessfully deploy the models on the specific GPU model onboard the car (Jeston TK1), due to hardware and software compatibility issues (see sections \ref{sec:cnn_benefits_limitations} and \ref{sec:challenges_setbacks} for details). A few noticeable highlights were:
+\begin{itemize}
+\item All models were able to achieve \textit{relatively} good peformance
+\item Vgg16 (arguably the most ``powerful" model) performed the worst. This can likely be attributed to the very low percentage of the weights that were not frozen (i.e. trainable) during training.
+\item The shallower models (vgg6t, vgg6f) seemed to perform as well or better than the very deep models. This suggests that a \textit{binary} classification task of this nature is simple enough that an extremely deep representation is not necessary. In fact, we surmise that an even shallower network could likely acheive comparable performance on this task, while also being less prone to overfitting due to fewer overall weights (and thus less representational power). In fact, if a deep learning approach along these lines is considered for future work within the car reesarch group, we would suggest using a network similar to vgg6t, but shallower and with additional regularization pentalties applied during training to help reduce overfitting.
+\item The shallower networks can classify at approxiately 10 Hz on a GPU (including preprocessing time), and are thus indeed fast enough to be used in this type of real-time control algorithm. This was a key finiding and is very encouraging for future work.
+\item All of the models overfit the data, at least to some extent. In future work this could be addressed by using a shallower network, introducing additional regularization penalties, and training on a larger data set.
+\end{itemize}
+
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage{graphicx}
@@ -123,6 +132,23 @@ vgg6f                                                                           
 
 % (3.2.5) Benefits and Limitations
 \subsubsection{Benefits and Limitations}
+Here we summarize the key benefits and limitations of the overall \textbf{\textit{Learned Classification}} approach:
+\textbf{BENEFITS}
+\begin{itemize}
+\item Hand-engineering of features not required.
+\item More robust to subtle changes within a given environment (e.g. differences in lighting, time of day, visual interference from people, etc.) when trained properly.
+\item Caple of generalizing across different environments (both subtly different, e.g. GDC 3rd south versus GDC 6th north and drastically different, e.g. GDC versus a completely different building) if trained properly and on a large enough and diverse enough data set
+\item System is inherently capable of collecting training data. Binary labelling is tedious, but can be done in reasonable time.
+\end{itemize}
+\textbf{LIMITATIONS}
+\begin{itemize}
+\item Significant training time required.
+\item Adjusting to completely new environments requires full retraining of model, not just recrafting hand-engineered features. Thus less flexiibility in making immediate or on-the-fly adjustments to control algorithm.
+\item To train properly, hyparameters of the model might require tuning - this can be time consuming.
+\item Not as fast as most hand-engineered control features at run-time.
+\item Can be more difficult to debug because the feature representation is learned implicitly in the model - i.e. ``why is the network learning to focus on a particular part of the environment?" is a notoriously difficult question to answer.
+\item Very difficult to implement on the car's current GPU hardware (Jetson TK1). The TK1 GPU does not support current versions of many of the libraries that are useful for neural network models. For instance, the TK1 appears to only support tensorflow 0.5 (current version is 0.12), at least to the best of our knowledge. Due to these hardware issues, although this approach appeared to be promising based on the aforementioned results, we were not actually able to make use of it in our final system. If this approach is desired as an avenue of future work within the research group, we suggest upgrading the GPU to the TX1 if possible, which appears to have much better support for neural network libraries.
+\end{itemize}
 
 
 % (3.3) Hand-Engineered Classification: Environment-Specific Indicative Feature (ESIF) Detection
@@ -131,6 +157,8 @@ vgg6f                                                                           
 
 % (3.3.1) Motivation
 \subsubsection{Motivation}
+
+
 
 % (3.3.2) Indicative Features
 \subsubsection{Indicative Features}
