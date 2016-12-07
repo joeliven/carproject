@@ -62,7 +62,7 @@ Each lap consisted of approximately 30-45 seconds of video, collected at 10 Hz. 
 \par The training data was preprocessed using standard preprocessing methods, with the exception that no mean pixel was subtracted. Given the relatively small size of the data set, we thought this might hurt generalization purformance during test (run) time. The data was preprocessed by:
 \begin{enumerate}
 \item Each image resized and downsampled to 224x224x3 (height, width, channels)
-\item Each image converted from RBG (red, blue, green) to GBR in the channels dimension, to conform to the data format that was used to train the VGG models that we used to initiate our model parameters (see section \ref{sec:vggmodels} for details on our model architectures)
+\item Each image converted from RBG (red, blue, green) to GBR in the channels dimension, to conform to the data format that was used to train the VGG models that we used to initiate our model parameters (see section \ref{sec:model_specs} for details on our model architectures)
 \item At run time, image frame collected from the camera are preprocessed in the same manner - thus the computational complexity of the preprocessing operation (per image) is an important factor.
 \item To avoid imbalance, random instances of frames corresponding to $T$ labels were duplicated until the data set was approximately balanced.
 \item The data was randomly split into a training set (85\%), validation set (10\%) and test set (5\%)
@@ -70,24 +70,22 @@ Each lap consisted of approximately 30-45 seconds of video, collected at 10 Hz. 
 \end{enumerate}
 
 % (3.2.3) CNN Model Specifications
-\subsubsection{CNN Model Specifications}
+\subsubsection{CNN Model Specifications} \label{sec:model_specs}
 We experimented with five different model architectures, all of which were variants of the popular and successful VGG CNN architecture [VGG ref]. Furthermore, each of our proposed models used the pretrained weights from the VGG16 model trained by [VGG ref] for the 2012 (???) ImageNet Challenge, for one or more layers in our model. The layers in our models that were initated with the VGG pretrained weights were frozen - meaning the parameters for those layers in the model were not updated during training. The layers in our various models that did not use pretrained weights were initiated using small random values drawn from a zero mean Guassian distribution with a standard deviation of 0.1. In choosing our model architectures, we considered several key factors:
 \begin{itemize}
 \item \textbf{speed:} to fuction in the real-time enviroment of the autonomous F1tenth race car, we needed our model to be fast enough to operate at a high enough frequency that it could provide timely classification decisions to the master control algorithm. We estimated that we would need our classifier to run at approximately five to ten Hz in order for the control algorithm to function properly - thus whatever model architecture we used had to be able to complete a forward pass through the network (including preprocessing operations) in 100-200 milliseconds. Given that the full VGG16 (``16" represents 16 different layers in the architecture) takes approxiately 400 milliseconds on a multicore CPU (measured experimentally), not including preprocessing, most of our proposed model architectures are shallower (less layers) than the full VGG16 model, and thus much faster.
 \item \textbf{accuracy:} for our modified control algorithm to function properly, our model proposed model must be accurate enough to provide reliable classification decisions. This poses a challenge, since speed and accuracy are often inversely related. Fortunatlely, the binary classificaation task at hand is simple enough that the best of our proposed models achieves both concurrently.
 \item \textbf{generalization/overfitting:} Given the relatively small size of our training data set (approximately 3000 images versus over one million images in the ImageNet data set), we were concerned about our model overfitting the training data, thus suffering from poor generalization performance at run time and in different environments (e.g. GDC 3rd floor south wing versus 6th floor south wing)
  \end{itemize}
-Given the above considerations, we proposed the following four model architectures for use in our experiments. Each was trained using the same training procedure: the Adam variant of stochastic gradient descent [Adam ref], trained for 250 epochs or until convergence (all models converged well before 250 epochs). All models were trained using the same training and validation data sets, and then tested on the same held-out test set. Model specifications and results are shown in Table \ref{table:modelspecs} and Table \ref{table:modelresults} respectively.
+Given the above considerations, we proposed the following four model architectures for use in our experiments. Each was trained using the same training procedure: the Adam variant of stochastic gradient descent [Adam ref], trained for 250 epochs or until convergence (all models, except vgg16, converged well before 250 epochs). All models were trained using the same training and validation data sets, and then tested on the same held-out test set. Model specifications and results are shown in Table \ref{table:model_specs} and Table \ref{table:model_results} respectively.
  
- RIGHT HERE
-
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 % \usepackage{graphicx}
 \begin{table}[]
 \centering
 \caption{CNN Model Architectures}
-\label{my-label}
+\label{table:model_specs}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|r|c|l|l|l|l|l|l|l|l|}
 \hline
@@ -102,6 +100,26 @@ vgg6f                                                                           
 \end{table}
 % (3.2.4) Results
 \subsubsection{Results}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage{graphicx}
+\begin{table}[]
+\centering
+\caption{CNN Model Results}
+\label{table:model_results}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|r|c|c|c|c|c|l|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}model\\ name\end{tabular}}}} & \multicolumn{5}{c|}{\textbf{Results}}                                                                                                                                                                                                             & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Notes}}}                                                                                                                             \\ \cline{2-6}
+\multicolumn{1}{|c|}{}                                                                               & \textit{Train Acc} & \textit{Val Acc} & \textit{Test Acc} & \textit{Train Time}                                                             & \textit{\begin{tabular}[c]{@{}c@{}}Forward Pass\\ not incl. preproc.\\ (CPU/GPU est.)\end{tabular}} & \multicolumn{1}{c|}{}                                                                                                                                                            \\ \hline
+vgg16                                                                                                & 92.2\%             & 81.3\%           & 85.96 \%          & $\sim$5 hrs                                                                     & 803 ms / 462 ms                                                                                     & \begin{tabular}[c]{@{}l@{}}250 epochs of training.\\ 153/178 on test set.\end{tabular}                                                                                           \\ \hline
+vgg10                                                                                                & 100.0\%            & 96.9\%           & 95.51\%           & $\sim$2.25 hrs                                                                  & 415 ms / 237 ms                                                                                     & \begin{tabular}[c]{@{}l@{}}159 epochs of training.\\ 170/178 on test set.\\ clearly overfit (too many params).\end{tabular}                                                      \\ \hline
+vgg6t                                                                                                & 100.0\%            & 99.2\%           & 97.19\%           & $\sim$1.5 hrs                                                                   & 113 ms / 65 ms                                                                                      & \begin{tabular}[c]{@{}l@{}}57 epochs of training.\\ 173 /178 on test set.\end{tabular}                                                                                           \\ \hline
+vgg6f                                                                                                & 95.3\%             & 92.9\%           & 93.82\%           & \begin{tabular}[c]{@{}c@{}}$\sim$4.75 hrs\\ (for all 250\\ epochs)\end{tabular} & 142 ms / 82 ms                                                                                      & \begin{tabular}[c]{@{}l@{}}25 epochs of training.\\ displayed very strange oscillating\\ performance on train and val set\\ during training.\\ 167/178 on test set.\end{tabular} \\ \hline
+\end{tabular}%
+}
+\end{table}
+
 
 % (3.2.5) Benefits and Limitations
 \subsubsection{Benefits and Limitations}
