@@ -157,11 +157,16 @@ Here we summarize the key benefits and limitations of the overall \textbf{\texti
 
 % (3.3.1) Motivation
 \subsubsection{Motivation}
-
+In spite of the promise of our proposed deep learning classification approach, the hardware-related implementation issues previously discussed rendered that approach infeasible. This motivated the search for alternative classfication techniqes that utilzed simpler software libraries that could be executed in the given hardware environment (namely the TK1 GPU). We observed that there were certain key distinguishing features in the environment in which we were operating - and in the absence of a machine learning approach to identify these features, we turned to a more traditional approach of feature detection through hand-engineered rules and algorithms. We call this approach: hand-engineered classification based on \textbf{E}nvironment-\textbf{S}pecific \textbf{I}ndicative \textbf{F}eature \textbf{(ESIF)} Detection.
 
 
 % (3.3.2) Indicative Features
 \subsubsection{Indicative Features}
+Our second category of proposed approaches to handling this control problem (ESIF) hinges on the identification of key distinguishing features in the specific operating environment that indicate when the classifier should allow the car to trust the control system's lidar reading and when it should ignore it. Once again, this essentially amounts to building a classifier that can detect when the car has reached the end of the coridor and should thus turn. To make the ESIF approach work, we first identified two environment-specific features that we could use:
+\begin{itemize}
+\item \textbf{\textit{Overhead light:}} The overhead strip lights in the GDC cooridor emit a very bright, high contrast, nearly white light that can be consistently identified within almost any image frame in the car's environment. The key intution is that when the car is in the long part of the cooridor (e.g. immediately after turning into the cooridor, near the kitchen, etc.) a significant portion of the overhead strip light is visible to the car, resulting in a long column of nearly white pixels running roughly through the center of the image. However, as the car nears the end of the cooridor (where it should make the right hand turn), much less of the overhead light is in view, thus the column of light visibile in the image frame is significantly shorter. Thus, by thresholding the image (to isolate the nearly white light) and approximately segmenting this column of light from the image, we can sum over the values of the remaining pixels to determine how far along the cooridor the car is, and thus when it should execute the turn.
+\item \textbf{\textit{Red Strip of Carpet:}} A second key indicative feature that our proposed ESIF approach uses is the wide strip of red carpet that lines the outter portion of the long cooridor in the GDC hallways. This is a more difficult segmentation task since it is a single channel segmentation task (high red values, lower blue and green values), and also because the contrast ratio of this feature (i.e. the intensity of the carpets red values versus other pixels in the image) is significantly less than that of the overhead light feature. Nonetheless, approximate segmentation is still possible, enabling our control algorithm to use the relative location of the red strip of carpet in the image as a noisy signal indicating how close the car is to the ``wall" on the left - where the term ``wall" here refers to the track boundary on the left side of the car, regardless of whether it is a physical wall or not (e.g. in the kitchen area there is not a physical wall to the left, thus our algorithm uses the noisy signal provided by the red carpet as an indicator of how \textit{centered} it is on the desired track.
+\end{itemize}
 
 % (3.2.3) ESIF Algorithm
 \subsubsection{ESIF Algorithm}
@@ -170,6 +175,14 @@ Here we summarize the key benefits and limitations of the overall \textbf{\texti
 % (2) the ``blob" method from robocup code (was that after thresholding, or did we not threshold when using this method?)
 % also what should we use as a reference for the robocup code? Thanks!
 Test citation for blob method \cite{james2000fast}.
+At a high level, all variations of our ESIF algorithm have the following structure:
+TODO: insert algorithm block here
+(1) threshold image (for white light)
+(2) segment image
+(3) sum over pixel values
+(4) make control adjustments based on summed value compared to a threshold parameter
+
+
 
 
 % (3.3.4) Results
@@ -177,6 +190,24 @@ Test citation for blob method \cite{james2000fast}.
 
 % (3.3.5) Benefits and Limitations
 \subsubsection{Benefits and Limitations}
+Here we summarize the key benefits and limitations of the overall \textbf{\textit{ESIF}} approach:
+RIGHT HERE 
+\textbf{BENEFITS}
+\begin{itemize}
+\item Hand-engineering of features not required.
+\item More robust to subtle changes within a given environment (e.g. differences in lighting, time of day, visual interference from people, etc.) when trained properly.
+\item Caple of generalizing across different environments (both subtly different, e.g. GDC 3rd south versus GDC 6th north and drastically different, e.g. GDC versus a completely different building) if trained properly and on a large enough and diverse enough data set
+\item System is inherently capable of collecting training data. Binary labelling is tedious, but can be done in reasonable time.
+\end{itemize}
+\textbf{LIMITATIONS}
+\begin{itemize}
+\item Significant training time required.
+\item Adjusting to completely new environments requires full retraining of model, not just recrafting hand-engineered features. Thus less flexiibility in making immediate or on-the-fly adjustments to control algorithm.
+\item To train properly, hyparameters of the model might require tuning - this can be time consuming.
+\item Not as fast as most hand-engineered control features at run-time.
+\item Can be more difficult to debug because the feature representation is learned implicitly in the model - i.e. ``why is the network learning to focus on a particular part of the environment?" is a notoriously difficult question to answer.
+\item Very difficult to implement on the car's current GPU hardware (Jetson TK1). The TK1 GPU does not support current versions of many of the libraries that are useful for neural network models. For instance, the TK1 appears to only support tensorflow 0.5 (current version is 0.12), at least to the best of our knowledge. Due to these hardware issues, although this approach appeared to be promising based on the aforementioned results, we were not actually able to make use of it in our final system. If this approach is desired as an avenue of future work within the research group, we suggest upgrading the GPU to the TX1 if possible, which appears to have much better support for neural network libraries.
+\end{itemize}
 
 
 
