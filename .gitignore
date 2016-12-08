@@ -106,5 +106,7 @@ ENV/
 *.synctex.gz
 *.log
 *.pdf
+*.bbl
+*.blg
 
 imgs/
