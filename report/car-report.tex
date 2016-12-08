@@ -8,7 +8,7 @@
 
 
 \title{Learning Visual Driving}
-\author{Joel Iventosch and Ginevra Gaudioso and Josiah Hanna}
+\author{Joel Iventosch \and Ginevra Gaudioso \and Josiah Hanna}
 \date{}
 
 \begin{document}
@@ -51,11 +51,35 @@ The remainder of this paper is organized as follows (sections pertaining to the 
 \section{Methodology and Results} \label{sec:method_res}
 % (3.1) Overview
 \subsection{Overview} \label{sec:method_res_overview}
-We propose a method that modifies the existing PID-based controller by augmenting the control algorithm with a layer of vision-based intelligence. In our methodology, this additional intelligence layer enables the controller to determine when to trust and when to ignore (or appropriately modify) its PID directive that is computed from the lidar sensor readings. To accomplish this we design a vision-based classification system that outputs binary decisions to the main control algorithm. Thus the key to our proposed contribution is the design and implementation of a fast and accurate vision-based classifier. To perform classification we designed, implemented, and experimented with seven variations of classification  models, which can be roughly divided into two categories: \textbf{\textit{learned classifiers}} based on convolutional neural network (CNN) models, and \textbf{\textit{hand-engineered classifiers}} based on \textbf{E}nvironment-\textbf{S}pecific \textbf{I}ndicative \textbf{F}eature \textbf{(ESIF)} Detection. In the following subsections we motivate each approach and provide algorithmic details, results, and limitations of both categories of classification models. \textbf{\textit{Although our efforts in designing and implementing the Learned Classifier approach are described in great detail, the approach that we ultimately used on the car - and what was used in practice during our demonstration of a successful lap - was our ESIF approach.}}
+We propose a method that modifies the existing PID-based controller by augmenting the control algorithm with a layer of vision-based intelligence. In our methodology, this additional intelligence layer enables the controller to determine when to trust and when to ignore (or appropriately modify) its PID directive that is computed from the lidar sensor readings. To accomplish this we design a vision-based classification system that outputs binary decisions to the main control algorithm. Thus the key to our proposed contribution is the design and implementation of a fast and accurate vision-based classifier. To perform classification we designed, implemented, and experimented with seven variations of classification  models, which can be roughly divided into two categories: \textbf{\textit{learned classifiers}} based on convolutional neural network (CNN) models, and \textbf{\textit{hand-engineered classifiers}} based on \textbf{E}nvironment-\textbf{S}pecific \textbf{I}ndicative \textbf{F}eature \textbf{(ESIF)} Detection. In the following subsections we motivate each approach and provide algorithmic details, results, and limitations of both categories of classification models. \textbf{\textit{Although our efforts in designing and implementing the Learned Classifier approach are described in great detail, the approach that we ultimately used on the car --- and what was used in practice during our demonstration of a successful lap --- was our ESIF approach.}}
 
 \subsection{Control Algorithm} \label{sec:control_algo}
 % TODO:Jo , can you modify and add a little to this for the control algo section? Thanks!
-While we want to discard full turns in these cases where a turn is not desired (thus when a faulty or bad opening is detected by the lidar), we still want to keep the car running in the middle of the corridor. Thus, even when our image classifier dictates "Straight", we still want to allow minor adjustments. In order to do so, we established an angle threshold of 20°. If the turn command dictated by the pre-existing algorithm and the lidar reading was less than 20°, it was considered a minor adjustment, and thus it was allowed even if our classifier would state "Straight". However, turns greater than 20° were ignored. The value of 20° was established experimentally. 
+The car is controlled by setting a velocity parameter and an angle parameter.
+The velocity parameter is always a pre-determined constant value ($10$ in our demonstration).
+The angle parameter is initially set by a PID controller that attempts to maintain a constant distance between the car and the wall on the right.
+The error input to the PID controller is from a lidar reading.
+When the lidar reading is a high value the car turns in order to follow the wall.
+As previously stated, this system works well except when the car is passing a reflexive surface or when passing an open area such as the kitchen or copy area.
+These areas cause the car to turn prematurely. 
+
+Since the PID control works well along most of the corridor our main goal is to use vision to correct performance where the PID control fails while interfering as little as possible where it works well.
+This behavior architecture relies on a classifier which reliably predicts ``turn" when the car should turn and ``straight" when it should go straight.
+The control code takes this decision and limits how much the car can turn when the classifier predicts ``straight" but otherwise does nothing. 
+The limit was initially set to $20$ which was experimentally determined.
+Limiting the PID computed angle allows the car to make small adjustments to its position but prevents larger turns that send the car crashing into the kitchen or copy room.
+When the classifier says ``turn" the PID computed angle is fully followed.
+
+This approach alone was sufficient at low speed such as when the car was pushed forward.
+At higher speeds the approach failed to clear the kitchen area.
+Notably this area requires the car to travel $10$ meters without lidar input.
+Our initial behavior causes the car to drift and crash at the end of the kitchen.
+We mitigated the drift by using the car's camera to detect the red carpet on the opposite side of the corridor from the kitchen.
+Our distance from the red carpet allowed us to estimate how much we had drifted.
+If the drift put us in danger of crashing into the kitchen we dynamically lowered the angle limit to prevent further drift.
+This small modification allowed our car to completely navigate the corridor.
+
+%While we want to discard full turns in these cases where a turn is not desired (thus when a faulty or bad opening is detected by the lidar), we still want to keep the car running in the middle of the corridor. Thus, even when our image classifier dictates "Straight", we still want to allow minor adjustments. In order to do so, we established an angle threshold of 20°. If the turn command dictated by the pre-existing algorithm and the lidar reading was less than 20°, it was considered a minor adjustment, and thus it was allowed even if our classifier would state "Straight". However, turns greater than 20° were ignored. The value of 20° was established experimentally. 
 
 % (3.2) Learned Classification: CNNs
 \subsection{Learned Classification: CNNs} \label{sec:cnns}
@@ -81,22 +105,22 @@ Each lap consisted of approximately 30-45 seconds of video, collected at 10 Hz. 
 
 % (3.2.3) CNN Model Specifications
 \subsubsection{CNN Model Specifications} \label{sec:cnns_model_specs}
-Detailed specifications of each model are shown in Table \ref{table:model_specs} of Appendix \ref{appendixA}. We experimented with five different model architectures, all of which were variants of the popular and successful VGG CNN architecture \cite{vgg}. Furthermore, each of our proposed models used the pretrained weights from the VGG16 model trained by \cite{vgg} for the 2014 ImageNet Challenge, for one or more layers in our model. The layers in our models that were initated with the VGG pretrained weights were frozen - meaning the parameters for those layers in the model were not updated during training. The layers in our various models that did not use pretrained weights were initiated using small random values drawn from a zero mean Guassian distribution with a standard deviation of 0.1. In choosing our model architectures, we considered several key factors:
+Detailed specifications of each model are shown in Table \ref{table:model_specs} of Appendix \ref{appendixA}. We experimented with five different model architectures, all of which were variants of the popular and successful VGG CNN architecture \cite{vgg}. Furthermore, each of our proposed models used the pretrained weights from the VGG16 model trained by \cite{vgg} for the 2014 ImageNet Challenge, for one or more layers in our model. The layers in our models that were initialized with the VGG pretrained weights were frozen - meaning the parameters for those layers in the model were not updated during training. The layers in our various models that did not use pretrained weights were initiated using small random values drawn from a zero mean Gaussian distribution with a standard deviation of 0.1. In choosing our model architectures, we considered several key factors:
 \begin{itemize}
-\item \textbf{speed:} to fuction in the real-time enviroment of the autonomous F1tenth race car, we needed our model to be fast enough to operate at a high enough frequency that it could provide timely classification decisions to the master control algorithm. We estimated that we would need our classifier to run at approximately five to ten Hz in order for the control algorithm to function properly - thus whatever model architecture we used had to be able to complete a forward pass through the network (including preprocessing operations) in 100-200 milliseconds. Given that the full VGG16 (``16" represents 16 different layers in the architecture) takes approxiately 400 milliseconds on a multicore CPU (measured experimentally), not including preprocessing, most of our proposed model architectures are shallower (less layers) than the full VGG16 model, and thus much faster.
-\item \textbf{accuracy:} for our modified control algorithm to function properly, our model proposed model must be accurate enough to provide reliable classification decisions. This poses a challenge, since speed and accuracy are often inversely related. Fortunatlely, the binary classificaation task at hand is simple enough that the best of our proposed models achieves both concurrently.
+\item \textbf{speed:} to function in the real-time environment of the autonomous F1tenth race car, we needed our model to be fast enough to operate at a high enough frequency that it could provide timely classification decisions to the master control algorithm. We estimated that we would need our classifier to run at approximately five to ten Hz in order for the control algorithm to function properly - thus whatever model architecture we used had to be able to complete a forward pass through the network (including preprocessing operations) in 100-200 milliseconds. Given that the full VGG16 (``16" represents 16 different layers in the architecture) takes approximately 400 milliseconds on a multicore CPU (measured experimentally), not including preprocessing, most of our proposed model architectures are shallower (less layers) than the full VGG16 model, and thus much faster.
+\item \textbf{accuracy:} for our modified control algorithm to function properly, our model proposed model must be accurate enough to provide reliable classification decisions. This poses a challenge, since speed and accuracy are often inversely related. Fortunately, the binary classification task at hand is simple enough that the best of our proposed models achieves both concurrently.
 \item \textbf{generalization/overfitting:} Given the relatively small size of our training data set (approximately 3000 images versus over one million images in the ImageNet data set), we were concerned about our model overfitting the training data, thus suffering from poor generalization performance at run time and in different environments (e.g. GDC 3rd floor south wing versus 6th floor south wing)
  \end{itemize}
 Given the above considerations, we proposed the following four model architectures for use in our experiments. Each was trained using the same training procedure: the Adam variant of stochastic gradient descent \cite{adam}, trained for 250 epochs or until convergence (all models, except vgg16, converged well before 250 epochs). All models were trained using the same training and validation data sets, and then tested on the same held-out test set.
  
 % (3.2.4) Results
 \subsubsection{Results} \label{sec:cnns_res}
-Detailed results for each model are shown in Table \ref{table:model_results} of Appendix \ref{appendixA}. After training, each of the four proposed CNN models was tested on a small set of held-out data (178 images) that had not been used during training - neither for gradient updates nor validation. The intuition behind this was that we should use whichever model performed best on the test set in our master control algorithm (subject to speed requirements). Results for each model are detailed in table \ref{table:model_results}. It should be noted that the GPU computation times are very approximate estimates, because ultimately we were not able to sucessfully deploy the models on the specific GPU model onboard the car (Jeston TK1), due to hardware and software compatibility issues (see sections \ref{sec:cnns_bens_lims} and \ref{sec:challenges} for details). A few noticeable highlights were:
+Detailed results for each model are shown in Table \ref{table:model_results} of Appendix \ref{appendixA}. After training, each of the four proposed CNN models was tested on a small set of held-out data (178 images) that had not been used during training - neither for gradient updates nor validation. The intuition behind this was that we should use whichever model performed best on the test set in our master control algorithm (subject to speed requirements). Results for each model are detailed in table \ref{table:model_results}. It should be noted that the GPU computation times are very approximate estimates, because ultimately we were not able to successfully deploy the models on the specific GPU model onboard the car (Jeston TK1), due to hardware and software compatibility issues (see sections \ref{sec:cnns_bens_lims} and \ref{sec:challenges} for details). A few noticeable highlights were:
 \begin{itemize}
-\item All models were able to achieve \textit{relatively} good peformance
+\item All models were able to achieve \textit{relatively} good performance
 \item Vgg16 (arguably the most ``powerful" model) performed the worst. This can likely be attributed to the very low percentage of the weights that were not frozen (i.e. trainable) during training.
-\item The shallower models (vgg6t, vgg6f) seemed to perform as well or better than the very deep models. This suggests that a \textit{binary} classification task of this nature is simple enough that an extremely deep representation is not necessary. In fact, we surmise that an even shallower network could likely acheive comparable performance on this task, while also being less prone to overfitting due to fewer overall weights (and thus less representational power). In fact, if a deep learning approach along these lines is considered for future work within the car reesarch group, we would suggest using a network similar to vgg6t, but shallower and with additional regularization pentalties applied during training to help reduce overfitting.
-\item The shallower networks can classify at approxiately 10 Hz on a GPU (including preprocessing time), and are thus indeed fast enough to be used in this type of real-time control algorithm. This was a key finiding and is very encouraging for future work.
+\item The shallower models (vgg6t, vgg6f) seemed to perform as well or better than the very deep models. This suggests that a \textit{binary} classification task of this nature is simple enough that an extremely deep representation is not necessary. In fact, we surmise that an even shallower network could likely achieve comparable performance on this task, while also being less prone to overfitting due to fewer overall weights (and thus less representational power). In fact, if a deep learning approach along these lines is considered for future work, we would suggest using a network similar to vgg6t, but shallower and with additional regularization penalties applied during training to help reduce overfitting.
+\item The shallower networks can classify at approximately 10 Hz on a GPU (including preprocessing time), and are thus indeed fast enough to be used in this type of real-time control algorithm. This was a key finding and is very encouraging for future work.
 \item All of the models overfit the data, at least to some extent. In future work this could be addressed by using a shallower network, introducing additional regularization penalties, and training on a larger data set.
 \end{itemize}
 
@@ -107,13 +131,13 @@ Here we summarize the key benefits and limitations of the overall \textbf{\texti
 \begin{itemize}
 \item Hand-engineering of features not required.
 \item More robust to subtle changes within a given environment (e.g. differences in lighting, time of day, visual interference from people, etc.) when trained properly.
-\item Caple of generalizing across different environments (both subtly different, e.g. GDC 3rd south versus GDC 6th north and drastically different, e.g. GDC versus a completely different building) if trained properly and on a large enough and diverse enough data set
-\item System is inherently capable of collecting training data. Binary labelling is tedious, but can be done in reasonable time.
+\item Capable of generalizing across different environments (both subtly different, e.g. GDC 3rd south versus GDC 6th north and drastically different, e.g. GDC versus a completely different building) if trained properly and on a large enough and diverse enough data set
+\item System is inherently capable of collecting training data. Binary labeling is tedious, but can be done in reasonable time.
 \end{itemize}
 \textbf{LIMITATIONS}
 \begin{itemize}
 \item Significant training time required.
-\item Adjusting to completely new environments requires full retraining of model, not just recrafting hand-engineered features. Thus less flexiibility in making immediate or on-the-fly adjustments to control algorithm.
+\item Adjusting to completely new environments requires full retraining of model, not just recrafting hand-engineered features. Thus less flexibility in making immediate or on-the-fly adjustments to control algorithm.
 \item To train properly, hyparameters of the model might require tuning - this can be time consuming.
 \item Not as fast as most hand-engineered control features at run-time.
 \item Can be more difficult to debug because the feature representation is learned implicitly in the model - i.e. ``why is the network learning to focus on a particular part of the environment?" is a notoriously difficult question to answer.
@@ -127,15 +151,15 @@ Here we summarize the key benefits and limitations of the overall \textbf{\texti
 
 % (3.3.1) Motivation
 \subsubsection{Motivation} \label{sec:esif_motivation}
-In spite of the promise of our proposed deep learning classification approach, the hardware-related implementation issues previously discussed rendered that approach infeasible. This motivated the search for alternative classfication techniqes that utilzed simpler software libraries that could be executed in the given hardware environment (namely the TK1 GPU). We observed that there were certain key distinguishing features in the environment in which we were operating - and in the absence of a machine learning approach to identify these features, we turned to a more traditional approach of feature detection through hand-engineered rules and algorithms. We call this approach: hand-engineered classification based on \textbf{E}nvironment-\textbf{S}pecific \textbf{I}ndicative \textbf{F}eature \textbf{(ESIF)} Detection. \textbf{\textit{To be clear, this approach - using our BLOB segmentation method in particular (details below) - is what we ultimately used on the car, and it was this approach that was in practice during our demonstration of a successful lap.}}
+In spite of the promise of our proposed deep learning classification approach, the hardware-related implementation issues previously discussed rendered that approach infeasible. This motivated the search for alternative classification techniques that utilized simpler software libraries that could be executed in the given hardware environment (namely the TK1 GPU). We observed that there were certain key distinguishing features in the environment in which we were operating - and in the absence of a machine learning approach to identify these features, we turned to a more traditional approach of feature detection through hand-engineered rules and algorithms. We call this approach: hand-engineered classification based on \textbf{E}nvironment-\textbf{S}pecific \textbf{I}ndicative \textbf{F}eature \textbf{(ESIF)} Detection. \textbf{\textit{To be clear, this approach - using our BLOB segmentation method in particular (details below) - is what we ultimately used on the car, and it was this approach that was in practice during our demonstration of a successful lap.}}
 
 
 % (3.3.2) Indicative Features
 \subsubsection{Indicative Features} \label{sec:esif_feats}
-Our second category of proposed approaches to handling this control problem (ESIF) hinges on the identification of key distinguishing features in the specific operating environment that indicate when the classifier should allow the car to trust the control system's lidar reading and when it should ignore it. Once again, this essentially amounts to building a classifier that can detect when the car has reached the end of the coridor and should thus turn. To make the ESIF approach work, we first identified two environment-specific features that we could use:
+Our second category of proposed approaches to handling this control problem (ESIF) hinges on the identification of key distinguishing features in the specific operating environment that indicate when the classifier should allow the car to trust the control system's lidar reading and when it should ignore it. Once again, this essentially amounts to building a classifier that can detect when the car has reached the end of the corridor and should thus turn. To make the ESIF approach work, we first identified two environment-specific features that we could use:
 \begin{itemize}
-\item \textbf{\textit{Overhead light:}} The overhead strip lights in the GDC cooridor emit a very bright, high contrast, nearly white light that can be consistently identified within almost any image frame in the car's environment. The key intution is that when the car is in the long part of the cooridor (e.g. immediately after turning into the cooridor, near the kitchen, etc.) a significant portion of the overhead strip light is visible to the car, resulting in a long column of nearly white pixels running roughly through the center of the image. However, as the car nears the end of the cooridor (where it should make the right hand turn), much less of the overhead light is in view, thus the column of light visibile in the image frame is significantly shorter. Thus, by thresholding the image (to isolate the nearly white light) and approximately segmenting this column of light from the image, we can sum over the values of the remaining pixels to determine how far along the cooridor the car is, and thus when it should execute the turn.
-\item \textbf{\textit{Red Strip of Carpet:}} A second key indicative feature that our proposed ESIF approach uses is the wide strip of red carpet that lines the outter portion of the long cooridor in the GDC hallways. This is a more difficult segmentation task since it is a single channel segmentation task (high red values, lower blue and green values), and also because the contrast ratio of this feature (i.e. the intensity of the carpets red values versus other pixels in the image) is significantly less than that of the overhead light feature. Nonetheless, approximate segmentation is still possible, enabling our control algorithm to use the relative location of the red strip of carpet in the image as a noisy signal indicating how close the car is to the ``wall" on the left - where the term ``wall" here refers to the track boundary on the left side of the car, regardless of whether it is a physical wall or not (e.g. in the kitchen area there is not a physical wall to the left, thus our algorithm uses the noisy signal provided by the red carpet as an indicator of how \textit{centered} it is on the desired track.
+\item \textbf{\textit{Overhead light:}} The overhead strip lights in the GDC corridor emit a very bright, high contrast, nearly white light that can be consistently identified within almost any image frame in the car's environment. The key intuition is that when the car is in the long part of the corridor (e.g. immediately after turning into the corridor, near the kitchen, etc.) a significant portion of the overhead strip light is visible to the car, resulting in a long column of nearly white pixels running roughly through the center of the image. However, as the car nears the end of the corridor (where it should make the right hand turn), much less of the overhead light is in view, thus the column of light visible in the image frame is significantly shorter. Thus, by thresholding the image (to isolate the nearly white light) and approximately segmenting this column of light from the image, we can sum over the values of the remaining pixels to determine how far along the corridor the car is, and thus when it should execute the turn.
+\item \textbf{\textit{Red Strip of Carpet:}} A second key indicative feature that our proposed ESIF approach uses is the wide strip of red carpet that lines the outer portion of the long corridor in the GDC hallways. This is a more difficult segmentation task since it is a single channel segmentation task (high red values, lower blue and green values), and also because the contrast ratio of this feature (i.e. the intensity of the carpets red values versus other pixels in the image) is significantly less than that of the overhead light feature. Nonetheless, approximate segmentation is still possible, enabling our control algorithm to use the relative location of the red strip of carpet in the image as a noisy signal indicating how close the car is to the ``wall" on the left - where the term ``wall" here refers to the track boundary on the left side of the car, regardless of whether it is a physical wall or not (e.g. in the kitchen area there is not a physical wall to the left, thus our algorithm uses the noisy signal provided by the red carpet as an indicator of how \textit{centered} it is on the desired track.
 \end{itemize}
 
 % (3.2.3) ESIF Algorithm
@@ -144,43 +168,61 @@ Our second category of proposed approaches to handling this control problem (ESI
 % (1) the ``scan" method (btw, was that after thresholding?)
 % (2) the ``blob" method from robocup code (was that after thresholding, or did we not threshold when using this method?)
 % also what should we use as a reference for the robocup code? Thanks!
-At a high level, all variations of our ESIF algorithm have the structure descirbed by Algorithm \ref{algo:ESIF_hi}.\\
+This section describes the ESIF algorithm and three implementations used in this project.
+At a high level, all variations of our ESIF algorithm have the structure described by Algorithm \ref{algo:ESIF_hi}.\\
 \begin{algorithm}
- \KwData{one 480x640x3 raw image frame}
- \KwResult{binary classification decision: Turn/Straight	}
-$lightThreshold = 100;$ //constant parameter...must be tuned empirically\\
-$img = preprocessImage(Data);$\\
-$thresholded = thresholdImage(img);$\\
-$lightSegment = segmentImage(thresholded);$\\
-$amountOfLight = sum(lightSegment);$\\
-  \If{$amountOfLight < lightThreshold$}{
-   \Return $Turn$\;
+ \KwData{$X$: A 480x640x3 raw image frame}
+ \KwResult{binary classification decision: $\mathtt{Turn}/\mathtt{Straight}$	}
+$\mathtt{lightThreshold} = 100;$ //constant parameter...must be tuned empirically\\
+$X^\prime = \mathtt{preprocessImage}(X);$\\
+$X_\mathtt{threshold} = \mathtt{thresholdImage}(X^\prime);$\\
+$X_\mathtt{segmented} = \mathtt{segmentImage}(X_\mathtt{threshold});$\\
+$\mathtt{amountOfLight} = \mathtt{sum}(X_\mathtt{segmented});$\\
+  \If{$\mathtt{amountOfLight} < \mathtt{lightThreshold}$}{
+   \Return $\mathtt{Turn}$\;
    }
-   \Return $Straight$\;
+   \Return $\mathtt{Straight}$\;
  \caption{High Level Algorithm for ESIF Approaches} \label{algo:ESIF_hi}
 \end{algorithm}
-\newline
-The various components within this algorithm are fairly straight forward, with the exception of the segmentation function.
+%\newline
+The components of this algorithm are fairly straight forward, with the exception of the $\mathtt{segmentImage}$ function.
+
 \begin{itemize}
-\item \textit{preprocessImage}: preprocesses the image according the preprocessing procedure described in \ref{sec:cnns_data}
-\item \textit{thresholdImage}: thresholds the image to zero out all pixel values in the image except for those in which all three channels have a pixel value above a very high threshold. This has the effect of zeroing out everything in the image except for very bright, white light. We used a threshold value of $\approx 0.985$ but this value is subject to environment-specific tuning and adjustment.
-\item \textit{segmentImage}: one of the key challenges with this approach is that the environment can contain various sources of bright white light other than the overhead light strip - particularly depending on the time of day. For instance, an open window in the middle of the day can cause a bright block of light lower in the image that would cause the results of Algorithm \ref{algo:ESIF_hi} to be very unreliable if the thresholded image were simply summed over with out first segmenting. However, by identifying the relative location of the light strip in the image and segmenting that out from the rest of the image before summing, our algorithm becomes much more robust to noise and environmental variables. However, image segmentation (even on a simple, thresholded image such as this) is not a trivial task. As such, we experimented with three different approaches to the image segmentation task, namely: (1) Blob segmentation (code adapted from  \cite{james2000fast}), (2) Scanning segmentation, and (3) Linear Regression on Patches segmentation. \textbf{\textit{Ultimately, we ended up using the Blob segmentation method, because it proved to be the most robust to noise and variations in the environment, thus providing the most consistent results.}} Each method is described in detail below:
+\item $\mathit{preprocessImage}$: preprocesses the image according to the preprocessing procedure described in \ref{sec:cnns_data}
+\item $\mathit{thresholdImage}$: thresholds the image to zero out all pixel values where all three channels are below a very high threshold. Thresholding zeros out everything in the image except for bright, white light. We used a threshold value of $\approx 0.985$ but this value is subject to environment-specific tuning and adjustment.
+\item $\mathtt{segmentImage}$: one of the key challenges with this approach is that the environment can contain sources of bright white light other than the overhead light strip --- particularly depending on the time of day. For instance, an open window in the middle of the day can cause a bright block of light lower in the image that makes Algorithm \ref{algo:ESIF_hi} unreliable if the thresholded image were summed over with out first removing the image segment with the bright block. By identifying the relative location of the light strip in the image and segmenting that out from the rest of the image before summing, our algorithm becomes much more robust to noise and environmental variation. However, image segmentation (even on a simple, thresholded image such as this) is not a trivial task. We experimented with three different approaches to the image segmentation task, namely: (1) Blob segmentation (code adapted from  \cite{james2000fast}), (2) Scanning segmentation, and (3) Linear Regression on Patches segmentation. \textbf{\textit{Ultimately, we ended up using the Blob segmentation method, because it proved to be the most robust to noise and variations in the environment, thus providing the most consistent results.}} Each method is described in detail below:
 \end{itemize}
-\textbf{BLOB Segmentation:}
-Test citation for blob method \cite{james2000fast}.
+
+\paragraph{Blob Segmentation:}
+James et al.\ \cite{james2000fast} describe an approach to color-based segmentation which we adapt to localizing the overhead light with the thresholded image.
+This approach has been reliably used by the UT AustinVilla Robot soccer team for ball and white line detection.
+The approach works by scanning each row of the image for continuous ``runs" of the non-zero pixels remaining after the thresholding step.
+After forming the runs, the runs are merged such that overlapping runs on adjacent rows are merged together.
+The merged runs define a blob.
+To save time the procedure is only done on the top half of the image.
+The image will have several blobs corresponding to lighter parts of the top of the image.
+If the overhead light is in the image it will be one of these blobs.
+We select the blob with the greatest height to width ratio as the overhead light.
+This heuristic is sensitive to noise so we also specify that the selected blob be wider than $5$ pixels across.
+A bounding box is computed around the selected blob and these bounds are used to segment the image.
 
 
-\textbf{SCANNING Segmentation:}
+\paragraph{SCANNING Segmentation:}
+This approach slides a window of width $10$ and length $50$ over the top of the image and sums the pixels within the window. 
+We then select the location of the window with the largest sum as the location of the segmented light.
+This method was not robust to noise on the sides of the image so we added that the sliding windows next to the selected one also have a reasonably high sum.
+Finally, as a heuristic check we added that the array of sliding window sums must contain zero values around the selected window.
+This check is based on the fact that the overhead light is usually by itself in the middle of the image.
+This check fails when the car is not directly facing the light since the overhead light may be to the side of the image.
+The approach performed reasonably well on the car but was ultimately decided against in favor of the blob segmentation approach.
 
-
-\textbf{LINEAR REGRESSION ON PATCHES Segmentation:}
-This method segments the image into patches of $patchHeight$x$patchWidth$ (a parameter specified as an argument to the function) and fits the pixels in each patch to a line of best fit using simple linear regression. The error of the actual image data is then computed and returned along with the slope and intercept of the line of best fit for the patch. The patch with either the lowest error, most vertical slope, or some combination is then returned as the image patch containing the overhead light strip. The intuition behind this method is that the light emitted from the overhead strip light forms a very straight line compared to light emitted by other sources (e.g. a window). Thus the patch containing the light should be able to fit its pixel data to a straight line with significantly less error than patches containing alternative sources of light. Furthermore, given the orientation of the light (i.e. running parallel to the direction of travel of the car down the cooridor), the slope of the line of best fit through overhead light, should be very close to vertical (i.e. a very large - in absolute value terms - slope). One attractive aspect of this method is its adjustable patch size (in both the x and y directions), and its speed. Linear regression has a closed form solution, so the line of best fit be determined very efficiently by just a few matrix operations. A downside to this method is that as the $patchWidth$ is reduced, its accuray is also likely to degrade, since all of the data in a very narrow patch can always be fit to a perfect vertical line, in the limit.
-
+\paragraph{LINEAR REGRESSION ON PATCHES Segmentation:}
+This method segments the image into patches of $patchHeight$x$patchWidth$ (a parameter specified as an argument to the function) and fits the pixels in each patch to a line of best fit using simple linear regression. The error of the actual image data is then computed and returned along with the slope and intercept of the line of best fit for the patch. The patch with either the lowest error, most vertical slope, or some combination is then returned as the image patch containing the overhead light strip. The intuition behind this method is that the light emitted from the overhead strip light forms a very straight line compared to light emitted by other sources (e.g. a window). Thus the patch containing the light should be able to fit its pixel data to a straight line with significantly less error than patches containing alternative sources of light. Furthermore, given the orientation of the light (i.e. running parallel to the direction of travel of the car down the corridor), the slope of the line of best fit through overhead light, should be very close to vertical (i.e. a very large - in absolute value terms - slope). One attractive aspect of this method is its adjustable patch size (in both the x and y directions), and its speed. Linear regression has a closed form solution, so the line of best fit be determined very efficiently by just a few matrix operations. A downside to this method is that as the $patchWidth$ is reduced, its accuracy is also likely to degrade, since all of the data in a very narrow patch can always be fit to a perfect vertical line, in the limit.
 
 
 % (3.3.4) Results
 \subsubsection{Results} \label{sec:esif_res}
-With ESIF approach quantitative results are not readily obtainable. With enough time and resources we could have potentially run multiple trials with both approaches to obtain quantifiable success/failure rates for each approach, however given the natural time constraints of a class project, this was not feasible. That said, the qualitative results of this approach are readily available, since this was ultimately the approach that we implemented on the car and used in our demonstration of a successful lap around the cooridor. Given that we were ablel to successfully complete a lap, we declare this approach to be a success in qualitative terms. Furthermore, although it identifies indicative features in the environment, our approach does not rely at all on artifically placed features - in other words, all key features that we base our classification decision on are permanent fixtures of the environment (i.e. overhead light strip, red carpet). We feel that this is a key attribute of ESIF and speaks to the qualitative success of our approach. Videos of several trial runs can be viewed at this link: \textbf{http://www.cs.utexas.edu/~ginevra/car/}. Note that the results of these videos vary significantly, because these videos were taken while the design and parameter tuning of our approach was still being fine-tuned.
+With ESIF approach quantitative results are not readily obtainable. With enough time and resources we could have potentially run multiple trials with both approaches to obtain quantifiable success/failure rates for each approach, however given the natural time constraints of a class project, this was not feasible. That said, the qualitative results of this approach are readily available, since this was ultimately the approach that we implemented on the car and used in our demonstration of a successful lap around the corridor. Given that we were able to successfully complete a lap, we declare this approach to be a success in qualitative terms. Furthermore, although it identifies indicative features in the environment, our approach does not rely at all on artificially placed features - in other words, all key features that we base our classification decision on are permanent fixtures of the environment (i.e. overhead light strip, red carpet). We feel that this is a key attribute of ESIF and speaks to the qualitative success of our approach. Videos of several trial runs can be viewed at this link: \textbf{http://www.cs.utexas.edu/~ginevra/car/}. Note that the results of these videos vary significantly, because these videos were taken while the design and parameter tuning of our approach was still being fine-tuned.
 
 % (3.3.5) Benefits and Limitations
 \subsubsection{Benefits and Limitations} \label{sec:esif_bens_lims}
@@ -189,19 +231,19 @@ Here we summarize the key benefits and limitations of the overall \textbf{\texti
 \begin{itemize}
 \item Does not rely on features or objects artificially introduced to the environment.
 \item No lengthy model training procedure required.
-\item More flexiibility in making immediate or on-the-fly adjustments to control algorithm, since classification does not rely on a learned model that must be retrained.
+\item More flexibility in making immediate or on-the-fly adjustments to control algorithm, since classification does not rely on a learned model that must be retrained.
 \item Faster at runtime than Learned Classifier approach.
 \item Easier to debug because the feature representation is explicitly designed by human engineers as opposed to learned implicitly by the model.
 \item No sophisticated low-level optimization libraries required, thus easier to implement on the car's current GPU hardware.
-\item No need for collecting and labelling large amounts of training data.
+\item No need for collecting and labeling large amounts of training data.
 \end{itemize}
 \textbf{LIMITATIONS}
 \begin{itemize}
 \item Feature representation is completely hand-designed, not learned.
 \item Adjusting to completely new environments requires recrafting hand-engineered features.
-\item Many hand-designed parameters that must be tuned for each environment. Even within the same environment, these parameters must often be tuned to specific environmental settigs (e.g. time of day).
+\item Many hand-designed parameters that must be tuned for each environment. Even within the same environment, these parameters must often be tuned to specific environmental settings (e.g. time of day).
 \item Less robust to subtle changes within a given environment (e.g. differences in lighting, time of day, visual interference from people, etc.).
-\item Not caple of generalizing across different environments.
+\item Not capable of generalizing across different environments.
 \end{itemize}
 
 
